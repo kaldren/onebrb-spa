@@ -1,0 +1,24 @@
+﻿@page "/profile"
+@inject HttpClient Http
+
+@using Onebrb.SPA.Models
+
+<PageTitle>Profile</PageTitle>
+
+@if (profile == null)
+{
+    <p><em>Loading profile...</em></p>
+}
+else
+{
+    <p>Hello, @profile.FirstName @profile.LastName</p>
+}
+
+@code {
+    private ProfileModel? profile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        profile = await Http.GetFromJsonAsync<ProfileModel>("https://localhost:7088/api/Profile/2");
+    }
+}

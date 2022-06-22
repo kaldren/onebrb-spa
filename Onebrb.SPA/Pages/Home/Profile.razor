@@ -1,4 +1,4 @@
-﻿@page "/profile"
+﻿@page "/profiles/{id:long?}"
 @inject HttpClient Http
 
 @using Onebrb.SPA.Models
@@ -15,10 +15,13 @@ else
 }
 
 @code {
+    [Parameter]
+    public long? Id { get; set; }
+
     private ProfileModel? profile;
 
     protected override async Task OnInitializedAsync()
     {
-        profile = await Http.GetFromJsonAsync<ProfileModel>("https://localhost:7088/api/Profile/2");
+        profile = await Http.GetFromJsonAsync<ProfileModel>($"https://localhost:7088/api/profiles/{Id}");
     }
 }

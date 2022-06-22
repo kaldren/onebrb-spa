@@ -120,4 +120,28 @@
   <data name="Greeting" xml:space="preserve">
     <value>Здравей!</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профил</value>
+  </data>
+  <data name="ProfileAdditionalInfo" xml:space="preserve">
+    <value>Допълнителна информация</value>
+  </data>
+  <data name="ProfileAdditionalInfoCity" xml:space="preserve">
+    <value>Град</value>
+  </data>
+  <data name="ProfileAdditionalInfoCountry" xml:space="preserve">
+    <value>Държава</value>
+  </data>
+  <data name="ProfileEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ProfileName" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="ProfilePhone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="ProfileProfession" xml:space="preserve">
+    <value>Професия</value>
+  </data>
 </root>

@@ -120,4 +120,28 @@
   <data name="Greeting" xml:space="preserve">
     <value>Hello, World!</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ProfileAdditionalInfo" xml:space="preserve">
+    <value>Additional info</value>
+  </data>
+  <data name="ProfileAdditionalInfoCity" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="ProfileAdditionalInfoCountry" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="ProfileEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ProfileName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ProfilePhone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="ProfileProfession" xml:space="preserve">
+    <value>Profession</value>
+  </data>
 </root>

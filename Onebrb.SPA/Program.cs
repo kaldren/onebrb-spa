@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Onebrb.SPA;
+using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -14,5 +15,8 @@ builder.Services.AddMsalAuthentication(options =>
 });
 
 builder.Services.AddLocalization();
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("bg-BG");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("bg-BG");
 
 await builder.Build().RunAsync();

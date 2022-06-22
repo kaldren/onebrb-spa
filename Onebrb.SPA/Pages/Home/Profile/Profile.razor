@@ -1,7 +1,11 @@
 ﻿@page "/profiles/{id:long?}"
-@inject HttpClient Http
 
+@inject HttpClient Http
+@inject IStringLocalizer<Profile> Loc
+
+@using System.Globalization
 @using Onebrb.SPA.Models
+
 
 <PageTitle>Profile</PageTitle>
 
@@ -11,6 +15,7 @@
 }
 else
 {
+    <p>@Loc["Greeting"] @profile.FirstName @profile.LastName</p>
     <div class="row my-5">
         <div class="col-lg-6 col-xl-4 offset-lg-3 offset-xl-4">
             <RadzenCard class="m-3">

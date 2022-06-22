@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.JSInterop;
 using Onebrb.SPA;
 using System.Globalization;
 
@@ -16,7 +17,14 @@ builder.Services.AddMsalAuthentication(options =>
 
 builder.Services.AddLocalization();
 
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("bg-BG");
-CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("bg-BG");
+var jsInterop = builder.Build().Services.GetRequiredService<IJSRuntime>();
+var appLanguage = await jsInterop.InvokeAsync<string>("appCulture.get");
+if (appLanguage != null)
+{
+    CultureInfo cultureInfo = new CultureInfo(appLanguage);
+    CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+    CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+}
+
 
 await builder.Build().RunAsync();

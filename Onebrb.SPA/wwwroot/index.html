@@ -28,6 +28,18 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script>
+        window.appCulture = {
+            get: () => window.localStorage['AppLanguage'],
+            set: (value) => window.localStorage['AppLanguage'] = value
+        };
+    </script>
+    <script>
+        window.employeeData = {
+            get: () => window.localStorage['empData'],
+            set: (value) => window.localStorage['empData'] = value
+        };
+    </script>
 </body>
 
 </html>

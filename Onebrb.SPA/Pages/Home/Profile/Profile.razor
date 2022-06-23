@@ -5,6 +5,7 @@
 
 @inject HttpClient Http
 @inject IStringLocalizer<Profile> Loc
+@inject IConfiguration Configuration
 
 <PageTitle>Profile</PageTitle>
 
@@ -25,11 +26,11 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        res = await Http.GetAsync($"https://localhost:7088/api/profiles/{Id}");
+        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
 
         if (res.IsSuccessStatusCode)
         {
-            profile = await Http.GetFromJsonAsync<ProfileModel>($"https://localhost:7088/api/profiles/{Id}");
+            profile = await Http.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
         }
     }
 }

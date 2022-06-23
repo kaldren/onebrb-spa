@@ -19,6 +19,7 @@ builder.Services.AddLocalization();
 
 var jsInterop = builder.Build().Services.GetRequiredService<IJSRuntime>();
 var appLanguage = await jsInterop.InvokeAsync<string>("appCulture.get");
+
 if (appLanguage != null)
 {
     CultureInfo cultureInfo = new CultureInfo(appLanguage);

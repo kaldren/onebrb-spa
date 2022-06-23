@@ -62,8 +62,3 @@ a, .btn-link {
 .blazor-error-boundary::after {
     content: "An error has occurred."
 }
-
-/* SIDEBAR */
-.sidebar .nav-link a:hover {
-    background-color: transparent;
-}

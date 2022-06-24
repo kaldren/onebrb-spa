@@ -31,7 +31,7 @@
         @if (profiles is not null)
         {
             <RadzenDataGrid AllowColumnResize="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        Data="@profiles" TItem="ProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                        Data="@profiles" TItem="ProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowClick=@OnRowClick>
                 <Columns>
                     <RadzenDataGridColumn TItem="ProfileModel" Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="60px">
                         <Template Context="data">
@@ -60,6 +60,11 @@
     void OnNameSearchChange(string value, string name)
     {
         _firstName = value;
+    }
+
+    void OnRowClick()
+    {
+        
     }
 
     async Task OnClick()

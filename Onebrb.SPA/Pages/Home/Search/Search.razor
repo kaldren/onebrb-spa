@@ -3,6 +3,7 @@
 @using System.Globalization
 @using Onebrb.SPA.Models
 
+@inject NavigationManager Nav
 @inject HttpClient Http
 @inject IStringLocalizer<Search> Loc
 @inject IConfiguration Configuration
@@ -62,9 +63,9 @@
         _firstName = value;
     }
 
-    void OnRowClick()
+    void OnRowClick(DataGridRowMouseEventArgs<ProfileModel> selectedProfile)
     {
-        
+        Nav.NavigateTo($"/profiles/{selectedProfile.Data.Id}");
     }
 
     async Task OnClick()

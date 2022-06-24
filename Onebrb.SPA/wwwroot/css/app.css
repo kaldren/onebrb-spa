@@ -62,3 +62,18 @@ a, .btn-link {
 .blazor-error-boundary::after {
     content: "An error has occurred."
 }
+
+/*#region Search component*/
+.search-component {
+    display: flex;
+    flex-direction: column;
+}
+.search-component .search-component__search-btn {
+    margin-top: 20px;
+}
+.search-component .search-data {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+/*#endregion Search component*/

@@ -9,8 +9,70 @@
 
 <PageTitle>Search profiles</PageTitle>
 
-<p>Search profiles...</p>
+<div class="search-component">
+    <div>
+        <RadzenCard>
+            <h4 class="mb-4">Find the perfect match</h4>
+            <RadzenTextBox Placeholder="Name" Change=@(args => OnNameSearchChange(args, "TextBox")) Class="w-100" />
+        </RadzenCard>
+    </div>
+
+    <div>
+        <RadzenButton Click=@OnClick Text="Search" class="search-component__search-btn" />
+    </div>
+
+
+    <div class="search-data">
+        @if (showLoader)
+        {
+            <object data="loading.svg" width="100" height="100"></object>
+        }
+
+        @if (profiles is not null)
+        {
+            <RadzenDataGrid AllowColumnResize="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                        Data="@profiles" TItem="ProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="ProfileModel" Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="60px">
+                        <Template Context="data">
+                            @*<RadzenImage Path="@data.Photo" style="width: 40px; height: 40px; border-radius: 8px;" />*@
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="ProfileModel" Property="FirstName" Title="First Name" Frozen="true" Width="140px" />
+                    <RadzenDataGridColumn TItem="ProfileModel" Property="LastName" Title="Last Name" Frozen="true" Width="140px" />
+                    <RadzenDataGridColumn TItem="ProfileModel" Property="Email" Title="Email" Frozen="true" Width="200px" />
+                    <RadzenDataGridColumn TItem="ProfileModel" Property="Phone" Title="Phone" Frozen="true" Width="100px" />
+                    <RadzenDataGridColumn TItem="ProfileModel" Property="About" Title="About" Frozen="true" Width="140px" />
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+</div>
 
 @code {
+    //TODO: Search model
+    private string _firstName;
+    bool showLoader = false;
 
+    private HttpResponseMessage? res;
+    private IEnumerable<ProfileModel>? profiles;
+
+    void OnNameSearchChange(string value, string name)
+    {
+        _firstName = value;
+    }
+
+    async Task OnClick()
+    {
+        showLoader = true;
+
+        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{_firstName}'");
+
+        if (res.IsSuccessStatusCode)
+        {
+            profiles = await Http.GetFromJsonAsync<IEnumerable<ProfileModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{_firstName}'");
+        }
+
+        showLoader = false;
+    }
 }

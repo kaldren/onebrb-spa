@@ -82,3 +82,29 @@ a, .btn-link {
 }
     .search-component .search-data table tr td {background: transparent}
 /*#endregion Search component*/
+
+/*#region Profile component*/
+.profile-component {
+    display: flex;
+    max-width: 920px;
+    margin: 0 auto;
+}
+.profile-component .profile-component__header-info {
+    display: flex;
+    margin: 1 rem;
+}
+
+.profile-component rz-card > div {
+    display: flex;
+}
+
+.profile-component__header-info__photo {
+
+}
+
+.profile-component__header-info__main-info {flex:1}
+
+.profile-component__about-section {flex: 2;}
+
+.profile-component__bottom-info {margin: 1rem 0;}
+/*#endregion Profile component*/

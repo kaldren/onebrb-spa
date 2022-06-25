@@ -91,7 +91,7 @@ a, .btn-link {
 }
 .profile-component .profile-component__header-info {
     display: flex;
-    margin: 1 rem;
+    margin: 1rem;
 }
 
 .profile-component rz-card > div {
@@ -106,5 +106,11 @@ a, .btn-link {
 
 .profile-component__about-section {flex: 2;}
 
-.profile-component__bottom-info {margin: 1rem 0;}
+.profile-component__bottom-info {margin: 1rem;}
 /*#endregion Profile component*/
+
+/*#region Settings component*/
+.settings-component .settings-component__form__input-div {
+    margin: 0.5rem 0;
+}
+/*#endregion Settings component*/

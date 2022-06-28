@@ -1,15 +1,20 @@
 ﻿@page "/profiles/{id:long?}"
 
 @using System.Globalization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Onebrb.SPA.Models
+@using System.Net.Http.Headers
 
-@inject HttpClient Http
+@*@inject HttpClient Http*@
+@inject IHttpClientFactory ClientFactory
 @inject IStringLocalizer<Profile> Loc
 @inject IConfiguration Configuration
+@inject IAccessTokenProvider TokenProvider
 
 <PageTitle>Profile</PageTitle>
 
-@if (@res is null) {
+@if (@res is null)
+{
     <p>Loading...</p>
 }
 else
@@ -26,11 +31,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
+        var client = ClientFactory.CreateClient("OnebrbAPI");
+
+        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}profiles/{Id}");
 
         if (res.IsSuccessStatusCode)
         {
-            profile = await Http.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
+            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}profiles/{Id}");
         }
     }
 }

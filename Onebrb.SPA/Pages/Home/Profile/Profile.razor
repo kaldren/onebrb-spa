@@ -1,15 +1,20 @@
 ﻿@page "/profiles/{id:long?}"
 
 @using System.Globalization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Onebrb.SPA.Models
+@using System.Net.Http.Headers
 
-@inject HttpClient Http
+@*@inject HttpClient Http*@
+@inject IHttpClientFactory ClientFactory
 @inject IStringLocalizer<Profile> Loc
 @inject IConfiguration Configuration
+@inject IAccessTokenProvider TokenProvider
 
 <PageTitle>Profile</PageTitle>
 
-@if (@res is null) {
+@if (@res is null)
+{
     <p>Loading...</p>
 }
 else
@@ -26,11 +31,37 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
+        var client = ClientFactory.CreateClient("OnebrbAPI");
+        //var httpClient = HttpFactory.CreateClient("OnebrbAPI");
+        //httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImpTMVhvMU9XRGpfNTJ2YndHTmd2UU8yVnpNYyJ9.eyJhdWQiOiIyOTRhN2M0MC1jMTIwLTQ2YWMtOGQwYy04YTNmZGI5YmZjMjEiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMmY1M2FhZmMtZjZiNi00ZWFhLTlkYjUtZDIwNzljODE4YmFjL3YyLjAiLCJpYXQiOjE2NTYzMTcwNDQsIm5iZiI6MTY1NjMxNzA0NCwiZXhwIjoxNjU2MzIyNjg3LCJhaW8iOiJBWVFBZS84VEFBQUFUZDhmbThOTVY2SHpjelNlVHYxTFY5OE4yajJ6dkFWdXhJQWFTanJ3aEs1eGM1MDBSQWtnMGZ6TlliYjlOYXcwbHpTWENnZHl5M1FpUFRkRmdhWjY5QWwzVEdvOEdxWU5NTzZyVExyNlp0MmNZMGkxSXFCN096Q1lrTnlCRlBCOVVZd3lSbHpyTzFKbWhxUzFMRHltWXNpcDJIa0lqRUs5MXBqeEgyaUErdkk9IiwiYXpwIjoiMTZhMTU5NzQtOWFmNy00YzRiLWJlZDctM2E3ZTJmZjYwZGQ1IiwiYXpwYWNyIjoiMCIsImlkcCI6ImxpdmUuY29tIiwibmFtZSI6IkthbG95YW4gRHJlbnNraSIsIm9pZCI6IjJiYjg1MTg2LWYzZTgtNGVlZi1hNjA2LWQwYTY2M2EyMDEzNCIsInByZWZlcnJlZF91c2VybmFtZSI6ImRyZW5za2k2NjZAaG90bWFpbC5jb20iLCJyaCI6IjAuQVJVQV9LcFRMN2IycWs2ZHRkSUhuSUdMckVCOFNpa2d3YXhHalF5S1A5dWJfQ0dLQUE0LiIsInNjcCI6ImFjY2Vzc19hc191c2VyIiwic3ViIjoiMklRSzdCUGQ5Z2t6b1JmcmVqQ2w2ZmlWaEJJeFRPbnJmdEhHSm1pX3d0byIsInRpZCI6IjJmNTNhYWZjLWY2YjYtNGVhYS05ZGI1LWQyMDc5YzgxOGJhYyIsInV0aSI6InMyR0xVY2w4SUVhM3M2UlhFOUlxQUEiLCJ2ZXIiOiIyLjAifQ.W9xpkIbY983sGIPzjY0z0tJ9fgyxHMswTF4q6Elayio3oP3v_3FE_-hNAu4lVgoB_QGbguul0hcrexNQVV63AwKTEL7xRGezFheMMI2LAx-z0i5XCur8y9iYRbPixnz1UkIJX2xa7n8QeuSgvnfTDnHGzCbUM-J9enkl0tvcC9e1RbDfVdEkpho2aWSC0CIXFAXzx9C27K19f8mmL9aotpLwhtf1nEkE1jvZ2P5C3RARfC0FY9IRWxABBeJAw0f4fVBabY6pcvA2jwaxtEMe1EWL_AmJCbnIV_lt2RJXQWoyIFPEpAO20JsZrgZpuHumokLWlCz4XtK3qkldvT86Fg");
+
+        //var tokenResult = await TokenProvider.RequestAccessToken();
+
+        //var request = new HttpRequestMessage(HttpMethod.Get, $"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
+
+        //if (tokenResult.TryGetToken(out var token))
+        //{
+        //    //request.Headers.Add("Access-Control-Allow-Headers", $"*");
+        //    //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+        //    //Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
+        //}
+        //if (tokenResult.TryGetToken(out var token))
+        //{
+
+        //}
+
+        //Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
+
+
+        //profile = await client.GetFromJsonAsync<ProfileModel>("ExampleAPIMethod");
+
+        //profile = await client.GetFromJsonAsync<ProfileModel>($"profiles/{Id}");
+
+        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}profiles/{Id}");
 
         if (res.IsSuccessStatusCode)
         {
-            profile = await Http.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
+            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}profiles/{Id}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@*@inject IHttpClientFactory HttpFactory;*@
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -41,6 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        //var httpClient = HttpFactory.CreateClient("OnebrbAPI");
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
     }
 

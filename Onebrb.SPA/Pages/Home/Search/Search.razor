@@ -52,7 +52,7 @@
 
 @code {
     //TODO: Search model
-    private string _firstName;
+    private string? firstName;
     bool showLoader = false;
 
     private HttpResponseMessage? res;
@@ -60,23 +60,23 @@
 
     void OnNameSearchChange(string value, string name)
     {
-        _firstName = value;
+        firstName = value;
     }
 
     void OnRowClick(DataGridRowMouseEventArgs<ProfileModel> selectedProfile)
     {
-        Nav.NavigateTo($"/profiles/{selectedProfile.Data.Id}");
+        Nav.NavigateTo($"profiles/{selectedProfile.Data.Id}");
     }
 
     async Task OnClick()
     {
         showLoader = true;
 
-        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{_firstName}'");
+        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{firstName}'");
 
         if (res.IsSuccessStatusCode)
         {
-            profiles = await Http.GetFromJsonAsync<IEnumerable<ProfileModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{_firstName}'");
+            profiles = await Http.GetFromJsonAsync<IEnumerable<ProfileModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{firstName}'");
         }
 
         showLoader = false;

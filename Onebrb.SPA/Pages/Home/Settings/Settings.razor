@@ -95,11 +95,11 @@ else
 
         var client = ClientFactory.CreateClient("OnebrbAPI");
 
-        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}profiles/1");
+        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/1");
 
         if (res.IsSuccessStatusCode)
         {
-            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}profiles/1");
+            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/1");
         }
     }
 }

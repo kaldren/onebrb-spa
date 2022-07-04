@@ -1,6 +1,8 @@
 ﻿@using Onebrb.SPA.Models
+
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
 
 @if (@res is null)
 {
@@ -8,7 +10,7 @@
 }
 else
 {
-    <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client">
+    <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
         <Tabs>
             <RadzenTabsItem Text="Comments">
                 @if (comments.Count() == 0)
@@ -23,17 +25,18 @@ else
                                 <div class="row">
                                     <div class="col-md-8 text-truncate">
                                         <RadzenBadge BadgeStyle="BadgeStyle.Light" Text=@($"{comment.CommentId}") Class="mr-1" />
-                                        <b>@(comment.FirstName)</b>
+                                        <b class="profile-comments__profile-commented-link" @onclick="OnProfileClick">@(comment.AuthorFirstName)</b>
                                     </div>
                                     <div class="col-md-4 text-right">
-                                        <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text=@($"{String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", 15.50)}") /> @*TODO: Add stars*@
+                                        <RadzenBadge BadgeStyle="BadgeStyle.Secondary">
+                                            <StarComponent Value="@comment.StarRating" />
+                                        </RadzenBadge>
                                     </div>
                                 </div>
                                 <hr style="border: none; background-color: rgba(0,0,0,.08); height: 1px; margin: 1rem 0;" />
                                 <div class="d-flex flex-row align-items-center">
                                     <RadzenImage Path="@comment.PhotoUrl" Class="rounded-circle float-left mr-3" Style="width: 80px; height: 80px;" />
                                     <div>
-                                        <h4 class="mb-0">@(comment.FirstName + " " + comment.LastName)</h4>
                                         <div style="font-size: .8em">@comment.Content</div>
                                     </div>
                                 </div>
@@ -103,6 +106,11 @@ else
 
     private HttpResponseMessage? res;
     private IEnumerable<CommentModel> comments;
+
+    private void OnProfileClick()
+    {
+        NavigationManager.NavigateTo("profiles/3", true);
+    }
 
     protected override async Task OnInitializedAsync()
     {

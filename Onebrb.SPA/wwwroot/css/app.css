@@ -109,6 +109,11 @@ a, .btn-link {
 .profile-component__bottom-info {margin: 1rem;}
 /*#endregion Profile component*/
 
+/*#region Profile comments*/
+.profile-comments .profile-comments__profile-commented-link:hover {
+    cursor: pointer;
+}
+/*#endregion Profile comments*/
 /*#region Settings component*/
 .settings-component .settings-component__form__input-div {
     margin: 0.5rem 0;

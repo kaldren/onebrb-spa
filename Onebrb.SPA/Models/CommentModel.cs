@@ -4,8 +4,9 @@
     {
         public int CommentId { get; set; }
         public string Content { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string AuthorFirstName { get; set; }
+        public string AuthorLastName { get; set; }
         public string PhotoUrl { get; set; } = "https://placekitten.com/200/200";
+        public short StarRating { get; set; } = 5;
     }
 }

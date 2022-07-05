@@ -15,58 +15,80 @@
     }
 </style>
 
-@if (profile == null)
+@*CHECK IF USER HAS ACTIVATED HIS PROFILE*@
+
+
+@if (res == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Fetching data, please wait...</em></p>
+    <object data="loading.svg" width="100" height="100"></object>
 }
 else
 {
-    <div class="settings-component">
-        <RadzenTemplateForm Data="@profile" Submit="@((ProfileModel args) => { Submit(args); })">
-            <div class="row">
-                <div class="settings-component__form col-md-6">
-                    <div class="row">
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="profile.FirstName" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="profile.LastName" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="profile.Email" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="profile.Phone" />
-                        </div>
-@*                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenDropDown @bind-Value="order.Country" Data="@professions" style="width: 100%;" TextProperty="Name" ValueProperty="Id" Name="Profession">
-                            </RadzenDropDown>
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenDropDown @bind-Value="order.Country" Placeholder="USA" Data="@countries" style="width: 100%;" TextProperty="Name" ValueProperty="Id" Name="Country">
-                            </RadzenDropDown>
-                        </div>*@
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenCard>
-                                <h4 class="mb-4">About</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="profile.About" />
-                            </RadzenCard>
+    if (profile == null && !clickedActivateProfile)
+    {
+        <div class="alert alert-warning" role="alert">
+            <p>Your profile is not active yet. Please activate it.</p>
+            <RadzenButton Click=@(args => OnActivateProfileClick()) Icon="check_circle" ButtonStyle="ButtonStyle.Success" />
+        </div>
+    }
+
+    if (profile == null && clickedActivateProfile)
+    {
+        <p><em>Activating your profile, please wait...</em></p>
+        <object data="loading.svg" width="100" height="100"></object>
+    }
+
+    if (profile != null)
+    {
+        <div class="settings-component">
+            <RadzenTemplateForm Data="@profile" Submit="@((ProfileModel args) => { Submit(args); })">
+                <div class="row">
+                    <div class="settings-component__form col-md-6">
+                        <div class="row">
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="profile.FirstName" />
+                            </div>
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="profile.LastName" />
+                            </div>
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="profile.Email" />
+                            </div>
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="profile.Phone" />
+                            </div>
+                            @*                        <div class="settings-component__form__input-div col-md-8">
+                    <RadzenDropDown @bind-Value="order.Country" Data="@professions" style="width: 100%;" TextProperty="Name" ValueProperty="Id" Name="Profession">
+                    </RadzenDropDown>
+                    </div>
+                    <div class="settings-component__form__input-div col-md-8">
+                    <RadzenDropDown @bind-Value="order.Country" Placeholder="USA" Data="@countries" style="width: 100%;" TextProperty="Name" ValueProperty="Id" Name="Country">
+                    </RadzenDropDown>
+                    </div>*@
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenCard>
+                                    <h4 class="mb-4">About</h4>
+                                    <RadzenTextArea Class="w-100" @bind-Value="profile.About" />
+                                </RadzenCard>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-12 d-flex" style="margin-top: 16px;">
-                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
-                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+                <div class="row justify-content-center">
+                    <div class="col-md-12 d-flex" style="margin-top: 16px;">
+                        <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+                    </div>
                 </div>
-            </div>
-        </RadzenTemplateForm>
-    </div>
+            </RadzenTemplateForm>
+        </div>
+    }
 }
 
 @code {
     private ProfileModel? profile;
+    private bool clickedActivateProfile = false;
 
     public class Profession
     {
@@ -84,22 +106,48 @@ else
         //
     }
 
+    void OnActivateProfileClick()
+    {
+        clickedActivateProfile = true;
+    }
+
     private HttpResponseMessage? res;
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    private async Task HasActivatedProfile()
     {
-        var authState = await authenticationStateTask;
-        var user = authState.User;
-        var userObject = user.FindFirst("sub");
-
         var client = ClientFactory.CreateClient("OnebrbAPI");
 
-        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/1");
+        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
 
         if (res.IsSuccessStatusCode)
         {
-            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/1");
+            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await HasActivatedProfile();
+
+        //var client = ClientFactory.CreateClient("OnebrbAPI");
+
+        //res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+
+        //if (res.IsSuccessStatusCode)
+        //{
+        //    profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+        //}
+
+        //var authState = await authenticationStateTask;
+        //var user = authState.User;
+        //var userObject = user.FindFirst("sub");
+
+        //res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/1");
+
+        //if (res.IsSuccessStatusCode)
+        //{
+        //    profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/1");
+        //}
     }
 }

@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Onebrb.SPA.Models
 @using System.Security.Claims
+@using System.Net
 
 @attribute [Authorize]
 
@@ -25,7 +26,7 @@
 }
 else
 {
-    if (profile == null && !clickedActivateProfile)
+    if (profile == null && res.StatusCode == HttpStatusCode.NotFound && !clickedActivateProfile)
     {
         <div class="alert alert-warning" role="alert">
             <p>Your profile is not active yet. Please activate it.</p>
@@ -33,7 +34,7 @@ else
         </div>
     }
 
-    if (profile == null && clickedActivateProfile)
+    if (profile == null && res.StatusCode == HttpStatusCode.NotFound && clickedActivateProfile)
     {
         <p><em>Activating your profile, please wait...</em></p>
         <object data="loading.svg" width="100" height="100"></object>
@@ -87,6 +88,7 @@ else
 }
 
 @code {
+    private HttpResponseMessage? res;
     private ProfileModel? profile;
     private bool clickedActivateProfile = false;
 
@@ -98,12 +100,12 @@ else
 
     void Submit(ProfileModel arg)
     {
-        //
+    //
     }
 
     void Cancel()
     {
-        //
+    //
     }
 
     void OnActivateProfileClick()
@@ -111,7 +113,6 @@ else
         clickedActivateProfile = true;
     }
 
-    private HttpResponseMessage? res;
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private async Task HasActivatedProfile()
@@ -123,6 +124,10 @@ else
         if (res.IsSuccessStatusCode)
         {
             profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+        }
+        else
+        {
+            // No profile found. Activate profile.
         }
     }
 

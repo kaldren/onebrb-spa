@@ -4,6 +4,7 @@
 @using Onebrb.SPA.Models
 @using System.Security.Claims
 @using System.Net
+@using System.Text.Json
 
 @attribute [Authorize]
 
@@ -19,14 +20,14 @@
 @*CHECK IF USER HAS ACTIVATED HIS PROFILE*@
 
 
-@if (res == null)
+@if (res is null)
 {
     <p><em>Fetching data, please wait...</em></p>
     <object data="loading.svg" width="100" height="100"></object>
 }
 else
 {
-    if (profile == null && res.StatusCode == HttpStatusCode.NotFound && !clickedActivateProfile)
+    if (profile is null && res.StatusCode == HttpStatusCode.NotFound && !clickedActivateProfile)
     {
         <div class="alert alert-warning" role="alert">
             <p>Your profile is not active yet. Please activate it.</p>
@@ -34,14 +35,15 @@ else
         </div>
     }
 
-    if (profile == null && res.StatusCode == HttpStatusCode.NotFound && clickedActivateProfile)
+    if (profile is null && res.StatusCode == HttpStatusCode.NotFound && clickedActivateProfile)
     {
         <p><em>Activating your profile, please wait...</em></p>
         <object data="loading.svg" width="100" height="100"></object>
     }
 
-    if (profile != null)
+    if (profile is not null)
     {
+        <p>@profile.FirstName</p>
         <div class="settings-component">
             <RadzenTemplateForm Data="@profile" Submit="@((ProfileModel args) => { Submit(args); })">
                 <div class="row">
@@ -100,17 +102,34 @@ else
 
     void Submit(ProfileModel arg)
     {
-    //
+        //
     }
 
     void Cancel()
     {
-    //
+        //
     }
 
-    void OnActivateProfileClick()
+    async Task OnActivateProfileClick()
     {
         clickedActivateProfile = true;
+
+        var client = ClientFactory.CreateClient("OnebrbAPI");
+
+        res = await client.PostAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/activate-profile", null);
+
+        if (res.IsSuccessStatusCode)
+        {
+            profile = JsonSerializer.Deserialize<ProfileModel>(res.Content.ReadAsStringAsync().Result,
+                new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+        }
+        else
+        {
+            // No profile found. Activate profile.
+        }
     }
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }

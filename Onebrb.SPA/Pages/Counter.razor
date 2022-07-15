@@ -1,5 +1,8 @@
 ﻿@page "/counter"
 @using System.Globalization
+@using OnebrbApi
+
+@inject IOnebrbApiClient onebrbApiClient
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,8 +12,19 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+@if(commentModel != null)
+{
+    <p>@commentModel.AuthorFirstName</p>
+}
+
 @code {
     private int currentCount = 0;
+    private CommentModel? commentModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        commentModel = await onebrbApiClient.CommentsAsync(1);
+    }
 
     private void IncrementCount()
     {

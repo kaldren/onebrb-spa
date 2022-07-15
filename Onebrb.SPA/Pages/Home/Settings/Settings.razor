@@ -116,7 +116,7 @@ else
 
         var client = ClientFactory.CreateClient("OnebrbAPI");
 
-        res = await client.PostAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/activate-profile", null);
+        res = await client.PostAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/users/profiles/activate", null);
 
         if (res.IsSuccessStatusCode)
         {
@@ -138,11 +138,11 @@ else
     {
         var client = ClientFactory.CreateClient("OnebrbAPI");
 
-        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current");
 
         if (res.IsSuccessStatusCode)
         {
-            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current");
         }
         else
         {
@@ -156,11 +156,11 @@ else
 
         //var client = ClientFactory.CreateClient("OnebrbAPI");
 
-        //res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+        //res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current");
 
         //if (res.IsSuccessStatusCode)
         //{
-        //    profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current-profile");
+        //    profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/current");
         //}
 
         //var authState = await authenticationStateTask;

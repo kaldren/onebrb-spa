@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using Onebrb.SPA;
+using OnebrbApi;
 using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -10,11 +11,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
-builder.Services.AddHttpClient("OnebrbAPI",
-        client => client.BaseAddress = new Uri("https://localhost:7088/api"))
-.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+builder.Services.AddHttpClient<IOnebrbApiClient, OnebrbApiClient>()
+    .AddHttpMessageHandler(sp => sp.GetRequiredService<CustomAuthorizationMessageHandler>());
 
-builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPI"));
+builder.Services.AddScoped<IOnebrbApiClient>(p => ActivatorUtilities.CreateInstance<OnebrbApiClient>(p, "https://localhost:7088"));
 
 builder.Services.AddMsalAuthentication(options =>
 {

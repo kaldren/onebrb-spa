@@ -5,11 +5,13 @@
 @using System.Security.Claims
 @using System.Net
 @using System.Text.Json
+@using OnebrbApi
 
 @attribute [Authorize]
 
 @inject IConfiguration Configuration
 @inject IHttpClientFactory ClientFactory
+@inject IOnebrbApiClient OnebrbApiClient
 
 <style>
     form .row {
@@ -102,33 +104,23 @@ else
 
     void Submit(ProfileModel arg)
     {
-        //
+    //
     }
 
     void Cancel()
     {
-        //
+    //
     }
 
     async Task OnActivateProfileClick()
     {
         clickedActivateProfile = true;
 
-        var client = ClientFactory.CreateClient("OnebrbAPI");
+        var res = await OnebrbApiClient.ActivateAsync();
 
-        res = await client.PostAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/users/profiles/activate", null);
-
-        if (res.IsSuccessStatusCode)
+        if (res != null)
         {
-            profile = JsonSerializer.Deserialize<ProfileModel>(res.Content.ReadAsStringAsync().Result,
-                new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
-        }
-        else
-        {
-            // No profile found. Activate profile.
+            var currentProfile = await OnebrbApiClient.CurrentAsync();
         }
     }
 

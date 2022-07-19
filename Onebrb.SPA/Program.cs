@@ -11,10 +11,20 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
-builder.Services.AddHttpClient<IOnebrbApiClient, OnebrbApiClient>()
-    .AddHttpMessageHandler(sp => sp.GetRequiredService<CustomAuthorizationMessageHandler>());
+builder.Services.AddHttpClient("OnebrbAPI",
+        (srv, client) =>
+        {
+            client.BaseAddress = new Uri("https://localhost:7088");
+        })
+.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
-builder.Services.AddScoped<IOnebrbApiClient>(p => ActivatorUtilities.CreateInstance<OnebrbApiClient>(p, "https://localhost:7088"));
+builder.Services.AddScoped<IOnebrbApiClient, OnebrbApiClient>((x) =>
+{
+    var httpClient = x.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPI");
+    var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://localhost:7088", httpClient);
+
+    return client;
+});
 
 builder.Services.AddMsalAuthentication(options =>
 {

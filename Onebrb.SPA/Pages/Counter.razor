@@ -2,7 +2,7 @@
 @using System.Globalization
 @using OnebrbApi
 
-@inject IOnebrbApiClient onebrbApiClient
+@inject OnebrbApi OnebrbApiClient
 
 <PageTitle>Counter</PageTitle>
 
@@ -23,7 +23,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        commentModel = await onebrbApiClient.CommentsAsync(1);
+        commentModel = await OnebrbApiClient.CommentsAsync(1);
     }
 
     private void IncrementCount()

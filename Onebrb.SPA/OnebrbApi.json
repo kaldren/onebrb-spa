@@ -1,4 +1,4 @@
-﻿{
+{
   "openapi": "3.0.1",
   "info": {
     "title": "Onebrb.API",
@@ -10,7 +10,6 @@
         "tags": [
           "Comments"
         ],
-        "operationId": "comments",
         "parameters": [
           {
             "name": "commentId",
@@ -91,7 +90,6 @@
         "tags": [
           "Search"
         ],
-        "operationId": "search",
         "responses": {
           "200": {
             "description": "Success",
@@ -150,7 +148,6 @@
         "tags": [
           "Users"
         ],
-        "operationId": "usersGET",
         "parameters": [
           {
             "name": "userId",
@@ -211,7 +208,6 @@
         "tags": [
           "Users"
         ],
-        "operationId": "commentsAll",
         "parameters": [
           {
             "name": "userId",
@@ -281,7 +277,6 @@
         "tags": [
           "Users"
         ],
-        "operationId": "current",
         "responses": {
           "200": {
             "description": "Success",
@@ -331,7 +326,6 @@
         "tags": [
           "Users"
         ],
-        "operationId": "activate",
         "responses": {
           "200": {
             "description": "Success",
@@ -381,7 +375,6 @@
         "tags": [
           "Users"
         ],
-        "operationId": "usersPATCH",
         "requestBody": {
           "content": {
             "application/json": {
@@ -414,7 +407,6 @@
     "schemas": {
       "ActivatedUserProfileResponseModel": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "id": {
             "type": "integer",
@@ -443,11 +435,11 @@
           "isDeleted": {
             "type": "boolean"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "Comment": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "id": {
             "type": "integer",
@@ -478,11 +470,11 @@
             "type": "string",
             "format": "date-time"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "CommentModel": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "content": {
             "type": "string",
@@ -516,11 +508,11 @@
             "type": "string",
             "format": "date-time"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "ProblemDetails": {
         "type": "object",
-        "additionalProperties": {},
         "properties": {
           "type": {
             "type": "string",
@@ -543,11 +535,11 @@
             "type": "string",
             "nullable": true
           }
-        }
+        },
+        "additionalProperties": { }
       },
       "Profile": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "id": {
             "type": "integer",
@@ -582,16 +574,16 @@
           },
           "comments": {
             "type": "array",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/Comment"
-            }
+            },
+            "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
       },
       "UserProfileModel": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "profileId": {
             "type": "string",
@@ -617,7 +609,8 @@
             "type": "string",
             "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
       }
     }
   }

@@ -32,7 +32,7 @@
       "GenerateBaseUrlProperty": true,
       "GenerateSyncMethods": false,
       "GeneratePrepareRequestAndProcessResponseAsAsyncMethods": false,
-      "ExposeJsonSerializerSettings": true,
+      "ExposeJsonSerializerSettings": false,
       "ClientClassAccessModifier": "public",
       "TypeAccessModifier": "public",
       "GenerateContractsOutput": false,

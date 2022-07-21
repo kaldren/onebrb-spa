@@ -32,18 +32,18 @@
         @if (profiles is not null)
         {
             <RadzenDataGrid AllowColumnResize="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        Data="@profiles" TItem="ProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowClick=@OnRowClick>
+                        Data="@profiles" TItem="UserProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowClick=@OnRowClick>
                 <Columns>
-                    <RadzenDataGridColumn TItem="ProfileModel" Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="60px">
+                    <RadzenDataGridColumn TItem="UserProfileModel" Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="60px">
                         <Template Context="data">
                             @*<RadzenImage Path="@data.Photo" style="width: 40px; height: 40px; border-radius: 8px;" />*@
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="ProfileModel" Property="FirstName" Title="First Name" Frozen="true" Width="140px" />
-                    <RadzenDataGridColumn TItem="ProfileModel" Property="LastName" Title="Last Name" Frozen="true" Width="140px" />
-                    <RadzenDataGridColumn TItem="ProfileModel" Property="Email" Title="Email" Frozen="true" Width="200px" />
-                    <RadzenDataGridColumn TItem="ProfileModel" Property="Phone" Title="Phone" Frozen="true" Width="100px" />
-                    <RadzenDataGridColumn TItem="ProfileModel" Property="About" Title="About" Frozen="true" Width="140px" />
+                    <RadzenDataGridColumn TItem="UserProfileModel" Property="FirstName" Title="First Name" Frozen="true" Width="140px" />
+                    <RadzenDataGridColumn TItem="UserProfileModel" Property="LastName" Title="Last Name" Frozen="true" Width="140px" />
+                    <RadzenDataGridColumn TItem="UserProfileModel" Property="Email" Title="Email" Frozen="true" Width="200px" />
+                    <RadzenDataGridColumn TItem="UserProfileModel" Property="Phone" Title="Phone" Frozen="true" Width="100px" />
+                    <RadzenDataGridColumn TItem="UserProfileModel" Property="About" Title="About" Frozen="true" Width="140px" />
                 </Columns>
             </RadzenDataGrid>
         }
@@ -56,14 +56,14 @@
     bool showLoader = false;
 
     private HttpResponseMessage? res;
-    private IEnumerable<ProfileModel>? profiles;
+    private IEnumerable<UserProfileModel>? profiles;
 
     void OnNameSearchChange(string value, string name)
     {
         firstName = value;
     }
 
-    void OnRowClick(DataGridRowMouseEventArgs<ProfileModel> selectedProfile)
+    void OnRowClick(DataGridRowMouseEventArgs<UserProfileModel> selectedProfile)
     {
         Nav.NavigateTo($"profiles/{selectedProfile.Data.Id}");
     }
@@ -76,7 +76,7 @@
 
         if (res.IsSuccessStatusCode)
         {
-            profiles = await Http.GetFromJsonAsync<IEnumerable<ProfileModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{firstName}'");
+            profiles = await Http.GetFromJsonAsync<IEnumerable<UserProfileModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{firstName}'");
         }
 
         showLoader = false;

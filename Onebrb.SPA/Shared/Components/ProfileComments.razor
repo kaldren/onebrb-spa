@@ -1,12 +1,16 @@
-﻿@using Onebrb.SPA.Models
+﻿@using AutoMapper
+@using Onebrb.SPA.Models
+@using OnebrbApi
 
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
 
-@if (@res is null)
+@if (@comments is null)
 {
-    <p>Loading...</p>
+    <p>No comments.</p>
 }
 else
 {
@@ -24,7 +28,6 @@ else
                             <RadzenCard>
                                 <div class="row">
                                     <div class="col-md-8 text-truncate">
-                                        <RadzenBadge BadgeStyle="BadgeStyle.Light" Text=@($"{comment.CommentId}") Class="mr-1" />
                                         <b class="profile-comments__profile-commented-link" @onclick="OnProfileClick">@(comment.AuthorFirstName)</b>
                                     </div>
                                     <div class="col-md-4 text-right">
@@ -102,9 +105,8 @@ else
 @code {
 
     [Parameter]
-    public long? RecipientId { get; set; }
+    public string RecipientId { get; set; }
 
-    private HttpResponseMessage? res;
     private IEnumerable<CommentModel> comments;
 
     private void OnProfileClick()
@@ -114,13 +116,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var client = ClientFactory.CreateClient("OnebrbAPI");
-
-        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/comments?recipientId={RecipientId}");
-
-        if (res.IsSuccessStatusCode)
-        {
-            comments = await client.GetFromJsonAsync<IEnumerable<CommentModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/comments?recipientId={RecipientId}");
-        }
+        comments = Mapper.Map<IEnumerable<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
     }
 }

@@ -1,21 +1,26 @@
-﻿@page "/profiles/{id:long?}"
+﻿@page "/profiles/{Id}"
 
 @using System.Globalization
+@using AutoMapper
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Onebrb.SPA.Models
 @using System.Net.Http.Headers
 @using Onebrb.SPA.Shared.Components
+@using OnebrbApi
 
 @inject IHttpClientFactory ClientFactory
 @inject IStringLocalizer<Profile> Loc
 @inject IConfiguration Configuration
 @inject IAccessTokenProvider TokenProvider
 
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+
 <PageTitle>Profile</PageTitle>
 
-@if (@res is null)
+@if (@profile is null)
 {
-    <p>Loading...</p>
+    <p>Profile not found.</p>
 }
 else
 {
@@ -24,20 +29,13 @@ else
 
 @code {
     [Parameter]
-    public long? Id { get; set; }
+    public string Id { get; set; }
 
     private HttpResponseMessage? res;
-    private ProfileModel? profile;
+    private UserProfileModel? profile;
 
     protected override async Task OnInitializedAsync()
     {
-        var client = ClientFactory.CreateClient("OnebrbAPI");
-
-        res = await client.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
-
-        if (res.IsSuccessStatusCode)
-        {
-            profile = await client.GetFromJsonAsync<ProfileModel>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/profiles/{Id}");
-        }
+        profile = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersGETAsync(Id));
     }
 }

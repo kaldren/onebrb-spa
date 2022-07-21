@@ -34,6 +34,8 @@ builder.Services.AddMsalAuthentication(options =>
 
 builder.Services.AddLocalization();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 var jsInterop = builder.Build().Services.GetRequiredService<IJSRuntime>();
 var appLanguage = await jsInterop.InvokeAsync<string>("appCulture.get");
 

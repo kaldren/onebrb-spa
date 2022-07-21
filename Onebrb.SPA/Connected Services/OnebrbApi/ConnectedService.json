@@ -7,7 +7,7 @@
   "ExtendedData": {
     "ServiceName": "OnebrbApi",
     "AcceptAllUntrustedCertificates": true,
-    "GeneratedFileName": "OpenAPI",
+    "GeneratedFileName": "OnebrbApiClient",
     "Endpoint": "https://localhost:7088/swagger/v1/swagger.json",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": true,
@@ -97,7 +97,7 @@
       "ChecksumCacheEnabled": false,
       "ServiceHost": null,
       "ServiceSchemes": null,
-      "output": "OpenAPI.cs",
+      "output": "OnebrbApiClient.cs",
       "newLineBehavior": 0
     },
     "ExcludeTypeNamesLater": false,

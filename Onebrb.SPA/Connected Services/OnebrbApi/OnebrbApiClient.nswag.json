@@ -27,17 +27,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommentModel"
+                  "$ref": "#/components/schemas/CommentResponseModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommentModel"
+                  "$ref": "#/components/schemas/CommentResponseModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommentModel"
+                  "$ref": "#/components/schemas/CommentResponseModel"
                 }
               }
             }
@@ -166,17 +166,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               }
             }
@@ -216,17 +216,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               }
             }
@@ -266,17 +266,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileModel"
+                  "$ref": "#/components/schemas/UserProfileResponseModel"
                 }
               }
             }
@@ -328,7 +328,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CommentModel"
+                    "$ref": "#/components/schemas/CommentResponseModel"
                   }
                 }
               },
@@ -336,7 +336,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CommentModel"
+                    "$ref": "#/components/schemas/CommentResponseModel"
                   }
                 }
               },
@@ -344,7 +344,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CommentModel"
+                    "$ref": "#/components/schemas/CommentResponseModel"
                   }
                 }
               }
@@ -444,7 +444,7 @@
           }
         }
       },
-      "CommentModel": {
+      "CommentResponseModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -549,11 +549,11 @@
           }
         }
       },
-      "UserProfileModel": {
+      "UserProfileResponseModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "profileId": {
+          "id": {
             "type": "string",
             "nullable": true
           },

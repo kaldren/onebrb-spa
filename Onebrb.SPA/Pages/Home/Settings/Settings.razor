@@ -29,8 +29,8 @@
 @if (currentUser is not null)
 {
     <p>@currentUser.FirstName</p>
-@*    <div class="settings-component">
-        <RadzenTemplateForm Data="@profile" Submit="@((ProfileModel args) => { Submit(args); })">
+    <div class="settings-component">
+        <RadzenTemplateForm Data="currentUser">
             <div class="row">
                 <div class="settings-component__form col-md-6">
                     <div class="row">
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </RadzenTemplateForm>
-    </div>*@
+    </div>
 }
 
 @code {
@@ -93,6 +93,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+        await GetCurrentUser();
     }
 }

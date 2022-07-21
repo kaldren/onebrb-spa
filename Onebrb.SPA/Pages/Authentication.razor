@@ -1,7 +1,22 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-<RemoteAuthenticatorView Action="@Action" />
+@using OnebrbApi
+<RemoteAuthenticatorView Action="@Action" OnLogInSucceeded="OnLoginSucceeded" />
 
-@code{
+@inject IOnebrbApiClient OnebrbApiClient
+@inject NavigationManager NavigationManager
+
+@code {
     [Parameter] public string? Action { get; set; }
+    private static int count = 0;
+
+    private async Task OnLoginSucceeded() 
+    {
+        if (Action == "login-callback" && count == 0)
+        {
+            count++;
+            await OnebrbApiClient.ActivateAsync();
+            NavigationManager.NavigateTo("Settings", true);
+        }
+    }
 }

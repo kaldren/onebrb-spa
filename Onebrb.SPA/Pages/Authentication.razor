@@ -1,21 +1,46 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using OnebrbApi
-<RemoteAuthenticatorView Action="@Action" OnLogInSucceeded="OnLoginSucceeded" />
+<RemoteAuthenticatorView Action="@Action" />
 
 @inject IOnebrbApiClient OnebrbApiClient
-@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @code {
-    [Parameter] public string? Action { get; set; }
-    private static int count = 0;
+    private bool _authenticated;
 
-    private async Task OnLoginSucceeded() 
+    [Parameter] public string? Action { get; set; }
+
+    protected override void OnInitialized()
     {
-        if (Action == "login-callback" && count == 0)
+        Task<AuthenticationState> _currentAuthenticationStateTask;
+
+        AuthenticationStateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
+
+        _currentAuthenticationStateTask =
+            AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        OnAuthenticationStateChanged(_currentAuthenticationStateTask);
+    }
+
+    private void OnAuthenticationStateChanged(Task<AuthenticationState> authenticationStateTask)
+    {
+        _ = InvokeAsync(async () =>
         {
-            count++;
-            await OnebrbApiClient.ActivateAsync();
-        }
+            var authState = await authenticationStateTask;
+
+            var user = authState.User;
+
+            _authenticated = user.Identity?.IsAuthenticated ?? false;
+
+            Console.WriteLine("OnAuthenticationStateChanged - {0}", _authenticated);
+
+            if (_authenticated)
+            {
+                await OnebrbApiClient.ActivateAsync();
+            }
+
+            StateHasChanged();
+        });
     }
 }

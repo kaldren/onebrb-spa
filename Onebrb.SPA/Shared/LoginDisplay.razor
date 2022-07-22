@@ -9,9 +9,6 @@
         Hello, @context.User.Identity?.Name!
         <button class="nav-link btn btn-link" @onclick="BeginLogout">Log out</button>
     </Authorized>
-    <NotAuthorized>
-        <a href="authentication/login">Log in</a>
-    </NotAuthorized>
 </AuthorizeView>
 
 @code{

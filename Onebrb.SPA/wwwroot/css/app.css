@@ -119,3 +119,10 @@ a, .btn-link {
     margin: 0.5rem 0;
 }
 /*#endregion Settings component*/
+
+/*#region Login Form Component*/
+.login-form-component {
+    max-width: 960px;
+    margin: 0 auto;
+}
+/*#endregion Login Form Component*/

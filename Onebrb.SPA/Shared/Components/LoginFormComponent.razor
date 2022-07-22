@@ -1,0 +1,31 @@
+﻿<RadzenCard class="login-form-component">
+    <h2 class="mb-4">Register and password reset</h2>
+    <RadzenTemplateForm Data=@("LoginWithRegisterAndReset")>
+        <RadzenLogin Login=@(args => OnLogin(args, "Login with register and password reset"))
+                     ResetPassword=@(args => OnResetPassword(args, "Login with register and password reset"))
+                     Register=@(args => OnRegister("Login with register and password reset")) />
+    </RadzenTemplateForm>
+</RadzenCard>
+
+@code {
+    private bool _busy;
+
+    void OnLogin(LoginArgs args, string name)
+    {
+    }
+
+    void OnRegister(string name)
+    {
+    }
+
+    void OnResetPassword(string value, string name)
+    {
+    }
+
+    async Task OnBusyClick()
+    {
+        _busy = true;
+        await Task.Delay(2000);
+        _busy = false;
+    }
+}

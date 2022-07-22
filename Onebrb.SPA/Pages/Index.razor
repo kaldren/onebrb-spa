@@ -1,5 +1,16 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@using Onebrb.SPA.Shared.Components
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-<p>Welcome to Onebrb</p>
+<PageTitle>Onebrb</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <p>Welcome to Onebrb</p>
+    </Authorized>
+    <NotAuthorized>
+        <LoginFormComponent />
+    </NotAuthorized>
+</AuthorizeView>

@@ -125,4 +125,17 @@ a, .btn-link {
     max-width: 960px;
     margin: 0 auto;
 }
+
+.login-form-component__social {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login-form-component__social__btnGoogle {
+    max-width: 240px;
+}
+.login-form-component__social__btnGoogle:hover {
+    cursor: pointer;
+}
 /*#endregion Login Form Component*/

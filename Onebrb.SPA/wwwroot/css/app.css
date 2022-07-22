@@ -139,3 +139,9 @@ a, .btn-link {
     cursor: pointer;
 }
 /*#endregion Login Form Component*/
+
+/*#region Footer*/
+footer {
+    text-align: center;
+}
+/*#end#region Footer*/

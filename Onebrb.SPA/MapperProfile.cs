@@ -9,6 +9,7 @@ namespace Onebrb.SPA
         {
             #region Profile
             CreateMap<UserProfileResponseModel, UserProfileModel>();
+            CreateMap<UserProfileModel, UpdateUserProfileRequestModel>();
             #endregion
 
             #region Comment

@@ -30,7 +30,6 @@
 
 @if (currentUser is not null)
 {
-    <p>@currentUser.FirstName</p>
     <div class="settings-component">
         <RadzenTemplateForm Data="currentUser">
             <div class="row">
@@ -59,7 +58,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-12 d-flex" style="margin-top: 16px;">
-                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
+                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text="Save" />
                     <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
                 </div>
             </div>
@@ -78,9 +77,10 @@
         public string Name { get; set; }
     }
 
-    void Submit(UserProfileModel arg)
+    async Task OnUpdateProfileClick()
     {
-    //
+        var model = Mapper.Map<UpdateUserProfileRequestModel>(currentUser);
+        currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersPATCHAsync(model));
     }
 
     void Cancel()

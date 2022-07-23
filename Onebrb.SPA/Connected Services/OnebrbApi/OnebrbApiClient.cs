@@ -52,7 +52,7 @@ namespace OnebrbApi
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UsersPATCHAsync(Profile body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UserProfileResponseModel> UsersPATCHAsync(UpdateUserProfileRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
     }
     
@@ -578,7 +578,7 @@ namespace OnebrbApi
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task UsersPATCHAsync(Profile body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UserProfileResponseModel> UsersPATCHAsync(UpdateUserProfileRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -596,6 +596,7 @@ namespace OnebrbApi
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
     
@@ -620,7 +621,32 @@ namespace OnebrbApi
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<UserProfileResponseModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 401)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Unauthorized", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -861,6 +887,30 @@ namespace OnebrbApi
     
         [Newtonsoft.Json.JsonProperty("comments", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<Comment> Comments { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v13.0.1.0)")]
+    public partial class UpdateUserProfileRequestModel 
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FirstName { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LastName { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Email { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("phone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Phone { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("about", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string About { get; set; }
     
     
     }

@@ -142,6 +142,9 @@ a, .btn-link {
 
 /*#region Footer*/
 footer {
-    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 /*#end#region Footer*/

@@ -23,6 +23,28 @@
 
 @*CHECK IF USER HAS ACTIVATED HIS PROFILE*@
 
+@if (_updatedUserProfile)
+{
+    <div class="alert alert-success d-flex align-items-center alert-dismissible" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+        <div>
+            Profile updated successfully.
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (_updateUserProfileError)
+{
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+        <div>
+            <p>Error occured, please try again later.</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 @if (currentUser is null)
 {
     <p>No user found.</p>
@@ -70,6 +92,8 @@
     private HttpResponseMessage? res;
     private UserProfileModel? currentUser;
     private bool clickedActivateProfile = false;
+    private bool _updatedUserProfile = false;
+    private bool _updateUserProfileError = false;
 
     public class Profession
     {
@@ -81,11 +105,16 @@
     {
         var model = Mapper.Map<UpdateUserProfileRequestModel>(currentUser);
         currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersPATCHAsync(model));
+
+        if (currentUser is not null)
+            _updatedUserProfile = true;
+        else
+            _updateUserProfileError = true;
     }
 
     void Cancel()
     {
-    //
+        //
     }
 
     async Task GetCurrentUser()

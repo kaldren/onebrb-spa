@@ -1,0 +1,29 @@
+﻿@using AutoMapper
+@using Onebrb.SPA.Models
+@using OnebrbApi
+
+@inject IHttpClientFactory ClientFactory
+@inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+
+<div class="comment-form-component">
+    <TextAreaComponent OnChange="ChangeHandler" />
+    <ButtonComponent Text="Post" OnClick="ClickHandler" />
+</div>
+
+@code {
+    private string _comment = string.Empty;
+
+    void ClickHandler()
+    {
+        // Call API to create the new comment
+        Console.WriteLine($"The comment is {_comment}");
+    }
+
+    void ChangeHandler(string message)
+    {
+        _comment = message;
+    }
+}

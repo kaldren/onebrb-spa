@@ -1,0 +1,13 @@
+﻿<div>
+    <RadzenCard>
+        <h4>@Text</h4>
+        <RadzenTextArea Placeholder="Some text..." Change="@((e) => OnChange.InvokeAsync(e))" />
+    </RadzenCard>
+</div>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter] public EventCallback<string> OnChange { get; set; }
+}

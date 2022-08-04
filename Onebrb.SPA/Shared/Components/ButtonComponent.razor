@@ -1,0 +1,11 @@
+﻿ <RadzenButton @onclick="@(() => OnClick.InvokeAsync())" Text=@Text ButtonStyle=@ButtonStyle />
+
+@code {
+    [Parameter]
+    public string Text { get; set; } = "Primary";
+
+    [Parameter]
+    public ButtonStyle ButtonStyle { get; set; } = ButtonStyle.Primary;
+
+    [Parameter] public EventCallback OnClick { get; set; }
+}

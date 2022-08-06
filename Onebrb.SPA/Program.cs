@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
@@ -46,5 +47,6 @@ if (appLanguage != null)
     CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 }
 
+builder.Services.AddBlazoredToast();
 
 await builder.Build().RunAsync();

@@ -4,8 +4,13 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Blazored.Toast.Configuration
+@using OnebrbApi
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 
+@inject IWebAssemblyHostEnvironment environment
 @inject IToastService toastService
+@inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
+
 
 <div class="page">
 
@@ -31,20 +36,24 @@
         </div>
 
         <article class="content px-4">
-            <ErrorBoundary>
-                <ChildContent>
-                    @Body
-                </ChildContent>
-                <ErrorContent Context="Exception">
-                    @{
-                        if(@Exception is InvalidOperationException)
-                        {
+            @if (@environment.Environment == "Production")
+            {
+                <ErrorBoundary>
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                    <ErrorContent Context="Exception">
+                        @{
                             toastService.ClearAll();
-                            toastService.ShowError("Error!");
+                            toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
                         }
-                    }
-                </ErrorContent>
-            </ErrorBoundary>
+                    </ErrorContent>
+                </ErrorBoundary>
+            }
+            else
+            {
+                @Body
+            }
         </article>
     </main>
 

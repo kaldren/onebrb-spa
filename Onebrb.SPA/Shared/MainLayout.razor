@@ -5,6 +5,8 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Blazored.Toast.Configuration
 
+@inject IToastService toastService
+
 <div class="page">
 
     <BlazoredToasts Position="ToastPosition.BottomRight"
@@ -29,7 +31,20 @@
         </div>
 
         <article class="content px-4">
-            @Body
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="Exception">
+                    @{
+                        if(@Exception is InvalidOperationException)
+                        {
+                            toastService.ClearAll();
+                            toastService.ShowError("Error!");
+                        }
+                    }
+                </ErrorContent>
+            </ErrorBoundary>
         </article>
     </main>
 

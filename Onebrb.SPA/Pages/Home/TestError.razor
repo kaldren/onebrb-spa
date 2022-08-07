@@ -1,0 +1,8 @@
+﻿@page "/error"
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        throw new InvalidOperationException("Current count is too big!");
+    }
+}

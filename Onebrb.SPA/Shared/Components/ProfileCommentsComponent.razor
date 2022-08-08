@@ -107,7 +107,7 @@ else
     [Parameter]
     public string RecipientId { get; set; }
 
-    private IEnumerable<CommentModel> comments;
+    private ICollection<CommentModel> comments;
 
     private void OnProfileClick()
     {
@@ -116,6 +116,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        comments = Mapper.Map<IEnumerable<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+        comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+    }
+
+    public async Task Refresh()
+    {
+        comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+        StateHasChanged();
     }
 }

@@ -50,12 +50,18 @@
                 </div>
             </div>
         </RadzenCard>
-        <CommentFormComponent />
-        <ProfileComments RecipientId="@ProfileModel.Id" />
+        <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
+        <ProfileCommentsComponent RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
     </div>
 </div>
 
 @code {
     [Parameter]
     public UserProfileModel? ProfileModel { get; set; }
+    private ProfileCommentsComponent _profileCommentsComponent;
+
+    async Task OnPostedComment()
+    {
+        await _profileCommentsComponent.Refresh();
+    }
 }

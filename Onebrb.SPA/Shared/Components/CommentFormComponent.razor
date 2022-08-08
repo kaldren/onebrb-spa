@@ -14,19 +14,27 @@
 </div>
 
 @code {
+    [Parameter]
+    public string RecipientId { get; set; }
+
     private string _comment = string.Empty;
+
+    [Parameter] public EventCallback OnPostedComment { get; set; }
 
     async Task ClickHandler()
     {
         // Call API to create the new comment
         var comment = new PostCommentRequestModel
-        {
-            RecipientId = "4f170031-f087-4ad5-8343-7da89e8cb8be",
-            AuthorId = "0a945d97-4e71-4956-b5dd-c6706173dd36",
-            Content = _comment,
-        };
+            {
+                AuthorId = string.Empty,
+                RecipientId = RecipientId,
+                Content = _comment,
+            };
 
         var result = await OnebrbApiClient.CommentsPOSTAsync(comment);
+
+        if (result is not null)
+            await OnPostedComment.InvokeAsync();
     }
 
     void ChangeHandler(string message)

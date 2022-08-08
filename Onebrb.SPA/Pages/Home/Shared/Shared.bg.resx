@@ -120,4 +120,7 @@
   <data name="ErrorGenericMessage" xml:space="preserve">
     <value>Опа, възникна неприятна грешка.</value>
   </data>
+  <data name="UseHasNoComments" xml:space="preserve">
+    <value>Потребителят все още няма коментари.</value>
+  </data>
 </root>

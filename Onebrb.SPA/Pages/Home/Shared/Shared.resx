@@ -120,4 +120,7 @@
   <data name="ErrorGenericMessage" xml:space="preserve">
     <value>Oops, something evil happened.</value>
   </data>
+  <data name="UseHasNoComments" xml:space="preserve">
+    <value>The user doesn't have any comments yet.</value>
+  </data>
 </root>

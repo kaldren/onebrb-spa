@@ -36,24 +36,17 @@
         </div>
 
         <article class="content px-4">
-            @if (@environment.Environment == "Production")
-            {
-                <ErrorBoundary>
-                    <ChildContent>
-                        @Body
-                    </ChildContent>
-                    <ErrorContent Context="Exception">
-                        @{
-                            toastService.ClearAll();
-                            toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
-                        }
-                    </ErrorContent>
-                </ErrorBoundary>
-            }
-            else
-            {
-                @Body
-            }
+            <CustomErrorBoundry @ref="_errorBoundry">
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="Exception">
+                    @{
+                        toastService.ClearAll();
+                        toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                    }
+                </ErrorContent>
+            </CustomErrorBoundry>
         </article>
     </main>
 
@@ -61,3 +54,12 @@
         Onebrb &copy; - All rights reserved
     </footer>
 </div>
+
+@code {
+    private CustomErrorBoundry _errorBoundry;
+
+    protected override void OnInitialized()
+    {
+        _errorBoundry = new CustomErrorBoundry();
+    }
+}

@@ -8,8 +8,10 @@
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
+@inject IToastService toastService
 
-@if (@comments is null)
+
+@if (_comments is null)
 {
     <p>No comments.</p>
 }
@@ -18,13 +20,13 @@ else
     <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
         <Tabs>
             <RadzenTabsItem Text="Comments">
-                @if (comments.Count() == 0)
+                @if (_comments.Count() == 0)
                 {
-                    <p>@Loc["UseHasNoComments"]</p>
+                    <p>@Loc["UserHasNoComments"]</p>
                 }
                 else
                 {
-                    <RadzenDataList PageSize="4" WrapItems="true" AllowPaging="true" Data="@comments" TItem="CommentModel">
+                    <RadzenDataList PageSize="4" WrapItems="true" AllowPaging="true" Data="@_comments" TItem="CommentModel">
                         <Template Context="comment">
                             <RadzenCard>
                                 <div class="row">
@@ -35,8 +37,8 @@ else
                                         <RadzenBadge BadgeStyle="BadgeStyle.Secondary">
                                             <StarComponent Value="@comment.StarRating" />
                                         </RadzenBadge>
-                                        <i class="bi bi-pencil-fill"></i>
-                                        <i class="bi bi-trash3-fill"></i>
+                                        <i class="bi bi-pencil-fill" @onclick="() => OnCommentEdit(comment.Id)"></i>
+                                        <i class="bi bi-trash3-fill" @onclick="() => OnCommentDelete(comment.Id)"></i>
                                     </div>
                                 </div>
                                 <hr style="border: none; background-color: rgba(0,0,0,.08); height: 1px; margin: 1rem 0;" />
@@ -110,21 +112,31 @@ else
     [Parameter]
     public string RecipientId { get; set; }
 
-    private ICollection<CommentModel> comments;
+    private ICollection<CommentModel> _comments;
 
     private void OnProfileClick()
     {
         NavigationManager.NavigateTo("profiles/3", true);
     }
 
+    private void OnCommentEdit(string id) {}
+
+    private async Task OnCommentDelete(string id)
+    {
+        await OnebrbApiClient.CommentsDELETEAsync(id);
+        toastService.ClearSuccessToasts();
+        toastService.ShowSuccess("Comment deleted successfully.");
+        await Refresh();
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
     }
 
     public async Task Refresh()
     {
-        comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
         StateHasChanged();
     }
 }

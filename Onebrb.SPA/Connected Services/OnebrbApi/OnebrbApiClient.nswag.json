@@ -274,6 +274,94 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Comments"
+        ],
+        "operationId": "commentsPATCH",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchCommentRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchCommentRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchCommentRequestModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/search": {
@@ -672,6 +760,14 @@
             "type": "string",
             "nullable": true
           },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastEditDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "content": {
             "type": "string",
             "nullable": true
@@ -689,10 +785,6 @@
           },
           "recipient": {
             "$ref": "#/components/schemas/Profile"
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
           }
         }
       },
@@ -735,6 +827,28 @@
           "date": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "PatchCommentRequestModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorId": {
+            "type": "string",
+            "nullable": true
+          },
+          "recipientId": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -797,6 +911,14 @@
           "trackId": {
             "type": "string",
             "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastEditDate": {
+            "type": "string",
+            "format": "date-time"
           },
           "firstName": {
             "type": "string",

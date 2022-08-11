@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using Onebrb.SPA;
 using OnebrbApi;
+using Radzen;
 using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -48,5 +49,6 @@ if (appLanguage != null)
 }
 
 builder.Services.AddBlazoredToast();
+builder.Services.AddScoped<DialogService>();
 
 await builder.Build().RunAsync();

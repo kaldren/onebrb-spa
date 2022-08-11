@@ -9,7 +9,9 @@
 @inject IMapper Mapper
 @inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
 @inject IToastService toastService
+@inject DialogService DialogService
 
+@implements IDisposable
 
 @if (_comments is null)
 {
@@ -37,7 +39,7 @@ else
                                         <RadzenBadge BadgeStyle="BadgeStyle.Secondary">
                                             <StarComponent Value="@comment.StarRating" />
                                         </RadzenBadge>
-                                        <i class="bi bi-pencil-fill" @onclick="() => OnCommentEdit(comment.Id)"></i>
+                                        <i class="bi bi-pencil-fill" @onclick="() => ShowEditComment(comment)"></i>
                                         <i class="bi bi-trash3-fill" @onclick="() => OnCommentDelete(comment.Id)"></i>
                                     </div>
                                 </div>
@@ -112,6 +114,8 @@ else
     [Parameter]
     public string RecipientId { get; set; }
 
+    private string _updatedComment = string.Empty;
+
     private ICollection<CommentModel> _comments;
 
     private void OnProfileClick()
@@ -119,7 +123,10 @@ else
         NavigationManager.NavigateTo("profiles/3", true);
     }
 
-    private void OnCommentEdit(string id) {}
+    private void OnCommentEditSubmit(string id)
+    {
+        Console.WriteLine($"Editting comment with id {id}");
+    }
 
     private async Task OnCommentDelete(string id)
     {
@@ -127,6 +134,68 @@ else
         toastService.ClearSuccessToasts();
         toastService.ShowSuccess("Comment deleted successfully.");
         await Refresh();
+    }
+
+    private async Task ShowEditComment(CommentModel comment)
+    {
+        var result = await DialogService.OpenAsync("Simple Dialog", ds =>
+            @<div>
+                <p class="mb-4">
+                    <RadzenTextArea Value=@comment.Content Change="(args) => OnCommentChange(args)" Class="w-100" />
+                </p>
+                <div class="row">
+                    <div class="col">
+                    <RadzenButton Text="Save" Click="() => OnCommentChangeSubmit(comment, ds.Close)" Class="mr-1" Style="width: 80px;" />
+                    <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Class="mr-1" />
+                    </div>
+                </div>
+        </div>
+    );
+
+    }
+
+    void OnCommentChange(string commentText)
+    {
+        _updatedComment = commentText;
+    }
+
+    async Task OnCommentChangeSubmit(CommentModel comment, Action<dynamic> callback)
+    {
+        PatchCommentRequestModel patchComment = new()
+            {
+                Id = comment.Id,
+                Content = _updatedComment,
+                AuthorId = comment.AuthorId,
+                RecipientId = RecipientId,
+            };
+
+        var updatedComment = await OnebrbApiClient.CommentsPATCHAsync(patchComment);
+
+        var currentComment = _comments.SingleOrDefault(p => p.Id == updatedComment.Id);
+        _comments.Remove(currentComment);
+
+        currentComment = Mapper.Map<CommentModel>(updatedComment);
+        _comments.Add(currentComment);
+
+        StateHasChanged();
+        toastService.ClearSuccessToasts();
+        toastService.ShowSuccess("Success");
+        callback.Invoke(true);
+    }
+
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+    }
+
+    void Close(dynamic result)
+    {
+    }
+
+    public void Dispose()
+    {
+        // The DialogService is a singleton so it is advisable to unsubscribe.
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
     }
 
     protected override async Task OnInitializedAsync()

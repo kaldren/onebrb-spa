@@ -745,6 +745,38 @@
   },
   "components": {
     "schemas": {
+      "City": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "trackId": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "$ref": "#/components/schemas/Country"
+          }
+        }
+      },
       "Comment": {
         "type": "object",
         "additionalProperties": false,
@@ -764,7 +796,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "lastEditDate": {
+          "lastUpdateDate": {
             "type": "string",
             "format": "date-time"
           },
@@ -827,6 +859,42 @@
           "date": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "Country": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "trackId": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "cities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/City"
+            }
           }
         }
       },
@@ -916,7 +984,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "lastEditDate": {
+          "lastUpdateDate": {
             "type": "string",
             "format": "date-time"
           },
@@ -939,6 +1007,20 @@
           "about": {
             "type": "string",
             "nullable": true
+          },
+          "countryId": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "cityId": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "$ref": "#/components/schemas/City"
           },
           "comments": {
             "type": "array",
@@ -1004,6 +1086,14 @@
             "nullable": true
           },
           "about": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
             "type": "string",
             "nullable": true
           }

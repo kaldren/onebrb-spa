@@ -1,0 +1,86 @@
+﻿@using AutoMapper
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Onebrb.SPA.Models
+@using System.Security.Claims
+@using System.Net
+@using System.Text.Json
+@using Onebrb.SPA.Shared.Components
+@using OnebrbApi
+
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+
+@if (_updatedUserProfile)
+{
+    <AlertWindowComponent Text="Profile updated successfully." AlertType="Success" />
+}
+
+@if (_updateUserProfileError)
+{
+    <AlertWindowComponent Text="Error occured, please try again later." AlertType="Danger" />
+}
+
+@if (@CurrentUser is not null)
+{
+    <div class="settings-component">
+        <RadzenTemplateForm Data="CurrentUser">
+            <div class="row">
+                <div class="settings-component__form col-md-6">
+                    <div class="row">
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="@CurrentUser.FirstName" />
+                        </div>
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="@CurrentUser.LastName" />
+                        </div>
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="@CurrentUser.Email" />
+                        </div>
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="@CurrentUser.Phone" />
+                        </div>
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenCard>
+                                <h4 class="mb-4">About</h4>
+                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" />
+                            </RadzenCard>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12 d-flex" style="margin-top: 16px;">
+                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text="Save" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public UserProfileModel CurrentUser { get; set; }
+
+    private bool clickedActivateProfile = false;
+    private bool _updatedUserProfile = false;
+    private bool _updateUserProfileError = false;
+
+    async Task OnUpdateProfileClick()
+    {
+        var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
+        CurrentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersPATCHAsync(model));
+
+        if (CurrentUser is not null)
+            _updatedUserProfile = true;
+        else
+            _updateUserProfileError = true;
+    }
+
+    void Cancel()
+    {
+        //
+    }
+}

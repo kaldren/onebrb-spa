@@ -24,16 +24,6 @@
 
 @*CHECK IF USER HAS ACTIVATED HIS PROFILE*@
 
-@if (_updatedUserProfile)
-{
-    <AlertWindowComponent Text="Profile updated successfully." AlertType="Success" />
-}
-
-@if (_updateUserProfileError)
-{
-    <AlertWindowComponent Text="Error occured, please try again later." AlertType="Danger" />
-}
-
 @if (currentUser is null)
 {
     <p>No user found.</p>
@@ -41,64 +31,18 @@
 
 @if (currentUser is not null)
 {
-    <div class="settings-component">
-        <RadzenTemplateForm Data="currentUser">
-            <div class="row">
-                <div class="settings-component__form col-md-6">
-                    <div class="row">
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="@currentUser.FirstName" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="@currentUser.LastName" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="@currentUser.Email" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="@currentUser.Phone" />
-                        </div>
-                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenCard>
-                                <h4 class="mb-4">About</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="@currentUser.About" />
-                            </RadzenCard>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-12 d-flex" style="margin-top: 16px;">
-                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text="Save" />
-                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
-                </div>
-            </div>
-        </RadzenTemplateForm>
-    </div>
+    <EditProfileComponent CurrentUser="currentUser" />
 }
 
 @code {
     private HttpResponseMessage? res;
     private UserProfileModel? currentUser;
-    private bool clickedActivateProfile = false;
-    private bool _updatedUserProfile = false;
-    private bool _updateUserProfileError = false;
+
 
     public class Profession
     {
         public int Id { get; set; }
         public string Name { get; set; }
-    }
-
-    async Task OnUpdateProfileClick()
-    {
-        var model = Mapper.Map<UpdateUserProfileRequestModel>(currentUser);
-        currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersPATCHAsync(model));
-
-        if (currentUser is not null)
-            _updatedUserProfile = true;
-        else
-            _updateUserProfileError = true;
     }
 
     void Cancel()

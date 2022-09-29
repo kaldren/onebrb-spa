@@ -1,8 +1,12 @@
 ﻿@using System.Globalization
+@using AutoMapper
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Pages.Home.Profile
+@using OnebrbApi
 
-@inject IStringLocalizer<Profile> Loc
+@inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
 
 @if (ProfileModel is null)
 {
@@ -47,7 +51,11 @@
                 </div>
             </div>
         </RadzenCard>
-        <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
+        @if (CurrentUser?.Id != ProfileModel.Id)
+        {
+            <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
+        }
+
         <ProfileCommentsComponent RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
     </div>
 </div>
@@ -56,6 +64,13 @@
     [Parameter]
     public UserProfileModel? ProfileModel { get; set; }
     private ProfileCommentsComponent _profileCommentsComponent;
+
+    public UserProfileModel? CurrentUser { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+    }
 
     async Task OnPostedComment()
     {

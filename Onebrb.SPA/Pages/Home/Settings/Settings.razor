@@ -6,6 +6,7 @@
 @using System.Security.Claims
 @using System.Net
 @using System.Text.Json
+@using Onebrb.SPA.Shared.Components
 @using OnebrbApi
 
 @attribute [Authorize]
@@ -25,24 +26,12 @@
 
 @if (_updatedUserProfile)
 {
-    <div class="alert alert-success d-flex align-items-center alert-dismissible" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
-        <div>
-            Profile updated successfully.
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <AlertWindowComponent Text="Profile updated successfully." AlertType="Success" />
 }
 
 @if (_updateUserProfileError)
 {
-    <div class="alert alert-danger d-flex align-items-center alert-dismissible" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
-        <div>
-            <p>Error occured, please try again later.</p>
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <AlertWindowComponent Text="Error occured, please try again later." AlertType="Danger" />
 }
 
 @if (currentUser is null)

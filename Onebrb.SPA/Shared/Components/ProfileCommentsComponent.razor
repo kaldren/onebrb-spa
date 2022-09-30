@@ -8,7 +8,7 @@
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
-@inject IToastService toastService
+@inject IToastService ToastService
 @inject DialogService DialogService
 
 @implements IDisposable
@@ -39,8 +39,11 @@ else
                                         <RadzenBadge BadgeStyle="BadgeStyle.Secondary">
                                             <StarComponent Value="@comment.StarRating" />
                                         </RadzenBadge>
-                                        <i class="bi bi-pencil-fill" @onclick="() => ShowEditComment(comment)"></i>
-                                        <i class="bi bi-trash3-fill" @onclick="() => OnCommentDelete(comment.Id)"></i>
+                                        @if (CurrentUserId == comment.AuthorId) 
+                                        {
+                                            <i class="bi bi-pencil-fill" @onclick="() => ShowEditComment(comment)"></i>
+                                            <i class="bi bi-trash3-fill" @onclick="() => OnCommentDelete(comment.Id)"></i>
+                                        }
                                     </div>
                                 </div>
                                 <hr style="border: none; background-color: rgba(0,0,0,.08); height: 1px; margin: 1rem 0;" />
@@ -55,56 +58,6 @@ else
                     </RadzenDataList>
                 }
             </RadzenTabsItem>
-            <RadzenTabsItem Text="Certificates">
-                @*                <RadzenDataGrid ColumnWidth="150px" AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" Data="@employees" TItem="Employee">
-            <Columns>
-            <RadzenDataGridColumn TItem="Employee" Property="Photo" Title="Photo" Sortable="false" Filterable="false" Width="60px">
-            <Template Context="data">
-            <RadzenImage Path="@data?.Photo" Style="width: 40px; height: 40px; border-radius: 8px;" />
-            </Template>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Employee" Property="LastName" Title="Last Name" />
-            <RadzenDataGridColumn TItem="Employee" Property="FirstName" Title="First Name" />
-            <RadzenDataGridColumn TItem="Employee" Property="EmployeeID" Title="Employee ID" />
-            <RadzenDataGridColumn TItem="Employee" Property="Title" Title="Title" />
-            <RadzenDataGridColumn TItem="Employee" Property="BirthDate" Title="Birth Date">
-            <Template Context="data">
-            @String.Format("{0:d}", data.BirthDate)
-            </Template>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Employee" Property="HireDate" Title="Hire Date">
-            <Template Context="data">
-            @String.Format("{0:d}", data.HireDate)
-            </Template>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Employee" Property="Address" Title="Address" />
-            <RadzenDataGridColumn TItem="Employee" Property="City" Title="City" />
-            <RadzenDataGridColumn TItem="Employee" Property="Region" Title="Region" />
-            <RadzenDataGridColumn TItem="Employee" Property="PostalCode" Title="Postal Code" />
-            <RadzenDataGridColumn TItem="Employee" Property="Country" Title="Country" />
-            <RadzenDataGridColumn TItem="Employee" Property="HomePhone" Title="Home Phone" />
-            <RadzenDataGridColumn TItem="Employee" Property="Extension" Title="Extension" />
-            <RadzenDataGridColumn TItem="Employee" Property="Notes" Title="Notes" />
-            </Columns>
-            </RadzenDataGrid>*@
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Other">
-                @*                <RadzenDataGrid ColumnWidth="150px" AllowFiltering="true" AllowPaging="true" PageSize="8" AllowSorting="true" Data="@customers" TItem="Customer">
-            <Columns>
-            <RadzenDataGridColumn TItem="Customer" Property="CustomerID" Title="Customer ID" />
-            <RadzenDataGridColumn TItem="Customer" Property="CompanyName" Title="Company Name" />
-            <RadzenDataGridColumn TItem="Customer" Property="ContactName" Title="Contact Name" />
-            <RadzenDataGridColumn TItem="Customer" Property="ContactTitle" Title="Contact Title" />
-            <RadzenDataGridColumn TItem="Customer" Property="Address" Title="Address" />
-            <RadzenDataGridColumn TItem="Customer" Property="City" Title="City" />
-            <RadzenDataGridColumn TItem="Customer" Property="Region" Title="Region" />
-            <RadzenDataGridColumn TItem="Customer" Property="PostalCode" Title="Postal Code" />
-            <RadzenDataGridColumn TItem="Customer" Property="Country" Title="Country" />
-            <RadzenDataGridColumn TItem="Customer" Property="Phone" Title="Phone" />
-            <RadzenDataGridColumn TItem="Customer" Property="Fax" Title="Fax" />
-            </Columns>
-            </RadzenDataGrid>*@
-            </RadzenTabsItem>
         </Tabs>
     </RadzenTabs>
 }
@@ -113,6 +66,9 @@ else
 
     [Parameter]
     public string RecipientId { get; set; }
+
+    [Parameter]
+    public string CurrentUserId { get; set; }
 
     private string _updatedComment = string.Empty;
 
@@ -131,25 +87,25 @@ else
     private async Task OnCommentDelete(string id)
     {
         await OnebrbApiClient.CommentsDELETEAsync(id);
-        toastService.ClearSuccessToasts();
-        toastService.ShowSuccess("Comment deleted successfully.");
+        ToastService.ClearSuccessToasts();
+        ToastService.ShowSuccess("Comment deleted successfully.");
         await Refresh();
     }
 
     private async Task ShowEditComment(CommentModel comment)
     {
         var result = await DialogService.OpenAsync("Simple Dialog", ds =>
-            @<div>
-                <p class="mb-4">
-                    <RadzenTextArea Value=@comment.Content Change="(args) => OnCommentChange(args)" Class="w-100" />
-                </p>
-                <div class="row">
-                    <div class="col">
-                    <RadzenButton Text="Save" Click="() => OnCommentChangeSubmit(comment, ds.Close)" Class="mr-1" Style="width: 80px;" />
-                    <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Class="mr-1" />
-                    </div>
-                </div>
+    @<div>
+        <p class="mb-4">
+            <RadzenTextArea Value=@comment.Content Change="(args) => OnCommentChange(args)" Class="w-100" />
+        </p>
+        <div class="row">
+            <div class="col">
+                <RadzenButton Text="Save" Click="() => OnCommentChangeSubmit(comment, ds.Close)" Class="mr-1" Style="width: 80px;" />
+                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Class="mr-1" />
+            </div>
         </div>
+    </div>
     );
 
     }
@@ -178,8 +134,8 @@ else
         _comments.Add(currentComment);
 
         StateHasChanged();
-        toastService.ClearSuccessToasts();
-        toastService.ShowSuccess("Success");
+        ToastService.ClearSuccessToasts();
+        ToastService.ShowSuccess("Success");
         callback.Invoke(true);
     }
 
@@ -200,12 +156,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAll2Async(RecipientId));
     }
 
     public async Task Refresh()
     {
-        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(RecipientId));
+        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAll2Async(RecipientId));
         StateHasChanged();
     }
 }

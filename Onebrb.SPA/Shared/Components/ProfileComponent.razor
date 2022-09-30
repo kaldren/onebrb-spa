@@ -8,7 +8,7 @@
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 
-@if (ProfileModel is null)
+@if (CurrentUser is null || ProfileModel is null)
 {
     <p>@Loc["ErrorLoadingProfile"]</p>
 
@@ -51,29 +51,46 @@
                 </div>
             </div>
         </RadzenCard>
+
+        <ProfileCommentsComponent CurrentUserId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
+
         @if (CurrentUser?.Id != ProfileModel.Id)
         {
-            <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
+            if (_hasUserCommentedAlready)
+            {
+                <p>Oops, you've already commented to @ProfileModel.FirstName's wall.</p>
+            }
+            else
+            {
+                <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
+            }
         }
-
-        <ProfileCommentsComponent RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
     </div>
 </div>
+
 
 @code {
     [Parameter]
     public UserProfileModel? ProfileModel { get; set; }
-    private ProfileCommentsComponent _profileCommentsComponent;
 
+    [Parameter]
     public UserProfileModel? CurrentUser { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    private ProfileCommentsComponent _profileCommentsComponent;
+
+    private bool _hasUserCommentedAlready = false;
+
+    protected async override Task OnInitializedAsync()
     {
-        CurrentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+        var userComments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(ProfileModel?.Id, CurrentUser?.Id));
+
+        if (userComments.Any())
+            _hasUserCommentedAlready = true;
     }
 
     async Task OnPostedComment()
     {
+        _hasUserCommentedAlready = true;
         await _profileCommentsComponent.Refresh();
     }
 }

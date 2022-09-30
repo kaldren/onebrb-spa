@@ -18,13 +18,13 @@
 
 <PageTitle>Profile</PageTitle>
 
-@if (@profile is null)
+@if (_profile is null)
 {
     <p>Profile not found.</p>
 }
 else
 {
-    <ProfileComponent ProfileModel="profile" />
+    <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" />
 }
 
 @code {
@@ -32,10 +32,12 @@ else
     public string Id { get; set; }
 
     private HttpResponseMessage? res;
-    private UserProfileModel? profile;
+    private UserProfileModel? _currentUser;
+    private UserProfileModel? _profile;
 
     protected override async Task OnInitializedAsync()
     {
-        profile = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersGETAsync(Id));
+        _currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+        _profile = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersGETAsync(Id));
     }
 }

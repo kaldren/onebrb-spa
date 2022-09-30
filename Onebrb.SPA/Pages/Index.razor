@@ -1,16 +1,42 @@
 ﻿@page "/"
 
+@using AutoMapper
+@using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using OnebrbApi
+
+@inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
 
 <PageTitle>Onebrb</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        <p>Welcome to Onebrb</p>
+        @if (_currentUser is null)
+        {
+            <p>Loading user profile...</p>
+            OnAuthorized();
+        }
+        else
+        {
+            <ProfileComponent CurrentUser="_currentUser" ProfileModel="_currentUser" />
+        }
     </Authorized>
     <NotAuthorized>
         <LoginFormComponent />
     </NotAuthorized>
 </AuthorizeView>
+
+
+@code {
+    private UserProfileModel? _currentUser;
+
+    private async void OnAuthorized()
+    {
+        _currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+        StateHasChanged();
+    }
+}

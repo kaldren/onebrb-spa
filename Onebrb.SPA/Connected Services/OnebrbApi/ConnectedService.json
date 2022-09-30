@@ -105,7 +105,7 @@
     "OpenApiToCSharpControllerCommand": null,
     "Variables": null,
     "Runtime": 0,
-    "CopySpecification": true,
+    "CopySpecification": false,
     "OpenGeneratedFilesOnComplete": false,
     "UseRelativePath": false,
     "ConvertFromOdata": false,

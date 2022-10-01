@@ -10,11 +10,16 @@ namespace Onebrb.SPA
             #region Profile
             CreateMap<UserProfileResponseModel, UserProfileModel>();
             CreateMap<UserProfileModel, UpdateUserProfileRequestModel>();
-            #endregion
+            #endregion Profile
 
             #region Comment
             CreateMap<CommentResponseModel, CommentModel>();
-            #endregion
+            #endregion Comment
+
+            #region Product
+            CreateMap<ProductResponseModel, ProductModel>();
+            CreateMap<ProductImageResponseModel, ProductImageModel>();
+            #endregion Product
         }
     }
 }

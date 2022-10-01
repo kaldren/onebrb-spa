@@ -1,57 +1,72 @@
 ﻿@page "/products/{Id}"
 
+@using AutoMapper
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
+@using OnebrbApi
 
 @inject DialogService DialogService
 @implements IDisposable
 
+@inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+
 <div class="product-page">
-    <div class="product-page__product-info">
+    @if (_product is null)
+    {
+        <p>Product not found.</p>
+    }
+    else
+    {
+        <div class="product-page__product-info">
 
-        <div class="product-info__product-header">
-            <h2>Tesla Model S 2022</h2>
-        </div>
-
-        <div class="product-info__gallery">
-
-            <div class="gallery__main-photo">
-                <RadzenImage Path="https://automedia.investor.bg/media/files/resized/uploadedfiles/640x0/306/7ea7096ab1efa8cd5d823a7ea8a4b306-tesla-model-s-2022-update-2.jpg">
-                </RadzenImage>
+            <div class="product-info__product-header">
+                <h2>@_product.Title</h2>
             </div>
 
-            <div class="product-info__description">
-                <span>
-                    It is a long established fact that a reader will be distracted by the
-                    readable content of a page when looking at its layout. The point
-                    of using Lorem Ipsum is that it has a more-or-less normal distribution.
-                </span>
-            </div>
+            <div class="product-info__gallery">
 
-            <div class="gallery__images">
-                @for (int i = 0; i < 6; i++)
-                {
-                    <div class="images__product_image">
-                        <RadzenCard>
-                            <RadzenImage Path="https://automedia.investor.bg/media/files/resized/uploadedfiles/640x0/306/7ea7096ab1efa8cd5d823a7ea8a4b306-tesla-model-s-2022-update-2.jpg"
+                <div class="gallery__main-photo">
+                    <RadzenImage Path="@_product.Images?.FirstOrDefault()?.Path">
+                    </RadzenImage>
+                </div>
+
+                <div class="product-info__description">
+                    <span>
+                        @_product.Description
+                    </span>
+                </div>
+
+                <div class="gallery__images">
+
+                    @for (int i = 0; i < @_product.Images?.Count(); i++)
+                    {
+                        <div class="images__product_image">
+                            <RadzenCard>
+                                <RadzenImage Path="@_product.Images.ElementAt(i)?.Path"
                                      Click="@ShowCloseableFromOverlayDialog">
-                            </RadzenImage>
-                        </RadzenCard>
-                    </div>
-                }
+                                </RadzenImage>
+                            </RadzenCard>
+                        </div>
+                    }
+
+                </div>
+
             </div>
 
         </div>
-
-    </div>
-    <div class="product-page__seller-info">
-        <ProfileProductComponent CurrentUser="_currentUser" ProfileModel="_profile" />
-    </div>
+        <div class="product-page__seller-info">
+            <ProfileProductComponent CurrentUser="_currentUser" ProfileModel="_profile" />
+        </div>
+    }
 </div>
 
 @code {
     [Parameter]
     public string Id { get; set; }
+
+    private ProductModel _product;
 
     private UserProfileModel? _currentUser = new()
             {
@@ -65,6 +80,11 @@
                 FirstName = "Kaloyan",
                 LastName = "Drenski"
             };
+
+    protected async override Task OnInitializedAsync()
+    {
+        _product = Mapper.Map<ProductModel>(await OnebrbApiClient.ProductsAsync(Id));
+    }
 
 
     async Task ShowCloseableFromOverlayDialog()

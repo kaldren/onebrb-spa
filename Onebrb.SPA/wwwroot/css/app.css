@@ -79,6 +79,10 @@ a, .btn-link {
     text-align: center;
 }
 
+.product-info__product-header {
+    text-align: center;
+}
+
 .product-info__description span {
     display: inline-block;
     vertical-align: middle;

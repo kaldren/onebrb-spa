@@ -1,18 +1,13 @@
 ﻿@page "/profiles/{Id}"
 
-@using System.Globalization
 @using AutoMapper
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Authorization
 @using Onebrb.SPA.Models
-@using System.Net.Http.Headers
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
+@attribute [Authorize]
 
-@inject IHttpClientFactory ClientFactory
 @inject IStringLocalizer<Profile> Loc
-@inject IConfiguration Configuration
-@inject IAccessTokenProvider TokenProvider
-
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 

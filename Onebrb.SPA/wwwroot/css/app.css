@@ -63,6 +63,47 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
+/*#region Product page*/
+.product-page {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-page__product-info {
+    max-width: 800px;
+}
+
+.product-info__description {
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+}
+
+.product-info__description span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+.product-info__gallery {
+    text-align: center;
+}
+
+.gallery__images {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gallery__images .images__product_image {
+    width: 250px;
+    max-width: 100%;
+    padding: 5px;
+}
+
+.gallery__images .images__product_image .rz-card.card {
+    padding: 0px;
+}
+/*#endregion Product page*/
 /*#region Search component*/
 .search-component {
     display: flex;
@@ -131,10 +172,11 @@ a, .btn-link {
     margin: 20px auto;
 }
 
-.comment-form-component .btn-primary {
-    margin: 20px 0
-}
+    .comment-form-component .btn-primary {
+        margin: 20px 0
+    }
 /*#endregion Profile comments*/
+
 /*#region Settings component*/
 .settings-component .settings-component__form__input-div {
     margin: 0.5rem 0;
@@ -162,6 +204,12 @@ a, .btn-link {
     }
 /*#endregion Login Form Component*/
 
+/*#region Misc*/
+.rz-dialog-wrapper .rz-dialog {
+    width: auto !important;
+    max-width: 800px !important;
+}
+/*#endregion Misc*/
 /*#region Footer*/
 footer {
     position: absolute;

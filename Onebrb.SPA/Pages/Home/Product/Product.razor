@@ -1,0 +1,88 @@
+﻿@page "/products/{Id}"
+
+@using Onebrb.SPA.Models
+@using Onebrb.SPA.Shared.Components
+
+@inject DialogService DialogService
+@implements IDisposable
+
+<div class="product-page">
+    <div class="product-page__product-info">
+        <div class="product-info__gallery">
+
+            <div class="gallery__main-photo">
+                <RadzenImage Path="https://automedia.investor.bg/media/files/resized/uploadedfiles/640x0/306/7ea7096ab1efa8cd5d823a7ea8a4b306-tesla-model-s-2022-update-2.jpg">
+                </RadzenImage>
+            </div>
+
+            <div class="product-info__description">
+                <span>
+                    It is a long established fact that a reader will be distracted by the
+                    readable content of a page when looking at its layout. The point
+                    of using Lorem Ipsum is that it has a more-or-less normal distribution.
+                </span>
+            </div>
+
+            <div class="gallery__images">
+                @for (int i = 0; i < 6; i++)
+                {
+                    <div class="images__product_image">
+                        <RadzenCard>
+                            <RadzenImage Path="https://automedia.investor.bg/media/files/resized/uploadedfiles/640x0/306/7ea7096ab1efa8cd5d823a7ea8a4b306-tesla-model-s-2022-update-2.jpg"
+                                     Click="@ShowCloseableFromOverlayDialog">
+                            </RadzenImage>
+                        </RadzenCard>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+    <div class="product-page__seller-info">
+        <ProfileProductComponent CurrentUser="_currentUser" ProfileModel="_profile" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private UserProfileModel? _currentUser = new()
+            {
+                Id = "4f170031-f087-4ad5-8343-7da89e8cb8bd",
+                FirstName = "Kaloyan",
+                LastName = "Drenski"
+            };
+    private UserProfileModel? _profile = new()
+            {
+                Id = "4f170031-f087-4ad5-8343-7da89e8cb8bd",
+                FirstName = "Kaloyan",
+                LastName = "Drenski"
+            };
+
+
+    async Task ShowCloseableFromOverlayDialog()
+    {
+        await DialogService.OpenAsync("", ds =>
+    @<div>
+        <RadzenImage Path="https://automedia.investor.bg/media/files/resized/uploadedfiles/640x0/306/7ea7096ab1efa8cd5d823a7ea8a4b306-tesla-model-s-2022-update-2.jpg">
+        </RadzenImage>
+    </div>, new DialogOptions() { CloseDialogOnOverlayClick = true });
+    }
+
+    public void Dispose()
+    {
+        // The DialogService is a singleton so it is advisable to unsubscribe.
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
+    }
+
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+    }
+
+    void Close(dynamic result)
+    {
+    }
+}

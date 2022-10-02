@@ -39,12 +39,13 @@
                 </div>
 
                 <div class="gallery__images">
-
-                    @for (int i = 0; i < @_product.Images?.Count(); i++)
+                    @for (int i = 0; i < @_product.Images?.Count; i++)
                     {
+                        string imgPath = @_product.Images.ElementAt(i).Path;
+
                         <div class="images__product_image">
                             <RadzenCard>
-                                <RadzenImage Path="@_product.Images.ElementAt(i)?.Path"
+                                <RadzenImage Path="@imgPath"
                                      Click="@ShowCloseableFromOverlayDialog">
                                 </RadzenImage>
                             </RadzenCard>

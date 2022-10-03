@@ -22,7 +22,7 @@ else
                                 <i class="bi bi-pencil-square"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger" title="Delete">
+                            <button type="button" class="btn btn-danger" @onclick=@(args => DialogService.Confirm("Are you sure you want to delete this product?", "Deleteing a product", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) title="Delete">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -60,6 +60,10 @@ else
         //await DialogService.OpenAsync<DialogCardPage>($"Order {orderId}",
         //      new Dictionary<string, object>() { { "OrderID", orderId } },
         //      new DialogOptions() { Width = "700px", Height = "570px" });
+    }
+
+    async Task OnProductDeleteClick(string productId)
+    {
     }
 
     protected override void OnInitialized()

@@ -63,15 +63,6 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
-.oi {
-    font-size: 1.3rem;
-    margin: 2px;
-}
-
-.oi.oi-trash {
-    color: red;
-}
-
 /*#region Product page*/
 .product-page {
     display: flex;
@@ -219,11 +210,8 @@ a, .btn-link {
 /*#endregion Login Form Component*/
 
 /*#region Manage Items Component*/
-.manage-items-component__options .oi {
+.manage-items-component__options .btn {
     margin: 5px;
-}
-.manage-items-component__options .oi:hover {
-    cursor: pointer;
 }
 /*#endregion Manage Items Component*/
 /*#region Misc*/

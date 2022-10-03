@@ -11,30 +11,35 @@
 }
 else
 {
-    <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
-                Data="@ProductModels" TItem="ProductModel">
-        <Columns>
-            <RadzenDataGridColumn Width="50px" TItem="ProductModel" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
-                <Template Context="product">
-                    @(ProductModels.IndexOf(product) + 1)
-                </Template>
-            </RadzenDataGridColumn>
+    <div class="manage-items-component">
+        <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
+                    Data="@ProductModels" TItem="ProductModel">
+            <Columns>
+                <RadzenDataGridColumn Width="100px" TItem="ProductModel" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
+                    <Template Context="product">
+                        <div class="manage-items-component__options">
+                            <span class="oi oi-cog" title="Edit"></span>
+                            <span class="oi oi-delete" title="Delete"></span>
+                        </div>
+                    </Template>
+                </RadzenDataGridColumn>
 
-            <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Title" Title="Product">
-                <Template Context="product">
-                    <a href="products/@product.Id">
-                        <RadzenImage Path="@product?.Images?.First()?.Path" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 8px; float: left;" />
-                        <h5 class="mt-1 mb-0">@product?.Title</h5>
-                    </a>
-                </Template>
-            </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Title" Title="Product">
+                    <Template Context="product">
+                        <a href="products/@product.Id">
+                            <RadzenImage Path="@product?.Images?.First()?.Path" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 8px; float: left;" />
+                            <h5 class="mt-1 mb-0">@product?.Title</h5>
+                        </a>
+                    </Template>
+                </RadzenDataGridColumn>
 
-            <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Price" Title="Price" />
+                <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Price" Title="Price" />
 
-            <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Date" Title="Date Created" FormatString="{0:d}" />
+                <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Date" Title="Date Created" FormatString="{0:d}" />
 
-        </Columns>
-    </RadzenDataGrid>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
 }
 
 

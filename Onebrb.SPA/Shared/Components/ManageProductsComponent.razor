@@ -11,13 +11,13 @@
 }
 else
 {
-    <div class="manage-items-component">
+    <div class="manage-products-component">
         <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
                     Data="@ProductModels" TItem="ProductModel">
             <Columns>
                 <RadzenDataGridColumn Width="150px" TItem="ProductModel" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
                     <Template Context="product">
-                        <div class="manage-items-component__options">
+                        <div class="manage-products-component__options">
                             <button type="button" class="btn btn-primary" title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </button>

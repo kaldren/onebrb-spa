@@ -2,14 +2,16 @@
 <div class="product-edit-component">
     @if (ProductModel is not null)
     {
-        <RadzenTextBox Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Title" Class="w-100" />
-        <RadzenTextBox Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Description" Class="w-100" />
-        <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnChange(args, "Formatted numeric"))" />
+        <RadzenTextBox Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Title" class="product-edit-component__input" />
+
+        <RadzenTextArea Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Description" class="product-edit-component__textarea" />
+
+        <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnChange(args, "Formatted numeric"))" class="product-edit-component__input" />
 
         <div class="row">
             <div class="col">
                 <RadzenButton Text="Ok" Click="@(() => OnProductSave.InvokeAsync())" Class="me-1" Style="width: 80px;" />
-                <RadzenButton Text="Cancel" Click="@(() => OnProductCancel.InvokeAsync())" ButtonStyle="ButtonStyle.Light" Class="me-1" />
+                <RadzenButton Text="Cancel" Click="@(() => OnProductCancel.InvokeAsync())" ButtonStyle="ButtonStyle.Light" Class="m-1" />
 
             </div>
         </div>

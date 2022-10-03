@@ -65,7 +65,7 @@ else
 
     async Task OnEditProductButtonClick(ProductModel product)
     {
-        var result = await DialogService.OpenAsync("Simple Dialog", ds => @<ProductEditComponent ProductModel="product" OnProductSave="ds.Close" OnProductCancel="ds.Close" />);
+        var result = await DialogService.OpenAsync($"Edit {product.Title}", ds => @<ProductEditComponent ProductModel="product" OnProductSave="ds.Close" OnProductCancel="ds.Close" />);
     }
 
     void OnChange(string value, string name)

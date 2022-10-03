@@ -33,13 +33,15 @@ else
                             <RadzenCard>
                                 <div class="row">
                                     <div class="col-md-8 text-truncate">
-                                        <b class="profile-comments__profile-commented-link" @onclick="OnProfileClick">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
+                                        <a href="profiles/@comment.AuthorId">
+                                            <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
+                                        </a>
                                     </div>
                                     <div class="col-md-4 text-right profile-comments__comment-options">
                                         <RadzenBadge BadgeStyle="BadgeStyle.Secondary">
                                             <StarComponent Value="@comment.StarRating" />
                                         </RadzenBadge>
-                                        @if (CurrentUserId == comment.AuthorId) 
+                                        @if (CurrentUserId == comment.AuthorId)
                                         {
                                             <i class="bi bi-pencil-fill" @onclick="() => ShowEditComment(comment)"></i>
                                             <i class="bi bi-trash3-fill" @onclick="() => OnCommentDelete(comment.Id)"></i>
@@ -73,11 +75,6 @@ else
     private string _updatedComment = string.Empty;
 
     private ICollection<CommentModel> _comments;
-
-    private void OnProfileClick()
-    {
-        NavigationManager.NavigateTo("profiles/3", true);
-    }
 
     private void OnCommentEditSubmit(string id)
     {

@@ -18,7 +18,8 @@ else
                 <RadzenDataGridColumn Width="150px" TItem="ProductModel" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
                     <Template Context="product">
                         <div class="manage-products-component__options">
-                            <button type="button" class="btn btn-primary" title="Edit">
+
+                            <button type="button" class="btn btn-primary" @onclick=@(args => @OnEditProductButtonClick(product)) title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
 
@@ -62,8 +63,14 @@ else
         //      new DialogOptions() { Width = "700px", Height = "570px" });
     }
 
-    async Task OnProductDeleteClick(string productId)
+    async Task OnEditProductButtonClick(ProductModel product)
     {
+        var result = await DialogService.OpenAsync("Simple Dialog", ds => @<ProductEditComponent ProductModel="product" OnProductSave="ds.Close" OnProductCancel="ds.Close" />);
+    }
+
+    void OnChange(string value, string name)
+    {
+
     }
 
     protected override void OnInitialized()

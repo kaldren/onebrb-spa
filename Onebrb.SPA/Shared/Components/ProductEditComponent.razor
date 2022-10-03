@@ -1,0 +1,38 @@
+﻿@using Onebrb.SPA.Models
+<div class="product-edit-component">
+    @if (ProductModel is not null)
+    {
+        <RadzenTextBox Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Title" Class="w-100" />
+        <RadzenTextBox Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Description" Class="w-100" />
+        <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnChange(args, "Formatted numeric"))" />
+
+        <div class="row">
+            <div class="col">
+                <RadzenButton Text="Ok" Click="@(() => OnProductSave.InvokeAsync())" Class="me-1" Style="width: 80px;" />
+                <RadzenButton Text="Cancel" Click="@(() => OnProductCancel.InvokeAsync())" ButtonStyle="ButtonStyle.Light" Class="me-1" />
+
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public ProductModel? ProductModel { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnProductSave { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnProductCancel { get; set; }
+
+    void OnChange(string value, string name)
+    {
+
+    }
+
+    void OnChange(decimal value, string name)
+    {
+
+    }
+}

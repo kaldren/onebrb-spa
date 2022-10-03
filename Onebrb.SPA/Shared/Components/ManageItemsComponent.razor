@@ -1,0 +1,59 @@
+﻿@using Onebrb.SPA.Models
+@using System.Linq
+
+@inject NavigationManager Nav
+@inject DialogService DialogService
+@inject NavigationManager NavManager
+
+@if (ProductModels is null || !ProductModels.Any())
+{
+    <p>You don't have any products yet. Create one?</p>
+}
+else
+{
+    <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
+                Data="@ProductModels" TItem="ProductModel">
+        <Columns>
+            <RadzenDataGridColumn Width="50px" TItem="ProductModel" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
+                <Template Context="product">
+                    @(ProductModels.IndexOf(product) + 1)
+                </Template>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Title" Title="Product">
+                <Template Context="product">
+                    <a href="products/@product.Id">
+                        <RadzenImage Path="@product?.Images?.First()?.Path" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 8px; float: left;" />
+                        <h5 class="mt-1 mb-0">@product?.Title</h5>
+                    </a>
+                </Template>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Price" Title="Price" />
+
+            <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Date" Title="Date Created" FormatString="{0:d}" />
+
+        </Columns>
+    </RadzenDataGrid>
+}
+
+
+@code {
+
+    [Parameter]
+    public IList<ProductModel>? ProductModels { get; set; }
+
+    RadzenDataGrid<ProductModel> productsGrid;
+
+    async Task OpenOrder(int orderId)
+    {
+        //await DialogService.OpenAsync<DialogCardPage>($"Order {orderId}",
+        //      new Dictionary<string, object>() { { "OrderID", orderId } },
+        //      new DialogOptions() { Width = "700px", Height = "570px" });
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

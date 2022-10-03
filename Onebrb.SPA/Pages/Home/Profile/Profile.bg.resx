@@ -147,4 +147,7 @@
   <data name="ProfileProfession" xml:space="preserve">
     <value>Професия</value>
   </data>
+  <data name="ProfileSellerAdditionalInfo" xml:space="preserve">
+    <value>Информация за продавача</value>
+  </data>
 </root>

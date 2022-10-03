@@ -1,0 +1,27 @@
+﻿@page "/manage"
+@using AutoMapper
+@using Onebrb.SPA.Models
+@using Onebrb.SPA.Shared.Components
+@using OnebrbApi
+
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+
+<h3>Manage your shop</h3>
+
+<ManageItemsComponent ProductModels="@_products" />
+
+@code {
+    // Get all products posted by user
+
+    private IList<ProductModel> _products;
+    private UserProfileModel? _currentUser;
+
+    protected async override Task OnInitializedAsync()
+    {
+        // Get currently logged in user
+        _currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+
+        _products = Mapper.Map<IList<ProductModel>>(await OnebrbApiClient.ProductsAllAsync(_currentUser.Id));
+    }
+}

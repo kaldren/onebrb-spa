@@ -7,13 +7,14 @@
 @inject NavigationManager NavManager
 
 @inject IOnebrbApiClient OnebrbApiClient
-
 @if (ProductModels is null || !ProductModels.Any())
 {
     <p>You don't have any products yet. Create one?</p>
 }
 else
 {
+<p>Items remaining: @ProductModels.Count</p>
+
     <div class="manage-products-component">
         <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
                     Data="@ProductModels" TItem="ProductModel">
@@ -68,6 +69,8 @@ else
             await OnebrbApiClient.ProductsDELETEAsync(productId);
             ProductModel? removedProduct = ProductModels?.Where(p => p.Id == productId).SingleOrDefault();
             ProductModels?.Remove(removedProduct);
+
+            productsGrid?.Reload();
         }
     }
 

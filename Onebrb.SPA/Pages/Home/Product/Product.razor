@@ -84,7 +84,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        _product = Mapper.Map<ProductModel>(await OnebrbApiClient.ProductsAsync(Id));
+        _product = Mapper.Map<ProductModel>(await OnebrbApiClient.ProductsGETAsync(Id));
     }
 
 

@@ -1,9 +1,12 @@
 ﻿@using Onebrb.SPA.Models
 @using System.Linq
+@using OnebrbApi
 
 @inject NavigationManager Nav
 @inject DialogService DialogService
 @inject NavigationManager NavManager
+
+@inject IOnebrbApiClient OnebrbApiClient
 
 @if (ProductModels is null || !ProductModels.Any())
 {
@@ -23,7 +26,7 @@ else
                                 <i class="bi bi-pencil-square"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger" @onclick=@(args => DialogService.Confirm("Are you sure you want to delete this product?", "Deleteing a product", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) title="Delete">
+                            <button type="button" class="btn btn-danger" @onclick=@(args => OnDeleteProductButtonClick(product.Id)) title="Delete">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -54,18 +57,24 @@ else
     [Parameter]
     public IList<ProductModel>? ProductModels { get; set; }
 
-    RadzenDataGrid<ProductModel> productsGrid;
+    RadzenDataGrid<ProductModel>? productsGrid;
 
-    async Task OpenOrder(int orderId)
+    async Task OnDeleteProductButtonClick(string productId)
     {
-        //await DialogService.OpenAsync<DialogCardPage>($"Order {orderId}",
-        //      new Dictionary<string, object>() { { "OrderID", orderId } },
-        //      new DialogOptions() { Width = "700px", Height = "570px" });
+        bool? confirm = await this.DialogService.Confirm("Are you sure you want to delete this product?", "Deleteing a product", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+
+        if (confirm is true)
+        {
+            await OnebrbApiClient.ProductsDELETEAsync(productId);
+            ProductModel? removedProduct = ProductModels?.Where(p => p.Id == productId).SingleOrDefault();
+            ProductModels?.Remove(removedProduct);
+        }
     }
 
     async Task OnEditProductButtonClick(ProductModel product)
     {
-        var result = await DialogService.OpenAsync($"Edit {product.Title}", ds => @<ProductEditComponent ProductModel="product" OnProductSave="ds.Close" OnProductCancel="ds.Close" />);
+        var result = await DialogService.OpenAsync($"Edit {product.Title}", ds => 
+    @<ProductEditComponent ProductModel="product" OnProductSave="ds.Close" OnProductCancel="ds.Close" />);
     }
 
     void OnChange(string value, string name)

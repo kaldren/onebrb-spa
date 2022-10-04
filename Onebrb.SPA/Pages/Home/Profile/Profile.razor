@@ -24,9 +24,8 @@ else
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
-    private HttpResponseMessage? res;
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
 

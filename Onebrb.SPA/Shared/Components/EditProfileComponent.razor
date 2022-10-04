@@ -62,9 +62,8 @@
 
 @code {
     [Parameter]
-    public UserProfileModel CurrentUser { get; set; }
+    public UserProfileModel? CurrentUser { get; set; }
 
-    private bool clickedActivateProfile = false;
     private bool _updatedUserProfile = false;
     private bool _updateUserProfileError = false;
 

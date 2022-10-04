@@ -35,14 +35,12 @@
 }
 
 @code {
-    private HttpResponseMessage? res;
     private UserProfileModel? currentUser;
-
 
     public class Profession
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     void Cancel()

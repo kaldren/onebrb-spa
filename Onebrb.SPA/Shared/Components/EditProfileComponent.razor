@@ -70,7 +70,13 @@
     async Task OnUpdateProfileClick()
     {
         var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
-        CurrentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersPATCHAsync(model));
+
+        var updateUserResponse = await OnebrbApiClient.ApiUsersPatchAsync(model);
+
+        if (updateUserResponse.StatusCode == (int) HttpStatusCode.OK)
+        {
+            CurrentUser = Mapper.Map<UserProfileModel>(updateUserResponse.Result);
+        }
 
         if (CurrentUser is not null)
             _updatedUserProfile = true;

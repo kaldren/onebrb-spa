@@ -1,6 +1,7 @@
 ﻿@using AutoMapper
 @using Onebrb.SPA.Models
 @using OnebrbApi
+@using System.Net
 
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
@@ -32,9 +33,9 @@
                 Content = _comment,
             };
 
-        var result = await OnebrbApiClient.CommentsPOSTAsync(comment);
+        var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);
 
-        if (result is not null)
+        if (result.StatusCode == (int) HttpStatusCode.OK)
             await OnPostedComment.InvokeAsync();
     }
 

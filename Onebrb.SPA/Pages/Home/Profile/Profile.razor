@@ -5,6 +5,7 @@
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
+@using System.Net
 @attribute [Authorize]
 
 @inject IStringLocalizer<Profile> Loc
@@ -31,7 +32,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
-        _profile = Mapper.Map<UserProfileModel>(await OnebrbApiClient.UsersGETAsync(Id));
+        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+
+        if (currentUserResponse.StatusCode == (int)HttpStatusCode.OK)
+        {
+            _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+
+            var userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
+
+            if (userByIdResponse.StatusCode == (int) HttpStatusCode.OK)
+            {
+                _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
+            }
+        }
     }
 }

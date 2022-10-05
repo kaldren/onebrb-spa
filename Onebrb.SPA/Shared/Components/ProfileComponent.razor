@@ -3,6 +3,7 @@
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Pages.Home.Profile
 @using OnebrbApi
+@using System.Net
 
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
 @inject IOnebrbApiClient OnebrbApiClient
@@ -82,10 +83,15 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var userComments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAllAsync(ProfileModel?.Id, CurrentUser?.Id));
+        var userCommentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(ProfileModel?.Id);
 
-        if (userComments.Any())
-            _hasUserCommentedAlready = true;
+        if (userCommentsResponse.StatusCode == (int)HttpStatusCode.OK)
+        {
+            var userComments = Mapper.Map<ICollection<CommentModel>>(userCommentsResponse.Result);
+
+            if (userComments.Any())
+                _hasUserCommentedAlready = true;
+        }
     }
 
     async Task OnPostedComment()

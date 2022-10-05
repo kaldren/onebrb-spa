@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using OnebrbApi
+@using System.Net
 
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
 @inject IOnebrbApiClient OnebrbApiClient
@@ -36,7 +37,12 @@
 
     private async void OnAuthorized()
     {
-        _currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
-        StateHasChanged();
+        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+
+        if (currentUserResponse.StatusCode == (int) HttpStatusCode.OK)
+        {
+            _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+            StateHasChanged();
+        }
     }
 }

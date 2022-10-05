@@ -4,6 +4,7 @@
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
+@using System.Net
 
 @inject DialogService DialogService
 @implements IDisposable
@@ -84,7 +85,12 @@
 
     protected async override Task OnInitializedAsync()
     {
-        _product = Mapper.Map<ProductModel>(await OnebrbApiClient.ProductsGETAsync(Id));
+        OnebrbApiResponse<ProductResponseModel> response = await OnebrbApiClient.ApiProductsGetAsync(Id);
+
+        if (response.StatusCode == (int)HttpStatusCode.OK)
+        {
+            _product = Mapper.Map<ProductModel>(response.Result);
+        }
     }
 
 

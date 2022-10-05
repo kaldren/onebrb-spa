@@ -1,6 +1,7 @@
 ﻿@using Onebrb.SPA.Models
 @using System.Linq
 @using OnebrbApi
+@using System.Net
 
 @inject NavigationManager Nav
 @inject DialogService DialogService
@@ -13,13 +14,13 @@
 }
 else
 {
-<p>Items remaining: @ProductModels.Count</p>
+    string totalProducts = $"{ProductModels.Count.ToString()} Product(s)";
 
     <div class="manage-products-component">
         <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
                     Data="@ProductModels" TItem="ProductModel">
             <Columns>
-                <RadzenDataGridColumn Width="150px" TItem="ProductModel" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn Width="150px" TItem="ProductModel" Title="@totalProducts" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
                     <Template Context="product">
                         <div class="manage-products-component__options">
 
@@ -66,17 +67,21 @@ else
 
         if (confirm is true)
         {
-            await OnebrbApiClient.ProductsDELETEAsync(productId);
-            ProductModel? removedProduct = ProductModels?.Where(p => p.Id == productId).SingleOrDefault();
-            ProductModels?.Remove(removedProduct);
+            OnebrbApiResponse response = await OnebrbApiClient.ApiProductsDeleteAsync(productId);
 
-            productsGrid?.Reload();
+            if (response.StatusCode == (int) HttpStatusCode.NoContent)
+            {
+                ProductModel? removedProduct = ProductModels?.Where(p => p.Id == productId).SingleOrDefault();
+                ProductModels?.Remove(removedProduct);
+
+                productsGrid?.Reload();
+            }
         }
     }
 
     async Task OnEditProductButtonClick(ProductModel product)
     {
-        var result = await DialogService.OpenAsync($"Edit {product.Title}", ds => 
+        var result = await DialogService.OpenAsync($"Edit {product.Title}", ds =>
     @<ProductEditComponent ProductModel="product" OnProductSave="ds.Close" OnProductCancel="ds.Close" />);
     }
 

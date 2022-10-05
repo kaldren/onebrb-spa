@@ -45,12 +45,17 @@
 
     void Cancel()
     {
-        //
+    //
     }
 
     async Task GetCurrentUser()
     {
-        currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+
+        if (currentUserResponse.StatusCode == (int) HttpStatusCode.OK)
+        {
+            currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+        }
     }
 
     protected override async Task OnInitializedAsync()

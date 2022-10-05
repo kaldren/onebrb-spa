@@ -1,6 +1,7 @@
 ﻿@using AutoMapper
 @using Onebrb.SPA.Models
 @using OnebrbApi
+@using System.Net
 
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
@@ -83,10 +84,14 @@ else
 
     private async Task OnCommentDelete(string id)
     {
-        await OnebrbApiClient.CommentsDELETEAsync(id);
-        ToastService.ClearSuccessToasts();
-        ToastService.ShowSuccess("Comment deleted successfully.");
-        await Refresh();
+        var deleteCommentResponse = await OnebrbApiClient.ApiCommentsDeleteAsync(id);
+
+        if (deleteCommentResponse.StatusCode == (int)HttpStatusCode.OK)
+        {
+            ToastService.ClearSuccessToasts();
+            ToastService.ShowSuccess("Comment deleted successfully.");
+            await Refresh();
+        }
     }
 
     private async Task ShowEditComment(CommentModel comment)
@@ -102,7 +107,7 @@ else
                 <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Class="mr-1" />
             </div>
         </div>
-    </div>
+        </div>
     );
 
     }
@@ -122,18 +127,21 @@ else
                 RecipientId = RecipientId,
             };
 
-        var updatedComment = await OnebrbApiClient.CommentsPATCHAsync(patchComment);
+        var updatedCommentResponse = await OnebrbApiClient.ApiCommentsPatchAsync(patchComment);
 
-        var currentComment = _comments.SingleOrDefault(p => p.Id == updatedComment.Id);
-        _comments.Remove(currentComment);
+        if (updatedCommentResponse.StatusCode == (int)HttpStatusCode.OK)
+        {
+            var currentComment = _comments.SingleOrDefault(p => p.Id == updatedCommentResponse.Result.Id);
+            _comments.Remove(currentComment);
 
-        currentComment = Mapper.Map<CommentModel>(updatedComment);
-        _comments.Add(currentComment);
+            currentComment = Mapper.Map<CommentModel>(updatedCommentResponse);
+            _comments.Add(currentComment);
 
-        StateHasChanged();
-        ToastService.ClearSuccessToasts();
-        ToastService.ShowSuccess("Success");
-        callback.Invoke(true);
+            StateHasChanged();
+            ToastService.ClearSuccessToasts();
+            ToastService.ShowSuccess("Success");
+            callback.Invoke(true);
+        }
     }
 
     void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
@@ -153,12 +161,22 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAll2Async(RecipientId));
+        var commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
+
+        if (commentsResponse.StatusCode == (int) HttpStatusCode.OK)
+        {
+            _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponse.Result);
+        }
     }
 
     public async Task Refresh()
     {
-        _comments = Mapper.Map<ICollection<CommentModel>>(await OnebrbApiClient.CommentsAll2Async(RecipientId));
-        StateHasChanged();
+        var commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
+
+        if (commentsResponse.StatusCode == (int) HttpStatusCode.OK)
+        {
+            _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponse.Result);
+            StateHasChanged();
+        }
     }
 }

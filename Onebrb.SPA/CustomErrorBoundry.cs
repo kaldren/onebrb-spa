@@ -11,6 +11,11 @@ namespace Onebrb.SPA
 
         protected override Task OnErrorAsync(Exception exception)
         {
+            if (exception is Exception)
+            {
+
+            }
+
             if (_env.IsDevelopment())
                 return base.OnErrorAsync(exception);
 

@@ -3,6 +3,7 @@
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
+@using System.Net
 
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
@@ -20,8 +21,16 @@
     protected async override Task OnInitializedAsync()
     {
         // Get currently logged in user
-        _currentUser = Mapper.Map<UserProfileModel>(await OnebrbApiClient.CurrentAsync());
+        var response = await OnebrbApiClient.ApiUsersCurrentAsync();
 
-        _products = Mapper.Map<IList<ProductModel>>(await OnebrbApiClient.ProductsAllAsync(_currentUser.Id));
+        if (response.StatusCode == (int) HttpStatusCode.OK)
+        {
+            _currentUser = Mapper.Map<UserProfileModel>(response.Result);
+
+            var productsResponse = await OnebrbApiClient.ApiUsersProductsAsync(_currentUser.Id);
+
+            _products = Mapper.Map<IList<ProductModel>>(productsResponse.Result);
+        }
+
     }
 }

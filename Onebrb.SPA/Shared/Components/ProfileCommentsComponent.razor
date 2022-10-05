@@ -89,7 +89,7 @@ else
         if (deleteCommentResponse.StatusCode == (int)HttpStatusCode.OK)
         {
             ToastService.ClearSuccessToasts();
-            ToastService.ShowSuccess("Comment deleted successfully.");
+            ToastService.ShowSuccess("The comment has been deleted.");
             await Refresh();
         }
     }
@@ -139,7 +139,7 @@ else
 
             StateHasChanged();
             ToastService.ClearSuccessToasts();
-            ToastService.ShowSuccess("Success");
+            ToastService.ShowSuccess("The comment has been edited.");
             callback.Invoke(true);
         }
     }

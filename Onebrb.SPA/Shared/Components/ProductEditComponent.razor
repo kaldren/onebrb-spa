@@ -44,13 +44,13 @@
         if (productPatchResponse.StatusCode == (int) HttpStatusCode.OK) 
         {
             ToastService.ClearAll();
-            ToastService.ShowSuccess("Success");
+            ToastService.ShowSuccess("The product has been updated.");
             await OnProductSave.InvokeAsync();
         }
         else 
         {
             ToastService.ClearAll();
-            ToastService.ShowError("Error, couldn't save changes...");
+            ToastService.ShowError("Sorry, we couldn't save your changes.");
             return;
         }
     }

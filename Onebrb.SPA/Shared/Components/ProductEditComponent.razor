@@ -1,16 +1,24 @@
-﻿@using Onebrb.SPA.Models
+﻿@using AutoMapper
+@using Onebrb.SPA.Models
+@using OnebrbApi
+@using System.Net
+
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+@inject IToastService ToastService
+
 <div class="product-edit-component">
     @if (ProductModel is not null)
     {
-        <RadzenTextBox Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Title" class="product-edit-component__input" />
+        <RadzenTextBox Change=@(args => OnProductTitleChange(args, "TextBox")) Value="@ProductModel.Title" class="product-edit-component__input" />
 
-        <RadzenTextArea Change=@(args => OnChange(args, "TextBox")) Value="@ProductModel.Description" class="product-edit-component__textarea" />
+        <RadzenTextArea Change=@(args => OnProductDescriptionChange(args, "TextBox")) Value="@ProductModel.Description" class="product-edit-component__textarea" />
 
         <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnChange(args, "Formatted numeric"))" class="product-edit-component__input" />
 
         <div class="row">
             <div class="col">
-                <RadzenButton Text="Ok" Click="@(() => OnProductSave.InvokeAsync())" Class="me-1" Style="width: 80px;" />
+                <RadzenButton Text="Ok" Click="@(async () => await OnProductSaveClick())" Class="me-1" Style="width: 80px;" />
                 <RadzenButton Text="Cancel" Click="@(() => OnProductCancel.InvokeAsync())" ButtonStyle="ButtonStyle.Light" Class="m-1" />
 
             </div>
@@ -28,10 +36,31 @@
     [Parameter]
     public EventCallback<string> OnProductCancel { get; set; }
 
-    void OnChange(string value, string name)
+    async Task OnProductSaveClick() 
     {
+        ProductPatchRequestModel productPatch = Mapper.Map<ProductPatchRequestModel>(ProductModel);
+        var productPatchResponse = await OnebrbApiClient.ApiProductsPatchAsync(productPatch);
 
+        if (productPatchResponse.StatusCode == (int) HttpStatusCode.OK) 
+        {
+            ToastService.ClearAll();
+            ToastService.ShowSuccess("Success");
+            await OnProductSave.InvokeAsync();
+        }
+        else 
+        {
+            ToastService.ClearAll();
+            ToastService.ShowError("Error, couldn't save changes...");
+            return;
+        }
     }
+
+    void OnProductTitleChange(string value, string name)
+        => ProductModel.Title = value;
+
+
+    void OnProductDescriptionChange(string value, string name)
+        => ProductModel.Description = value;
 
     void OnChange(decimal value, string name)
     {

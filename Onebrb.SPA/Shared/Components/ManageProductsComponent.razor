@@ -69,7 +69,7 @@ else
         {
             OnebrbApiResponse response = await OnebrbApiClient.ApiProductsDeleteAsync(productId);
 
-            if (response.StatusCode == (int) HttpStatusCode.NoContent)
+            if (response.StatusCode == (int) HttpStatusCode.OK)
             {
                 ProductModel? removedProduct = ProductModels?.Where(p => p.Id == productId).SingleOrDefault();
                 ProductModels?.Remove(removedProduct);

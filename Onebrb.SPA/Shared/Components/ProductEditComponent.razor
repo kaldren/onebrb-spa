@@ -10,11 +10,11 @@
 <div class="product-edit-component">
     @if (ProductModel is not null)
     {
-        <RadzenTextBox Change=@(args => OnProductTitleChange(args, "TextBox")) Value="@ProductModel.Title" class="product-edit-component__input" />
+        <RadzenTextBox Change=@(args => OnProductTitleChange(args, "TextBox")) Value="@ProductModel.Title" class="product-edit-component__input basic-input" />
 
-        <RadzenTextArea Change=@(args => OnProductDescriptionChange(args, "TextBox")) Value="@ProductModel.Description" class="product-edit-component__textarea" />
+        <RadzenTextArea Change=@(args => OnProductDescriptionChange(args, "TextBox")) Value="@ProductModel.Description" class="product-edit-component__textarea basic-textarea" />
 
-        <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnChange(args, "Formatted numeric"))" class="product-edit-component__input" />
+        <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnChange(args, "Formatted numeric"))" class="product-edit-component__input basic-input" />
 
         <div class="row">
             <div class="col">

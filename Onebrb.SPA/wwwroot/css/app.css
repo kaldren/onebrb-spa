@@ -63,6 +63,28 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
+/*# Main */
+.basic-input,
+.basic-textarea {
+    display: block;
+    margin: 20px auto;
+    width: 100%;
+}
+
+.basic-textarea {
+    height: 200px;
+    max-height: 100%;
+}
+
+.basic-button {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 80px;
+    max-width: 100%;
+}
+/*#endregion Main*/
+
 /*#region Product page*/
 .product-page {
     display: flex;
@@ -109,6 +131,16 @@ a, .btn-link {
         }
 /*#endregion Product page*/
 
+/*#region New Product Page*/
+.newproduct-page__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.newproduct-page__form .rz-card {
+    margin: 5px 0;
+}
+/*#endregion New Product Page*/
 /*#region Search component*/
 .search-component {
     display: flex;
@@ -209,34 +241,27 @@ a, .btn-link {
     }
 /*#endregion Login Form Component*/
 
-/*#region Manage Items Component*/
+/*#region Manage Products Component*/
+.manage-products-component .manage-products-component__header {
+    margin: 12px 0;
+}
+
 .manage-products-component__options .btn {
     margin: 5px;
 }
-/*#endregion Manage Items Component*/
+/*#endregion Manage Products Component*/
 
 /*#region ProductEditComponent*/
 .product-edit-component {
     width: 600px;
     max-width: 100%;
 }
-
-.product-edit-component .product-edit-component__input,
-.product-edit-component .product-edit-component__textarea {
-    display: block;
-    margin: 20px auto;
-    width: 100%;
-}
-.product-edit-component .product-edit-component__textarea {
-    height: 200px;
-    max-height: 100%;
-}
 /*#endregion ProductEditComponent*/
-    /*#region Misc*/
-    .rz-dialog-wrapper .rz-dialog {
-        width: auto !important;
-        max-width: 800px !important;
-    }
+/*#region Misc*/
+.rz-dialog-wrapper .rz-dialog {
+    width: auto !important;
+    max-width: 800px !important;
+}
 /*#endregion Misc*/
 /*#region Footer*/
 footer {

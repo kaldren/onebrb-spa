@@ -6,8 +6,10 @@
 @inject NavigationManager Nav
 @inject DialogService DialogService
 @inject NavigationManager NavManager
-
 @inject IOnebrbApiClient OnebrbApiClient
+@inject NavigationManager Nav
+
+
 @if (ProductModels is null || !ProductModels.Any())
 {
     <p>You don't have any products yet. Create one?</p>
@@ -17,6 +19,10 @@ else
     string totalProducts = $"{ProductModels.Count.ToString()} Product(s)";
 
     <div class="manage-products-component">
+        <div class="manage-products-component__header">
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(() => Nav.NavigateTo("products/new"))" Text="New Product" />
+        </div>
+
         <RadzenDataGrid @ref="productsGrid" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true"
                     Data="@ProductModels" TItem="ProductModel">
             <Columns>

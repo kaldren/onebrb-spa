@@ -1,0 +1,82 @@
+﻿@page "/products/new"
+@using Onebrb.SPA.Models
+<h3>New product</h3>
+
+@if (ProductModel is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="newproduct-page">
+        <div class="newproduct-page__form">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Short and descriptive title (max 50 characters)</RadzenText>
+                <RadzenTextBox Change=@(args => OnProductTitleChange(args, "TextBox")) Value="@ProductModel.Title" Placeholder="Title" class="newproduct-page__input basic-input" />
+            </RadzenCard>
+
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Describe what you are selling (max 250 characters)</RadzenText>
+                <RadzenTextArea Change=@(args => OnProductDescriptionChange(args, "TextBox")) Value="@ProductModel.Description" Placeholder="Description" class="newproduct-page__textarea basic-textarea" />
+            </RadzenCard>
+
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Price (leave as is if it's negotiable)</RadzenText>
+                <RadzenNumeric TValue="decimal" Format="c" Value="@ProductModel.Price" Change="@(args => OnProductPriceChange(args, "Formatted numeric"))" class="newproduct-page__input basic-input" />
+            </RadzenCard>
+
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Upload photos</RadzenText>
+                <RadzenUpload Multiple="true" Accept="image/*" Url="upload/multiple" Progress=@(args => OnImageUpload(args, "Images only upload")) class="w-100" />
+            </RadzenCard>
+
+            <RadzenButton Text="Create" Click="@(async () => await OnProductSaveClick())" Class="me-1 basic-button" />
+        </div>
+    </div>
+}
+
+
+@code {
+    public ProductModel ProductModel { get; } = new();
+
+    void OnProductTitleChange(string value, string name)
+        => ProductModel.Title = value;
+
+    void OnProductDescriptionChange(string value, string name)
+        => ProductModel.Description = value;
+
+    void OnProductPriceChange(decimal value, string name)
+    {
+
+    }
+
+    void OnImageUpload(UploadProgressArgs args, string name)
+    {
+        if (args.Progress == 100)
+        {
+            foreach (var file in args.Files)
+            {
+                //console.Log($"Uploaded: {file.Name} / {file.Size} bytes");
+            }
+        }
+    }
+
+    async Task OnProductSaveClick()
+    {
+        //ProductPatchRequestModel productPatch = Mapper.Map<ProductPatchRequestModel>(ProductModel);
+        //var productPatchResponse = await OnebrbApiClient.ApiProductsPatchAsync(productPatch);
+
+        //if (productPatchResponse.StatusCode == (int)HttpStatusCode.OK)
+        //{
+        //    ToastService.ClearAll();
+        //    ToastService.ShowSuccess("The product has been updated.");
+        //    await OnProductSave.InvokeAsync();
+        //}
+        //else
+        //{
+        //    ToastService.ClearAll();
+        //    ToastService.ShowError("Sorry, we couldn't save your changes.");
+        //    return;
+        //}
+    }
+}

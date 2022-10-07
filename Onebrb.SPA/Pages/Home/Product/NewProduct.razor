@@ -1,5 +1,16 @@
 ﻿@page "/products/new"
+@using AutoMapper
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Onebrb.SPA.Models
+@using OnebrbApi
+@using System.Net
+
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+@inject IAccessTokenProvider TokenProvider
+@inject IToastService ToastService
+@inject NavigationManager Nav
+
 <h3>New product</h3>
 
 @if (ProductModel is null)
@@ -26,17 +37,22 @@ else
             </RadzenCard>
 
             <RadzenCard>
-                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Upload photos</RadzenText>
-                <RadzenUpload Multiple="true" Accept="image/*" Url="upload/multiple" Progress=@(args => OnImageUpload(args, "Images only upload")) class="w-100" />
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Upload between one and six photos</RadzenText>
+                <RadzenUpload @ref="upload" Auto="false" Multiple="true" Change=@(args => OnChange(args, "Manual Upload"))
+                          Progress=@(args => OnProgress(args, "Manual Upload")) class="w-100" />
+                <RadzenButton Text="Upload" Click=@(args => OnProductSaveClick()) Visible="@(hasFiles)" class="d-block mt-4" />
             </RadzenCard>
-
-            <RadzenButton Text="Create" Click="@(async () => await OnProductSaveClick())" Class="me-1 basic-button" />
         </div>
     </div>
 }
 
 
 @code {
+    RadzenUpload upload;
+
+    bool hasFiles = false;
+
+    List<FileInfo>? files;
     public ProductModel ProductModel { get; } = new();
 
     void OnProductTitleChange(string value, string name)
@@ -46,37 +62,51 @@ else
         => ProductModel.Description = value;
 
     void OnProductPriceChange(decimal value, string name)
-    {
+        => ProductModel.Price = value;
 
+    void OnChange(UploadChangeEventArgs args, string name)
+    {
+        hasFiles = args.Files.Count() != 0;
     }
 
-    void OnImageUpload(UploadProgressArgs args, string name)
+    void OnProgress(UploadProgressArgs args, string name)
     {
         if (args.Progress == 100)
         {
             foreach (var file in args.Files)
             {
-                //console.Log($"Uploaded: {file.Name} / {file.Size} bytes");
+                hasFiles = true;
             }
         }
     }
 
     async Task OnProductSaveClick()
     {
-        //ProductPatchRequestModel productPatch = Mapper.Map<ProductPatchRequestModel>(ProductModel);
-        //var productPatchResponse = await OnebrbApiClient.ApiProductsPatchAsync(productPatch);
+        var tokenResult = await TokenProvider.RequestAccessToken();
 
-        //if (productPatchResponse.StatusCode == (int)HttpStatusCode.OK)
-        //{
-        //    ToastService.ClearAll();
-        //    ToastService.ShowSuccess("The product has been updated.");
-        //    await OnProductSave.InvokeAsync();
-        //}
-        //else
-        //{
-        //    ToastService.ClearAll();
-        //    ToastService.ShowError("Sorry, we couldn't save your changes.");
-        //    return;
-        //}
+        if (tokenResult.TryGetToken(out var token))
+        {
+            // Create product
+            ProductPostRequestModel newProductModel = Mapper.Map<ProductPostRequestModel>(ProductModel);
+            var newProductResponse = await OnebrbApiClient.ApiProductsPostAsync(newProductModel);
+
+            if (newProductResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+
+                upload.GetHeaders().Add("Authorization", $"Bearer {token.Value}");
+                upload.Url = $"https://localhost:7088/api/images/{newProductResponse.Result.Id}";
+                await upload.Upload();
+
+                ToastService.ClearAll();
+                ToastService.ShowSuccess("The product has been created.");
+                Nav.NavigateTo($"products/{newProductResponse.Result.Id}");
+            }
+        }
+        else
+        {
+            ToastService.ClearAll();
+            ToastService.ShowError("Sorry, we couldn't save your changes. Please try again later.");
+        }
     }
 }

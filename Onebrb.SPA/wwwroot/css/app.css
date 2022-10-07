@@ -82,6 +82,7 @@ a, .btn-link {
     justify-content: center;
     width: 80px;
     max-width: 100%;
+    margin: 10px 0;
 }
 /*#endregion Main*/
 
@@ -135,6 +136,8 @@ a, .btn-link {
 .newproduct-page__form {
     display: flex;
     flex-direction: column;
+    width: 800px;
+    max-width: 100%;
 }
 
 .newproduct-page__form .rz-card {

@@ -44,7 +44,10 @@ else
                 <RadzenDataGridColumn TItem="ProductModel" Property="ProductModel.Title" Title="Product">
                     <Template Context="product">
                         <a href="products/@product.Id">
-                            <RadzenImage Path="@product?.Images?.First()?.Path" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 8px; float: left;" />
+                            @if (product.Images.Any()) 
+                            {
+                                <RadzenImage Path="@product?.Images?.First()?.Path" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 8px; float: left;" />
+                            }
                             <h5 class="mt-1 mb-0">@product?.Title</h5>
                         </a>
                     </Template>

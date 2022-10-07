@@ -20,6 +20,7 @@ namespace Onebrb.SPA
             CreateMap<ProductResponseModel, ProductModel>();
             CreateMap<ProductImageResponseModel, ProductImageModel>();
             CreateMap<ProductModel, ProductPatchRequestModel>();
+            CreateMap<ProductModel, ProductPostRequestModel>();
             #endregion Product
         }
     }

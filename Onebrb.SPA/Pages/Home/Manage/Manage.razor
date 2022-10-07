@@ -9,8 +9,10 @@
 @inject IMapper Mapper
 
 <h3>Manage your products</h3>
-
-<ManageProductsComponent ProductModels="@_products" />
+@if (_products?.Count > 0) 
+{
+    <ManageProductsComponent ProductModels="@_products" />
+}
 
 @code {
     // Get all products posted by user

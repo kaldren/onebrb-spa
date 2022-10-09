@@ -80,29 +80,46 @@ else
         }
     }
 
-    async Task OnProductSaveClick()
+    async Task PostImages(string productId)
     {
         var tokenResult = await TokenProvider.RequestAccessToken();
 
         if (tokenResult.TryGetToken(out var token))
         {
-            // Create product
-            ProductPostRequestModel newProductModel = Mapper.Map<ProductPostRequestModel>(ProductModel);
-            var newProductResponse = await OnebrbApiClient.ApiProductsPostAsync(newProductModel);
+            var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
 
-            if (newProductResponse.StatusCode == (int)HttpStatusCode.OK)
+            upload.GetHeaders().Add("Authorization", $"Bearer {token.Value}");
+            upload.Url = $"https://localhost:7088/api/images/{productId}";
+            await upload.Upload();
+
+            ToastService.ClearAll();
+            ToastService.ShowSuccess("The product has been created.");
+            Nav.NavigateTo($"products/{productId}");
+        }
+    }
+
+    async Task OnProductSaveClick()
+    {
+        // Create product
+        ProductPostRequestModel newProductModel = Mapper.Map<ProductPostRequestModel>(ProductModel);
+        var newProductResponse = await OnebrbApiClient.ApiProductsPostAsync(newProductModel);
+
+        if (newProductResponse.StatusCode == (int)HttpStatusCode.OK)
+        {
+            ToastService.ClearAll();
+            ToastService.ShowSuccess("The product has been created.");
+
+            try
             {
-                var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-
-                upload.GetHeaders().Add("Authorization", $"Bearer {token.Value}");
-                upload.Url = $"https://localhost:7088/api/images/{newProductResponse.Result.Id}";
-                await upload.Upload();
-
+                await PostImages(newProductResponse.Result.Id);
+            }
+            catch (Exception ex)
+            {
                 ToastService.ClearAll();
-                ToastService.ShowSuccess("The product has been created.");
-                Nav.NavigateTo($"products/{newProductResponse.Result.Id}");
+                ToastService.ShowError("Sorry, we couldn't save your images. Please upload them later.");
             }
         }
+
         else
         {
             ToastService.ClearAll();

@@ -479,7 +479,7 @@
         }
       }
     },
-    "/api/images": {
+    "/api/images/{productId}": {
       "post": {
         "tags": [
           "Images"
@@ -488,7 +488,8 @@
         "parameters": [
           {
             "name": "productId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -1691,6 +1692,10 @@
             "items": {
               "$ref": "#/components/schemas/ProductImage"
             }
+          },
+          "profileId": {
+            "type": "string",
+            "nullable": true
           },
           "profile": {
             "$ref": "#/components/schemas/Profile"

@@ -38,8 +38,13 @@ else
 
             <RadzenCard>
                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Upload between one and six photos</RadzenText>
-                <RadzenUpload @ref="upload" Auto="false" Multiple="true" Change=@(args => OnChange(args, "Manual Upload"))
-                          Progress=@(args => OnProgress(args, "Manual Upload")) class="w-100" />
+                <RadzenUpload 
+                            @ref="upload" 
+                            Auto="false" 
+                            Multiple="true" 
+                            Change=@(args => OnChange(args))
+                            class="w-100 file-upload" 
+                        />
                 <RadzenButton Text="Upload" Click=@(args => OnProductSaveClick()) Visible="@(hasFiles)" class="d-block mt-4" />
             </RadzenCard>
         </div>
@@ -48,15 +53,19 @@ else
 
 
 @code {
-    RadzenUpload upload;
+    RadzenUpload? upload;
 
     bool hasFiles = false;
+    string newProductId = string.Empty;
 
-    List<FileInfo>? files;
     public ProductModel ProductModel { get; } = new();
 
+    protected async override Task OnInitializedAsync()
+    {
+    }
+
     void OnProductTitleChange(string value, string name)
-        => ProductModel.Title = value;
+    => ProductModel.Title = value;
 
     void OnProductDescriptionChange(string value, string name)
         => ProductModel.Description = value;
@@ -64,20 +73,9 @@ else
     void OnProductPriceChange(decimal value, string name)
         => ProductModel.Price = value;
 
-    void OnChange(UploadChangeEventArgs args, string name)
+    async void OnChange(UploadChangeEventArgs args)
     {
         hasFiles = args.Files.Count() != 0;
-    }
-
-    void OnProgress(UploadProgressArgs args, string name)
-    {
-        if (args.Progress == 100)
-        {
-            foreach (var file in args.Files)
-            {
-                hasFiles = true;
-            }
-        }
     }
 
     async Task PostImages(string productId)
@@ -92,38 +90,41 @@ else
             upload.Url = $"https://localhost:7088/api/images/{productId}";
             await upload.Upload();
 
-            ToastService.ClearAll();
-            ToastService.ShowSuccess("The product has been created.");
-            Nav.NavigateTo($"products/{productId}");
+            // Check if images are uploaded
+            var countResponse = await OnebrbApiClient.ApiProductsImagesCountAsync(productId);
+
+            if (countResponse.StatusCode == (int)HttpStatusCode.OK && countResponse.Result > 0) 
+            {
+                ToastService.ShowSuccess("The product has been created.");
+            }
+            else 
+            {
+                ToastService.ShowError("Sorry, we couldn't save your images. The product is created but not visible to others.");
+            }
         }
     }
 
     async Task OnProductSaveClick()
     {
         // Create product
+        bool productCreated = false;
         ProductPostRequestModel newProductModel = Mapper.Map<ProductPostRequestModel>(ProductModel);
         var newProductResponse = await OnebrbApiClient.ApiProductsPostAsync(newProductModel);
 
+
         if (newProductResponse.StatusCode == (int)HttpStatusCode.OK)
         {
-            ToastService.ClearAll();
-            ToastService.ShowSuccess("The product has been created.");
-
-            try
-            {
-                await PostImages(newProductResponse.Result.Id);
-            }
-            catch (Exception ex)
-            {
-                ToastService.ClearAll();
-                ToastService.ShowError("Sorry, we couldn't save your images. Please upload them later.");
-            }
+            productCreated = true;
+            await PostImages(newProductResponse.Result.Id);
         }
-
         else
         {
-            ToastService.ClearAll();
-            ToastService.ShowError("Sorry, we couldn't save your changes. Please try again later.");
+            ToastService.ShowError("Sorry, we couldn't create your product. Please try again later.");
+        }
+
+        if (productCreated) 
+        {
+            Nav.NavigateTo($"products/{newProductResponse.Result.Id}");
         }
     }
 }

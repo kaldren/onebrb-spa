@@ -31,5 +31,10 @@
         /// Gets or sets the date of posting
         /// </summary>
         public DateTimeOffset Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets the activity status
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

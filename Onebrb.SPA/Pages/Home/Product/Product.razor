@@ -20,6 +20,18 @@
     }
     else
     {
+        @if (!_product.IsActive)
+        {
+            <div class="notification-bar">
+                <p>Your product is not currently active.</p>
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Activate" />
+            </div>
+        }
+
+        <div class="product-page__seller-info">
+            <ProfileProductComponent CurrentUser="_currentUser" ProfileModel="_profile" />
+        </div>
+
         <div class="product-page__product-info">
 
             <div class="product-info__product-header">
@@ -57,9 +69,6 @@
 
             </div>
 
-        </div>
-        <div class="product-page__seller-info">
-            <ProfileProductComponent CurrentUser="_currentUser" ProfileModel="_profile" />
         </div>
     }
 </div>

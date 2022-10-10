@@ -84,8 +84,14 @@ a, .btn-link {
     max-width: 100%;
     margin: 10px 0;
 }
-/*#endregion Main*/
 
+.notification-bar {
+    display: block;
+    width: 100%;
+    background: #fff3cd;
+    padding: 10px 20px;
+}
+/*#endregion Main*/
 /*#region Product page*/
 .product-page {
     display: flex;
@@ -93,7 +99,7 @@ a, .btn-link {
 }
 
 .product-page__product-info {
-    max-width: 800px;
+    flex: 1;
 }
 
 .product-info__description {

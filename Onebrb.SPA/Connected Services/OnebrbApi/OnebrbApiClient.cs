@@ -2429,6 +2429,9 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("isActive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsActive { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("profileId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ProfileId { get; set; }
+    
     
     }
     

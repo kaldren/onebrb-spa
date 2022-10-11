@@ -1911,6 +1911,10 @@
           },
           "isActive": {
             "type": "boolean"
+          },
+          "profileId": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

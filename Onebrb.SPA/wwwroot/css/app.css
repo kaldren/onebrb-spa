@@ -64,6 +64,10 @@ a, .btn-link {
     }
 
 /*# Main */
+.basic-icon {
+    font-size: 2rem;
+}
+
 .basic-input,
 .basic-textarea {
     display: block;
@@ -86,10 +90,18 @@ a, .btn-link {
 }
 
 .notification-bar {
-    display: block;
+    display: flex;
     width: 100%;
     background: #fff3cd;
     padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.notification-bar p {
+    padding: 0 12px;
+    margin: 0;
 }
 /*#endregion Main*/
 /*#region Product page*/
@@ -146,9 +158,9 @@ a, .btn-link {
     max-width: 100%;
 }
 
-.newproduct-page__form .rz-card {
-    margin: 5px 0;
-}
+    .newproduct-page__form .rz-card {
+        margin: 5px 0;
+    }
 /*#endregion New Product Page*/
 /*#region Search component*/
 .search-component {

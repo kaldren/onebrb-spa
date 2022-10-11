@@ -13,6 +13,8 @@
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 
+<PageTitle>Product</PageTitle>
+
 <div class="product-page">
     @if (_product is null)
     {
@@ -22,10 +24,11 @@
     {
         @if (!_product.IsActive)
         {
-            <div class="notification-bar">
-                <p>Your product is not currently active.</p>
+            <NotificationBarComponent>
+                <i class="bi bi-exclamation-triangle"></i>
+                <p>Your product is currently visible only by you. Activate it to make it public.</p>
                 <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Activate" />
-            </div>
+            </NotificationBarComponent>
         }
 
         <div class="product-page__seller-info">

@@ -1,8 +1,11 @@
-﻿<div class="notification-bar">
+﻿<div class="notification-bar" style="background: @BackgroundColor;">
     @ChildContent
 </div>
 
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? BackgroundColor { get; set; } = "#fff3cd";
 }

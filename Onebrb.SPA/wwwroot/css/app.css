@@ -117,6 +117,9 @@ a, .btn-link {
     height: 100px;
     line-height: 100px;
     text-align: center;
+    width: 800px;
+    max-width: 100%;
+    margin: 10px auto;
 }
 
 .product-info__product-header {
@@ -136,6 +139,7 @@ a, .btn-link {
 .gallery__images {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
     .gallery__images .images__product_image {
@@ -148,9 +152,8 @@ a, .btn-link {
             padding: 0px;
         }
 /*#endregion Product page*/
-
-/*#region New Product Page*/
-.newproduct-page__form {
+    /*#region New Product Page*/
+    .newproduct-page__form {
     display: flex;
     flex-direction: column;
     width: 800px;

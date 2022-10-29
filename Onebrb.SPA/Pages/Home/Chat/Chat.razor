@@ -1,6 +1,9 @@
 ﻿@page "/chat"
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Navigation
+@inject IToastService ToastService
+@inject IConfiguration Configuration
+
 @implements IAsyncDisposable
 
 <PageTitle>Index</PageTitle>
@@ -37,7 +40,7 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("https://localhost:7088/notifications-hub"))
+            .WithUrl(Navigation.ToAbsoluteUri($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"))
             .Build();
 
         hubConnection.On<string>("ReceiveMessage", (message) =>
@@ -47,10 +50,9 @@
             StateHasChanged();
         });
 
-    hubConnection.On<string>("broadcastMessage", (message) =>
+        hubConnection.On<string>("ToastNotification", (message) =>
     {
-        var encodedMsg = $"{message}";
-        messages.Add(encodedMsg);
+        ToastService.ShowSuccess(message, "From server");
         StateHasChanged();
     });
 

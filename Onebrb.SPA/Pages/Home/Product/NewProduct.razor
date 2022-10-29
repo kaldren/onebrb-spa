@@ -10,6 +10,7 @@
 @inject IAccessTokenProvider TokenProvider
 @inject IToastService ToastService
 @inject NavigationManager Nav
+@inject IConfiguration configuration
 
 <PageTitle>New product</PageTitle>
 
@@ -89,7 +90,7 @@ else
             var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
 
             upload.GetHeaders().Add("Authorization", $"Bearer {token.Value}");
-            upload.Url = $"https://localhost:7088/api/images/{productId}";
+            upload.Url = $"{configuration["AppConfiguration:OnebrbAPIEndpoint"]}/images/{productId}";
             await upload.Upload();
 
             // Check if images are uploaded

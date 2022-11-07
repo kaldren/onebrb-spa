@@ -11,11 +11,14 @@
     return;
 }
 
-@foreach (var product in _profileProducts)
+@if (_profileProducts is not null && _profileProducts.Count > 0) 
 {
-    <div>
-        @product.Description
-    </div>
+    @foreach (var product in _profileProducts)
+    {
+        <div>
+            @product.Description
+        </div>
+    }
 }
 
 @code {

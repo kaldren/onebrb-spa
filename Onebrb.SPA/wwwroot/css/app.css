@@ -136,11 +136,25 @@ a, .btn-link {
     text-align: center;
 }
 
-.gallery__images {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.product-info__action-btns {
+    text-align: center;
+    margin: 20px auto;
+    background: #fff3cd;
+    padding: 10px;
 }
+
+.product-info__action-btns button {
+    font-size: 1.3rem;
+    height: auto;
+    width: auto;
+    max-width: 100%;
+}
+
+    .gallery__images {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
     .gallery__images .images__product_image {
         width: 250px;

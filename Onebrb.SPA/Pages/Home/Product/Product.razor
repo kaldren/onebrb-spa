@@ -72,6 +72,10 @@
 
             </div>
 
+            <div class="product-info__action-btns">
+                <ButtonComponent Text="I'm interested" OnClick=@OnInterestedClicked />
+            </div>
+
         </div>
     }
 </div>
@@ -88,16 +92,14 @@
                 FirstName = "Kaloyan",
                 LastName = "Drenski"
             };
-    private UserProfileModel? _profile = new()
-            {
-                Id = "4f170031-f087-4ad5-8343-7da89e8cb8bd",
-                FirstName = "Kaloyan",
-                LastName = "Drenski"
-            };
+    private UserProfileModel? _profile;
 
     protected async override Task OnInitializedAsync()
     {
         OnebrbApiResponse<ProductResponseModel> response = await OnebrbApiClient.ApiProductsGetAsync(Id);
+        var profileResponse = await OnebrbApiClient.ApiUsersGetAsync(response.Result.ProfileId);
+
+        _profile = Mapper.Map<UserProfileModel>(profileResponse.Result);
 
         if (response.StatusCode == (int)HttpStatusCode.OK)
         {
@@ -112,7 +114,8 @@
     @<div>
         <RadzenImage Path="https://automedia.investor.bg/media/files/resized/uploadedfiles/640x0/306/7ea7096ab1efa8cd5d823a7ea8a4b306-tesla-model-s-2022-update-2.jpg">
         </RadzenImage>
-    </div>, new DialogOptions() { CloseDialogOnOverlayClick = true });
+        </div>
+    , new DialogOptions() { CloseDialogOnOverlayClick = true });
     }
 
     public void Dispose()
@@ -128,5 +131,13 @@
 
     void Close(dynamic result)
     {
+    }
+
+    async Task OnInterestedClicked()
+    {
+        // Send interested to queue
+        await OnebrbApiClient.ApiProductsPutAsync();
+
+        // Azure function sends notification to user (need to add globe icon with number of notifications)
     }
 }

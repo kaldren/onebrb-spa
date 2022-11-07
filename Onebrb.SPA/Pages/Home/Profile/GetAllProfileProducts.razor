@@ -1,0 +1,33 @@
+﻿@page "/profiles/{Id}/products"
+
+@using Onebrb.SPA.Models
+@using OnebrbApi
+
+@inject IOnebrbApiClient OnebrbApiClient
+
+@if (_profile is null) 
+{
+    <p>Profile not found</p>
+    return;
+}
+
+@foreach (var product in _profileProducts)
+{
+    <div>
+        @product.Description
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private List<ProductResponseModel>? _profileProducts;
+    private UserProfileResponseModel? _profile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _profile = (await OnebrbApiClient.ApiUsersCurrentAsync()).Result;
+        _profileProducts = (await OnebrbApiClient.ApiUsersProductsAsync(Id)).Result.ToList();
+    }
+}

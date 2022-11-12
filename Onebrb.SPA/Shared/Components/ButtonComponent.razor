@@ -1,8 +1,11 @@
-﻿ <RadzenButton Click="@(() => OnClick.InvokeAsync())" Text=@Text ButtonStyle=@ButtonStyle />
+﻿ <RadzenButton Disabled="@IsDisabled" Click="@(() => OnClick.InvokeAsync())" Text=@Text ButtonStyle=@ButtonStyle />
 
 @code {
     [Parameter]
     public string Text { get; set; } = "Primary";
+
+    [Parameter]
+    public bool IsDisabled { get; set; }
 
     [Parameter]
     public ButtonStyle ButtonStyle { get; set; } = ButtonStyle.Primary;

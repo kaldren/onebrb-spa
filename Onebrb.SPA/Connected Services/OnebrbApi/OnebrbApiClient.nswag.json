@@ -2182,9 +2182,15 @@
             "type": "string",
             "nullable": true
           },
+          "isEmailVisible": {
+            "type": "boolean"
+          },
           "phone": {
             "type": "string",
             "nullable": true
+          },
+          "isPhoneVisible": {
+            "type": "boolean"
           },
           "about": {
             "type": "string",
@@ -2240,9 +2246,15 @@
             "type": "string",
             "nullable": true
           },
+          "isEmailVisible": {
+            "type": "boolean"
+          },
           "phone": {
             "type": "string",
             "nullable": true
+          },
+          "isPhoneVisible": {
+            "type": "boolean"
           },
           "about": {
             "type": "string",
@@ -2270,9 +2282,15 @@
             "type": "string",
             "nullable": true
           },
+          "isEmailVisible": {
+            "type": "boolean"
+          },
           "phone": {
             "type": "string",
             "nullable": true
+          },
+          "isPhoneVisible": {
+            "type": "boolean"
           },
           "about": {
             "type": "string",

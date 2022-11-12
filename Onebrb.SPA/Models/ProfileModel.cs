@@ -10,7 +10,11 @@ public class UserProfileModel
 
     public string Email { get; set; }
 
+    public bool IsEmailVisible { get; set; }
+
     public string Phone { get; set; }
+
+    public bool IsPhoneVisible { get; set; }
 
     public string About { get; set; }
 

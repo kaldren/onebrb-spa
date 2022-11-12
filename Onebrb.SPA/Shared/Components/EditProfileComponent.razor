@@ -36,9 +36,28 @@
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="@CurrentUser.Email" />
+                            <RadzenCard>
+                                <p>Who can see my email?</p>
+                                <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsEmailVisible TValue="bool" Change=@(args => OnEmailPrivacyChange(args, "SelectBar with single selection"))>
+                                    <Items>
+                                        <RadzenSelectBarItem Text="Everyone" Value="true" />
+                                        <RadzenSelectBarItem Text="Only me" Value="false" />
+                                    </Items>
+                                </RadzenSelectBar>
+                            </RadzenCard>
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="@CurrentUser.Phone" />
+                            <RadzenCard>
+                                <p>Who can see my phone number?</p>
+                                <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsPhoneVisible TValue="bool" Change=@(args => OnPhonePrivacyChange(args, "SelectBar with single selection"))>
+                                    <Items>
+                                        <RadzenSelectBarItem Text="Everyone" Value="true" />
+                                        <RadzenSelectBarItem Text="Only me" Value="false" />
+                                    </Items>
+                                </RadzenSelectBar>
+                            </RadzenCard>
+
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
@@ -67,13 +86,25 @@
     private bool _updatedUserProfile = false;
     private bool _updateUserProfileError = false;
 
-    async Task OnUpdateProfileClick()
+    IEnumerable<int> values = new int[] { 1, 2 };
+
+    void OnEmailPrivacyChange(object value, string name)
     {
+        var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
+    }
+
+    void OnPhonePrivacyChange(object value, string name)
+    {
+        var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
+    }
+
+    async Task OnUpdateProfileClick()
+    { 
         var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
 
         var updateUserResponse = await OnebrbApiClient.ApiUsersPatchAsync(model);
 
-        if (updateUserResponse.StatusCode == (int) HttpStatusCode.OK)
+        if (updateUserResponse.StatusCode == (int)HttpStatusCode.OK)
         {
             CurrentUser = Mapper.Map<UserProfileModel>(updateUserResponse.Result);
         }

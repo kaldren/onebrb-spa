@@ -31,7 +31,7 @@ builder.Services.AddScoped<IOnebrbApiClient, OnebrbApiClient>((x) =>
 builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-    options.ProviderOptions.DefaultAccessTokenScopes.Add("https://onebrb.onmicrosoft.com/api/Onebrb.Read");
+    options.ProviderOptions.DefaultAccessTokenScopes.Add("https://onebrb.onmicrosoft.com/833324ec-9cac-45f3-87dd-6f065c77101c/Onebrb.Read");
 });
 
 builder.Services.AddLocalization();

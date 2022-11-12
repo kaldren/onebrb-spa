@@ -15,13 +15,6 @@ namespace Onebrb.SPA
             #region Comment
             CreateMap<CommentResponseModel, CommentModel>();
             #endregion Comment
-
-            #region Product
-            CreateMap<ProductResponseModel, ProductModel>();
-            CreateMap<ProductImageResponseModel, ProductImageModel>();
-            CreateMap<ProductModel, ProductPatchRequestModel>();
-            CreateMap<ProductModel, ProductPostRequestModel>();
-            #endregion Product
         }
     }
 }

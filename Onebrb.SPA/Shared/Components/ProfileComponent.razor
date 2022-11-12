@@ -45,10 +45,17 @@
                     <b>@(ProfileModel.City)</b>
                 </div>
                 <div class="col-md-8">
-                    <div>@Loc["ProfileEmail"]</div>
-                    <b>@(ProfileModel.Email)</b>
-                    <div class="mt-3">@Loc["ProfilePhone"]</div>
-                    <b>@(ProfileModel.Phone)</b>
+                    @if (ProfileModel.IsEmailVisible || CurrentUser.Id == ProfileModel.Id)
+                    {
+                        <div>@Loc["ProfileEmail"]</div>
+                        <b>@(ProfileModel.Email)</b>
+                    }
+
+                    @if (ProfileModel.IsPhoneVisible || CurrentUser.Id == ProfileModel.Id)
+                    {
+                        <div class="mt-3">@Loc["ProfilePhone"]</div>
+                        <b>@(ProfileModel.Phone)</b>
+                    }
                 </div>
             </div>
         </RadzenCard>

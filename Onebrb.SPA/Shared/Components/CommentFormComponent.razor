@@ -11,6 +11,10 @@
 
 <div class="comment-form-component">
     <h2>Add a comment</h2>
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Rating with 5 stars</RadzenText>
+        <RadzenRating Change=@(args => OnRatingChange(args)) />
+    </RadzenCard>
     <TextAreaComponent OnChange="ChangeHandler" />
     <ButtonComponent Text="Post" OnClick="ClickHandler" />
 </div>
@@ -19,9 +23,14 @@
     [Parameter]
     public string RecipientId { get; set; }
 
+    [Parameter] public EventCallback OnPostedComment { get; set; }
+
+    private int _rating;
     private string _comment = string.Empty;
 
-    [Parameter] public EventCallback OnPostedComment { get; set; }
+
+    void OnRatingChange(int value)
+        => _rating = value;
 
     async Task ClickHandler()
     {
@@ -31,6 +40,7 @@
                 AuthorId = string.Empty,
                 RecipientId = RecipientId,
                 Content = _comment,
+                Rating = _rating
             };
 
         var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);

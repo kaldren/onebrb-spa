@@ -103,81 +103,7 @@ a, .btn-link {
     margin: 0;
 }
 /*#endregion Main*/
-/*#region Product page*/
-.product-page {
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.product-page__product-info {
-    flex: 1;
-}
-
-.product-info__description {
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-    width: 800px;
-    max-width: 100%;
-    margin: 10px auto;
-}
-
-.product-info__product-header {
-    text-align: center;
-}
-
-.product-info__description span {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal;
-}
-
-.product-info__gallery {
-    text-align: center;
-}
-
-.product-info__action-btns {
-    text-align: center;
-    margin: 20px auto;
-    background: #fff3cd;
-    padding: 10px;
-}
-
-.product-info__action-btns button {
-    font-size: 1.3rem;
-    height: auto;
-    width: auto;
-    max-width: 100%;
-}
-
-    .gallery__images {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .gallery__images .images__product_image {
-        width: 250px;
-        max-width: 100%;
-        padding: 5px;
-    }
-
-        .gallery__images .images__product_image .rz-card.card {
-            padding: 0px;
-        }
-/*#endregion Product page*/
-    /*#region New Product Page*/
-    .newproduct-page__form {
-    display: flex;
-    flex-direction: column;
-    width: 800px;
-    max-width: 100%;
-}
-
-    .newproduct-page__form .rz-card {
-        margin: 5px 0;
-    }
-/*#endregion New Product Page*/
 /*#region Search component*/
 .search-component {
     display: flex;
@@ -242,15 +168,34 @@ a, .btn-link {
     cursor: pointer;
 }
 
+.profile-comments .rz-datalist-data > li {
+    border: none;
+}
+
+.profile-comments .rz-datalist-data {
+    padding: 0;
+}
+
+.profile-comments__content-box {
+    margin: 10px 0;
+}
+
 .comment-form-component {
     margin: 20px auto;
 }
 
-    .comment-form-component .btn-primary {
-        margin: 20px 0
-    }
-/*#endregion Profile comments*/
+.comment-form-component .btn-primary {
+    margin: 20px 0
+}
 
+.profile-comments__comment-options .rz-badge {
+    font-size: 0.95rem;
+}
+
+.profile-comments__comment-options .bi {
+    margin: 3px;
+}
+/*#endregion Profile comments*/
 /*#region Settings component*/
 .settings-component .settings-component__form__input-div {
     margin: 0.5rem 0;
@@ -278,22 +223,6 @@ a, .btn-link {
     }
 /*#endregion Login Form Component*/
 
-/*#region Manage Products Component*/
-.manage-products-component .manage-products-component__header {
-    margin: 12px 0;
-}
-
-.manage-products-component__options .btn {
-    margin: 5px;
-}
-/*#endregion Manage Products Component*/
-
-/*#region ProductEditComponent*/
-.product-edit-component {
-    width: 600px;
-    max-width: 100%;
-}
-/*#endregion ProductEditComponent*/
 /*#region Misc*/
 .rz-dialog-wrapper .rz-dialog {
     width: auto !important;

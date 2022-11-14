@@ -40,7 +40,7 @@ else
                                     </div>
                                     <div class="col-md-4 text-right profile-comments__comment-options">
                                         <RadzenBadge BadgeStyle="BadgeStyle.Primary">
-                                            <StarComponent Value="@comment.Rating" />
+                                            <StarComponent Value="@comment.RatingValue" />
                                         </RadzenBadge>
                                         @if (CurrentUserId == comment.AuthorId)
                                         {

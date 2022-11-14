@@ -20,7 +20,7 @@
 
         public string PhotoUrl { get; set; } = "https://placekitten.com/200/200";
 
-        public int Rating { get; set; }
+        public int RatingValue { get; set; }
 
         public DateTimeOffset Date { get; set; }
     }

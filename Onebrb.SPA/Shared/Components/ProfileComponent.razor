@@ -20,9 +20,12 @@ else
     <div class="profile-component">
         <div>
             <div class="profile-component__profile-rating">
-                <RadzenBadge BadgeStyle="BadgeStyle.Primary">
-                    <StarComponent Value="@Convert.ToInt32(@ProfileModel.Rating)" />
-                </RadzenBadge>
+                @if (ProfileModel.Rating.HasValue)
+                {
+                    <RadzenBadge BadgeStyle="BadgeStyle.Primary">
+                        <StarComponent Value="@ProfileModel.Rating.Value" />
+                    </RadzenBadge>
+                }
             </div>
             <RadzenCard class="profile-component__header-info">
                 <h3 class="h5">@Loc["Profile"]</h3>

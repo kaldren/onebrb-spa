@@ -1,16 +1,26 @@
 ﻿@for (int i = 1; i <= 5; i++)
 {
+    // 3.33
+
+    // 4 <= 3.33 - NO
     if (i <= Value)
     {
         <i class="bi bi-star-fill"></i>
+        continue;
+    }
+
+    if (Value % 1 == 0)
+    {
+        <i class="bi bi-star"></i>
     }
     else
     {
-        <i class="bi bi-star"></i>
+        Value -= (Value % 1);
+        <i class="bi bi-star-half"></i>
     }
 }
 
 @code {
     [Parameter]
-    public int Value { get; set; }
+    public double Value { get; set; }
 }

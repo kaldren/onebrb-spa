@@ -33,17 +33,14 @@ else
     protected override async Task OnInitializedAsync()
     {
         var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        var userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
 
-        if (currentUserResponse.StatusCode == (int)HttpStatusCode.OK)
+        if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK || userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
         {
-            _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-
-            var userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
-
-            if (userByIdResponse.StatusCode == (int) HttpStatusCode.OK)
-            {
-                _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
-            }
+            return;
         }
+
+        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+        _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
     }
 }

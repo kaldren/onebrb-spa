@@ -154,9 +154,20 @@ a, .btn-link {
     flex: 1
 }
 
-.profile-component__about-section {
-    flex: 2;
+.profile-component__profile-rating {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding: 1rem;
 }
+
+    .profile-component__profile-rating .bi {
+        margin:5px
+    }
+
+    .profile-component__about-section {
+        flex: 2;
+    }
 
 .profile-component__bottom-info {
     margin: 1rem;

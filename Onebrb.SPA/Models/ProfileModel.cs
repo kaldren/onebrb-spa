@@ -23,5 +23,7 @@ public class UserProfileModel
     public string City { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public double? Rating { get; set; }
 }
 

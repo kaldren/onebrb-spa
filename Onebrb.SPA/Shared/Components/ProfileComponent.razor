@@ -19,6 +19,11 @@ else
 {
     <div class="profile-component">
         <div>
+            <div class="profile-component__profile-rating">
+                <RadzenBadge BadgeStyle="BadgeStyle.Primary">
+                    <StarComponent Value="@Convert.ToInt32(@ProfileModel.Rating)" />
+                </RadzenBadge>
+            </div>
             <RadzenCard class="profile-component__header-info">
                 <h3 class="h5">@Loc["Profile"]</h3>
                 <div class="d-flex flex-row">

@@ -4613,6 +4613,11 @@
           "city": {
             "type": "string",
             "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         }
       },

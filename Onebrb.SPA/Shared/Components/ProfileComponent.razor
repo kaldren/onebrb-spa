@@ -73,11 +73,7 @@ else
 
             @if (CurrentUser.Id != ProfileModel.Id)
             {
-                if (_hasUserCommentedAlready)
-                {
-                    <p>Oops, you've already commented to @ProfileModel.FirstName's wall.</p>
-                }
-                else
+                if (!_hasUserCommentedAlready)
                 {
                     <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
                 }

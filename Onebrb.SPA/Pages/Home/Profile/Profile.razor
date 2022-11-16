@@ -43,4 +43,18 @@ else
         _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
         _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
     }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        var userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
+
+        if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK || userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
+        {
+            return;
+        }
+
+        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+        _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
+    }
 }

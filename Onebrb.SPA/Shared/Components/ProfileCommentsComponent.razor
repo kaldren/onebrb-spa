@@ -5,7 +5,7 @@
 
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
-@inject NavigationManager NavigationManager
+@inject NavigationManager Navigation
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
@@ -34,7 +34,7 @@ else
                             <RadzenCard>
                                 <div class="row">
                                     <div class="col-md-8 text-truncate">
-                                        <a href="profiles/@comment.AuthorId">
+                                        <a @onclick="() => NavigateToProfile(comment.AuthorId)">
                                             <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
                                         </a>
                                     </div>
@@ -75,6 +75,11 @@ else
     private string _updatedComment = string.Empty;
 
     private ICollection<CommentModel> _comments;
+
+    private void NavigateToProfile(string id)
+    {
+        Navigation.NavigateTo($"/profiles/{id}");
+    }
 
     private void OnCommentEditSubmit(string id)
     {

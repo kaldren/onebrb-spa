@@ -94,24 +94,9 @@ else
 
     private bool _hasUserCommentedAlready = false;
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         var userCommentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(ProfileModel?.Id);
-
-        if (userCommentsResponse.StatusCode == (int)HttpStatusCode.OK)
-        {
-            var userComments = Mapper.Map<ICollection<CommentModel>>(userCommentsResponse.Result);
-
-            if (userComments.Any())
-                _hasUserCommentedAlready = true;
-
-            await _profileCommentsComponent.Refresh();
-        }
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        var userCommentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(CurrentUser?.Id);
 
         if (userCommentsResponse.StatusCode == (int)HttpStatusCode.OK)
         {

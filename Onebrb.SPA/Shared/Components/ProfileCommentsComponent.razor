@@ -34,9 +34,9 @@ else
                             <RadzenCard>
                                 <div class="row">
                                     <div class="col-md-8 text-truncate">
-                                        <a @onclick="() => NavigateToProfile(comment.AuthorId)">
+                                        <button @onclick="() => NavigateToProfile(comment.AuthorId)">
                                             <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
-                                        </a>
+                                        </button>
                                     </div>
                                     <div class="col-md-4 text-right profile-comments__comment-options">
                                         <RadzenBadge BadgeStyle="BadgeStyle.Primary">
@@ -163,11 +163,11 @@ else
         DialogService.OnClose -= Close;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
 
-        if (commentsResponse.StatusCode == (int) HttpStatusCode.OK)
+        if (commentsResponse.StatusCode == (int)HttpStatusCode.OK)
         {
             _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponse.Result);
         }

@@ -59,6 +59,17 @@
                             </RadzenCard>
 
                         </div>
+                        @if (_occupations is not null)
+                        {
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Occupation</RadzenText>
+                                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Name
+                                            TextProperty="Name" ValueProperty="Name" Change=@(args => OnOccupationChange(args)) Class="w-100" />
+                                </RadzenCard>
+                            </div>
+                        }
+
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
                                 <h4 class="mb-4">About</h4>
@@ -83,10 +94,37 @@
     [Parameter]
     public UserProfileModel? CurrentUser { get; set; }
 
+    public ICollection<OccupationModel> _occupations;
+    public OccupationModel _userOccupation = new();
+
     private bool _updatedUserProfile = false;
     private bool _updateUserProfileError = false;
 
     IEnumerable<int> values = new int[] { 1, 2 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var occupationsResponse = await OnebrbApiClient.ApiOccupationsAsync();
+
+        if (occupationsResponse.StatusCode == (int)HttpStatusCode.OK)
+        {
+            _occupations = Mapper.Map<ICollection<OccupationModel>>(occupationsResponse.Result);
+
+            // Get current user's occupation
+            var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
+
+            if (currentUserOccupationResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                _userOccupation = Mapper.Map<OccupationModel>(currentUserOccupationResponse.Result);
+            }
+        }
+    }
+
+    void OnOccupationChange(object value)
+    {
+        CurrentUser.OccupationName = _userOccupation.Name;
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+    }
 
     void OnEmailPrivacyChange(object value, string name)
     {
@@ -99,7 +137,7 @@
     }
 
     async Task OnUpdateProfileClick()
-    { 
+    {
         var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
 
         var updateUserResponse = await OnebrbApiClient.ApiUsersPatchAsync(model);

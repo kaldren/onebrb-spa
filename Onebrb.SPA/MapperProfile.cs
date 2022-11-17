@@ -15,6 +15,10 @@ namespace Onebrb.SPA
             #region Comment
             CreateMap<CommentResponseModel, CommentModel>();
             #endregion Comment
+
+            #region Occupation
+            CreateMap<OccupationResponseModel, OccupationModel>();
+            #endregion Occupation
         }
     }
 }

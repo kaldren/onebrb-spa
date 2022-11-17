@@ -14,13 +14,25 @@
 
 <PageTitle>Profile</PageTitle>
 
-@if (_profile is null)
+@if (Utils.AllNull(userByIdResponse, _currentUser, _profile))
 {
-    <p>Profile not found.</p>
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading profile...</RadzenText>
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </RadzenCard>
 }
-else
+else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.NotFound)
 {
-    <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" />
+    <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Warning" Variant="Variant.Warning" Shade="Shade.Lighter">
+        Profile not found.
+    </RadzenAlert>
+}
+else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
+{
+    if (Utils.AllNotNull(_currentUser, _profile))
+    {
+        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" />
+    }
 }
 
 @code {
@@ -30,10 +42,15 @@ else
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
 
+    OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
+    OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
+
+    bool triedFetchingUserProfile;
+
     protected override async Task OnInitializedAsync()
     {
-        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        var userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
+        currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
 
         if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK || userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
         {
@@ -46,8 +63,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        var userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
+        currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
 
         if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK || userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
         {

@@ -70,12 +70,10 @@ else
             </RadzenCard>
 
             <ProfileCommentsComponent CurrentUserId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
-            @if (CurrentUser.Id != ProfileModel.Id)
+
+            @if (CurrentUser.Id != ProfileModel.Id && _hasUserCommentedAlready.HasValue && _hasUserCommentedAlready.Value == false)
             {
-                if (!_hasUserCommentedAlready)
-                {
-                    <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
-                }
+                <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
             }
         </div>
     </div>
@@ -92,7 +90,7 @@ else
 
     private ProfileCommentsComponent _profileCommentsComponent;
 
-    private bool _hasUserCommentedAlready = false;
+    private bool? _hasUserCommentedAlready;
 
     protected override async Task OnInitializedAsync()
     {
@@ -102,8 +100,12 @@ else
         {
             var userComments = Mapper.Map<ICollection<CommentModel>>(userCommentsResponse.Result);
 
-            if (userComments.Any())
-                _hasUserCommentedAlready = true;
+            var commentsBetweenResponse = await OnebrbApiClient.ApiCommentsGetAsync(ProfileModel?.Id, CurrentUser?.Id);
+
+            if (commentsBetweenResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                _hasUserCommentedAlready = commentsBetweenResponse.Result.Count > 0;
+            }
 
             await _profileCommentsComponent.Refresh();
         }

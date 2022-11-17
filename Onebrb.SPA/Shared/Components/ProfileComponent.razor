@@ -71,7 +71,7 @@ else
 
             <ProfileCommentsComponent CurrentUserId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
 
-            @if (CurrentUser.Id != ProfileModel.Id && _hasUserCommentedAlready.HasValue && _hasUserCommentedAlready.Value == false)
+            @if (CurrentUser.Id != ProfileModel.Id && _hasUserCommentedAlready == false)
             {
                 <CommentFormComponent RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
             }
@@ -90,7 +90,7 @@ else
 
     private ProfileCommentsComponent _profileCommentsComponent;
 
-    private bool? _hasUserCommentedAlready;
+    private bool _hasUserCommentedAlready = true;
 
     protected override async Task OnInitializedAsync()
     {

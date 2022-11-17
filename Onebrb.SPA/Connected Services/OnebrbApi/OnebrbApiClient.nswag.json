@@ -4343,6 +4343,35 @@
           }
         }
       },
+      "OccupationEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "trackId": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "PatchCommentRequestModel": {
         "type": "object",
         "additionalProperties": false,
@@ -4490,6 +4519,9 @@
             "items": {
               "$ref": "#/components/schemas/RatingEntity"
             }
+          },
+          "occupation": {
+            "$ref": "#/components/schemas/OccupationEntity"
           }
         }
       },
@@ -4617,6 +4649,10 @@
           "rating": {
             "type": "number",
             "format": "double",
+            "nullable": true
+          },
+          "occupationName": {
+            "type": "string",
             "nullable": true
           }
         }

@@ -25,5 +25,7 @@ public class UserProfileModel
     public bool IsDeleted { get; set; }
 
     public double? Rating { get; set; }
+
+    public string? OccupationName { get; set; }
 }
 

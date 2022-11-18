@@ -164,19 +164,23 @@ a, .btn-link {
     padding: 1rem;
 }
 
-    .profile-component__profile-rating .bi {
-        margin:5px
-    }
+.profile-component__profile-rating .bi {
+    margin:5px
+}
 
-    .profile-component__about-section {
-        flex: 2;
-    }
+.profile-component__about-section {
+    flex: 2;
+}
 
 .profile-component__bottom-info {
     margin: 1rem;
 }
-/*#endregion Profile component*/
 
+.profile-component__bottom-info__social {
+    display: flex;
+    justify-content: space-evenly;
+}
+/*#endregion Profile component*/
 /*#region Profile comments*/
 .profile-comments .profile-comments__profile-commented-link:hover {
     cursor: pointer;
@@ -214,8 +218,16 @@ a, .btn-link {
 .settings-component .settings-component__form__input-div {
     margin: 0.5rem 0;
 }
-/*#endregion Settings component*/
 
+.settings-component__social > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.settings-component__social input {
+    margin: 0 0 0 10px;
+}
+/*#endregion Settings component*/
 /*#region Login Form Component*/
 .login-form-component {
     max-width: 960px;

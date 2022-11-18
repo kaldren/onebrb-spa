@@ -4786,13 +4786,19 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },
-          "lastUpdateDate": {
+          "dateUpdated": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "name": {
             "type": "string",
@@ -4818,13 +4824,19 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },
-          "lastUpdateDate": {
+          "dateUpdated": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "content": {
             "type": "string",
@@ -4910,13 +4922,19 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },
-          "lastUpdateDate": {
+          "dateUpdated": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "name": {
             "type": "string",
@@ -4946,13 +4964,19 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },
-          "lastUpdateDate": {
+          "dateUpdated": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "name": {
             "type": "string",
@@ -5056,13 +5080,19 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },
-          "lastUpdateDate": {
+          "dateUpdated": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "firstName": {
             "type": "string",
@@ -5150,13 +5180,19 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },
-          "lastUpdateDate": {
+          "dateUpdated": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDeleted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "value": {
             "type": "integer",
@@ -5278,6 +5314,18 @@
             "nullable": true
           },
           "occupationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "linkedInProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebookProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "instagramProfile": {
             "type": "string",
             "nullable": true
           }

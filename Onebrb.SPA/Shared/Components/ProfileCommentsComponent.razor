@@ -37,9 +37,9 @@ else
                         <RadzenCard>
                             <div class="row">
                                 <div class="col-md-8 text-truncate">
-                                    <button @onclick="() => NavigateToProfile(comment.AuthorId)">
+                                    <a @onclick="() => NavigateToProfile(comment.AuthorId)">
                                         <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
-                                    </button>
+                                    </a>
                                 </div>
                                 <div class="col-md-4 text-right profile-comments__comment-options">
                                     <RadzenBadge BadgeStyle="BadgeStyle.Primary">
@@ -100,7 +100,10 @@ else
         {
             ToastService.ClearSuccessToasts();
             ToastService.ShowSuccess("The comment has been deleted.");
-            await Refresh();
+
+            // TODO: Remove it from the DOM (don't call API again???)
+
+            //await Refresh();
         }
     }
 
@@ -141,12 +144,7 @@ else
 
         if (updatedCommentResponse.StatusCode == (int)HttpStatusCode.OK)
         {
-            var currentComment = Comments.SingleOrDefault(p => p.Id == updatedCommentResponse.Result.Id);
-            Comments.Remove(currentComment);
-
-            currentComment = Mapper.Map<CommentModel>(updatedCommentResponse);
-            Comments.Add(currentComment);
-
+            // TODO: Edit DOM
             StateHasChanged();
             ToastService.ClearSuccessToasts();
             ToastService.ShowSuccess("The comment has been edited.");
@@ -181,7 +179,7 @@ else
 
     public async Task Refresh()
     {
-        // TODO:Append the comment in the DOM instead of making real call
+        // TODO: Append the comment in the DOM instead of making real call
 
         _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
 

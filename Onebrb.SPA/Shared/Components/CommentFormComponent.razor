@@ -62,7 +62,6 @@
 
             var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);
 
-
             if (result.StatusCode == (int)HttpStatusCode.OK)
             {
                 var commentModel = Mapper.Map<CommentModel>(result.Result);

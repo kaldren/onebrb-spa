@@ -20,43 +20,49 @@
 }
 else
 {
-<RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
-    <Tabs>
-        <RadzenTabsItem Text="Comments">
-            @if (Comments.Count() == 0)
-            {
-                <p>@Loc["UserHasNoComments"]</p>
-            }
-            else
-            {
-                <RadzenDataList PageSize="4" WrapItems="false" AllowPaging="true" Data="@Comments" TItem="CommentModel">
-                    <Template Context="comment">
-                        <RadzenCard>
-                            <div class="row">
-                                <div class="col-md-8 text-truncate">
-                                    <a @onclick="() => NavigateToProfile(comment.AuthorId)">
-                                        <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
-                                    </a>
+    <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
+        <Tabs>
+            <RadzenTabsItem Text="Comments">
+                @if (Comments.Count() == 0)
+                {
+                    <p>@Loc["UserHasNoComments"]</p>
+                }
+                else
+                {
+                    <RadzenDataList PageSize="4" WrapItems="false" AllowPaging="true" Data="@Comments" TItem="CommentModel">
+                        <Template Context="comment">
+                            <RadzenCard>
+                                <div class="row">
+                                    <div class="profile-comments__profile-box col-md-8 text-truncate">
+                                        <a @onclick="() => NavigateToProfile(comment.AuthorId)">
+                                            <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
+                                        </a>
+                                        <div class="profile-comments__profile-box__date">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                            </svg>
+                                            <span>@comment.DateCreated.ToString()</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-right profile-comments__comment-options">
+                                        <RadzenBadge BadgeStyle="BadgeStyle.Primary">
+                                            <StarComponent Value="@comment.RatingValue" />
+                                        </RadzenBadge>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 text-right profile-comments__comment-options">
-                                    <RadzenBadge BadgeStyle="BadgeStyle.Primary">
-                                        <StarComponent Value="@comment.RatingValue" />
-                                    </RadzenBadge>
+                                <div class="d-flex flex-row align-items-center profile-comments__content-box">
+                                    <RadzenImage Path="@comment.PhotoUrl" Class="rounded-circle float-left mr-3" Style="width: 80px; height: 80px;" />
+                                    <div>
+                                        <div style="font-size: .8em">@comment.Content</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="d-flex flex-row align-items-center profile-comments__content-box">
-                                <RadzenImage Path="@comment.PhotoUrl" Class="rounded-circle float-left mr-3" Style="width: 80px; height: 80px;" />
-                                <div>
-                                    <div style="font-size: .8em">@comment.Content</div>
-                                </div>
-                            </div>
-                        </RadzenCard>
-                    </Template>
-                </RadzenDataList>
-            }
-        </RadzenTabsItem>
-    </Tabs>
-</RadzenTabs>
+                            </RadzenCard>
+                        </Template>
+                    </RadzenDataList>
+                }
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
 }
 
 @code {

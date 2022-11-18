@@ -22,6 +22,6 @@
 
         public int RatingValue { get; set; }
 
-        public DateTimeOffset Date { get; set; }
+        public DateTimeOffset DateCreated { get; set; }
     }
 }

@@ -13,7 +13,11 @@ namespace Onebrb.SPA
             #endregion Profile
 
             #region Comment
-            CreateMap<CommentResponseModel, CommentModel>();
+            CreateMap<CommentResponseModel, CommentModel>()
+                .ForMember(
+                    dest => dest.DateCreated,
+                    opt => opt.MapFrom(src => src.DateCreated)
+                );
             #endregion Comment
 
             #region Occupation

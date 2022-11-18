@@ -4897,7 +4897,7 @@
             "type": "string",
             "nullable": true
           },
-          "date": {
+          "dateCreated": {
             "type": "string",
             "format": "date-time"
           },

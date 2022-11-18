@@ -1966,8 +1966,8 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("recipientLastName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string RecipientLastName { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Date { get; set; }
+        [Newtonsoft.Json.JsonProperty("dateCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset DateCreated { get; set; }
     
         [Newtonsoft.Json.JsonProperty("ratingValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int RatingValue { get; set; }

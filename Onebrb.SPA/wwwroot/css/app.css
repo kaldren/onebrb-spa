@@ -213,6 +213,11 @@ a, .btn-link {
 .profile-comments__comment-options .bi {
     margin: 3px;
 }
+
+.profile-comments__profile-box {
+    display: flex;
+    flex-direction: column;
+}
 /*#endregion Profile comments*/
 /*#region Settings component*/
 .settings-component .settings-component__form__input-div {

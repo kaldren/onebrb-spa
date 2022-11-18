@@ -66,6 +66,12 @@ a, .btn-link {
 .top-row > .container-fluid {
     justify-content: center;
 }
+
+/*#Global */
+i.bi {
+    font-size: 1.25rem;
+}
+/*#endregion Global */
 /*# Main */
 .basic-icon {
     font-size: 2rem;
@@ -101,10 +107,10 @@ a, .btn-link {
     flex-wrap: wrap;
 }
 
-.notification-bar p {
-    padding: 0 12px;
-    margin: 0;
-}
+    .notification-bar p {
+        padding: 0 12px;
+        margin: 0;
+    }
 /*#endregion Main*/
 
 /*#region Search component*/
@@ -164,9 +170,9 @@ a, .btn-link {
     padding: 1rem;
 }
 
-.profile-component__profile-rating .bi {
-    margin:5px
-}
+    .profile-component__profile-rating .bi {
+        margin: 5px
+    }
 
 .profile-component__about-section {
     flex: 2;
@@ -202,9 +208,9 @@ a, .btn-link {
     margin: 20px auto;
 }
 
-.comment-form-component .btn-primary {
-    margin: 20px 0
-}
+    .comment-form-component .btn-primary {
+        margin: 20px 0
+    }
 
 .profile-comments__comment-options .rz-badge {
     font-size: 0.95rem;
@@ -218,10 +224,46 @@ a, .btn-link {
     display: flex;
     flex-direction: column;
 }
+.profile-comments__profile-box__date {
+    display: flex;
+    justify-content: left;
+    font-size: 0.8rem;
+}
+.profile-comments__profile-box__date .bi {
+    font-size: 0.8rem;
+    margin: 0px 3px 0px 0px;
+}
+
+.profile-comments__content {
+    font-size: 1rem;
+}
 /*#endregion Profile comments*/
 /*#region Settings component*/
 .settings-component .settings-component__form__input-div {
     margin: 0.5rem 0;
+}
+
+.settings-component .privacy-toggle__lock {
+    margin: 10px;
+}
+
+.settings-component__form__privacy-toggle.rz-card {
+    padding: unset;
+}
+
+.settings-component__form__privacy-toggle {
+    background-color: beige !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.settings-component__form__privacy-toggle i {
+    color: #ff6d41;
+}
+
+.valid.modified:not([type="checkbox"]) {
+    outline: unset !important;
 }
 
 .settings-component__social > div {
@@ -229,6 +271,7 @@ a, .btn-link {
     align-items: center;
     justify-content: space-between;
 }
+
 .settings-component__social input {
     margin: 0 0 0 10px;
 }

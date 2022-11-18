@@ -31,7 +31,7 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
 {
     if (Utils.AllNotNull(_currentUser, _profile))
     {
-        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" Comments="_comments" CurrentUserCommented=false/>
+        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" Comments="_comments" CurrentUserCommented=_currentUserCommented />
     }
 }
 

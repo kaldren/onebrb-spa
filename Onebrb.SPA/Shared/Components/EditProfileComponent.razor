@@ -10,18 +10,28 @@
 
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
+@inject IToastService ToastService
 
 @if (_updatedUserProfile)
 {
-    <AlertWindowComponent Text="Profile updated successfully." AlertType="Success" />
+    ToastService.ClearAll();
+    ToastService.ShowSuccess("Profile updated successfully.");
 }
 
 @if (_updateUserProfileError)
 {
-    <AlertWindowComponent Text="Error occured, please try again later." AlertType="Danger" />
+    ToastService.ClearAll();
+    ToastService.ShowError("Error occured, please try again later.");
 }
 
-@if (@CurrentUser is not null)
+@if (@CurrentUser is null && _occupations is null)
+{
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading profile...</RadzenText>
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </RadzenCard>
+}
+else
 {
     <div class="settings-component">
         <RadzenTemplateForm Data="CurrentUser">
@@ -60,16 +70,13 @@
 
                         </div>
 
-                        @if (_occupations is not null)
-                        {
-                            <div class="settings-component__form__input-div col-md-8">
-                                <RadzenCard>
-                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Occupation</RadzenText>
-                                    <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Name
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Occupation</RadzenText>
+                                <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Name
                                             TextProperty="Name" ValueProperty="Name" Change=@(args => OnOccupationChange(args)) Class="w-100" />
-                                </RadzenCard>
-                            </div>
-                        }
+                            </RadzenCard>
+                        </div>
 
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>

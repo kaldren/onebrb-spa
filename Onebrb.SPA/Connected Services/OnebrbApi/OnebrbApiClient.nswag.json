@@ -5120,6 +5120,18 @@
           },
           "occupation": {
             "$ref": "#/components/schemas/OccupationEntity"
+          },
+          "linkedInProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebookProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "instagramProfile": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -5201,6 +5213,18 @@
             "nullable": true
           },
           "occupationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "linkedInProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebookProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "instagramProfile": {
             "type": "string",
             "nullable": true
           }

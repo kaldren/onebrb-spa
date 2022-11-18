@@ -16,12 +16,15 @@
         <RadzenRating Change=@(args => OnRatingChange(args)) />
     </RadzenCard>
     <TextAreaComponent OnChange="ChangeHandler" />
-    <ButtonComponent IsDisabled=@(_rating < 1 || string.IsNullOrWhiteSpace(_comment)) Text="Post" OnClick="ClickHandler" />
+    <ButtonComponent IsDisabled=@(_rating < 1 || string.IsNullOrWhiteSpace(_comment)) Text="Post" OnClick="OnCommentSubmit" />
 </div>
 
 @code {
     [Parameter]
     public string RecipientId { get; set; }
+
+    [Parameter]
+    public string AuthorId { get; set; }
 
     [Parameter] public EventCallback OnPostedComment { get; set; }
 
@@ -32,12 +35,12 @@
     void OnRatingChange(int value)
         => _rating = value;
 
-    async Task ClickHandler()
+    async Task OnCommentSubmit()
     {
         // Call API to create the new comment
         var comment = new PostCommentRequestModel
             {
-                AuthorId = string.Empty,
+                AuthorId = AuthorId,
                 RecipientId = RecipientId,
                 Content = _comment,
                 Rating = _rating

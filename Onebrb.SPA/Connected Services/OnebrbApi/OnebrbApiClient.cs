@@ -2155,6 +2155,15 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("occupation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public OccupationEntity Occupation { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("linkedInProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LinkedInProfile { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("facebookProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FacebookProfile { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("instagramProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string InstagramProfile { get; set; }
+    
     
     }
     
@@ -2223,6 +2232,15 @@ namespace OnebrbApi
     
         [Newtonsoft.Json.JsonProperty("occupationName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OccupationName { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("linkedInProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LinkedInProfile { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("facebookProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FacebookProfile { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("instagramProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string InstagramProfile { get; set; }
     
     
     }

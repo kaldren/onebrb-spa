@@ -27,5 +27,11 @@ public class UserProfileModel
     public double? Rating { get; set; }
 
     public string? OccupationName { get; set; }
+
+    public string? LinkedInProfile { get; set; }
+
+    public string? FacebookProfile { get; set; }
+
+    public string? InstagramProfile { get; set; }
 }
 

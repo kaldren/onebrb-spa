@@ -14,25 +14,25 @@
 
 @implements IDisposable
 
-@if (_commentsResponse is null)
+@if (Comments is null)
 {
     <RadzenCard>
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading comments...</RadzenText>
         <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
     </RadzenCard>
 }
-else if (Utils.AllNotNull(_commentsResponse, _comments))
+else
 {
 <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
     <Tabs>
         <RadzenTabsItem Text="Comments">
-            @if (_comments.Count() == 0)
+            @if (Comments.Count() == 0)
             {
                 <p>@Loc["UserHasNoComments"]</p>
             }
             else
             {
-                <RadzenDataList PageSize="4" WrapItems="false" AllowPaging="true" Data="@_comments" TItem="CommentModel">
+                <RadzenDataList PageSize="4" WrapItems="false" AllowPaging="true" Data="@Comments" TItem="CommentModel">
                     <Template Context="comment">
                         <RadzenCard>
                             <div class="row">
@@ -75,11 +75,12 @@ else if (Utils.AllNotNull(_commentsResponse, _comments))
     [Parameter]
     public string CurrentUserId { get; set; }
 
+    [Parameter]
+    public ICollection<CommentModel> Comments { get; set; }
+
     OnebrbApiResponse<ICollection<CommentResponseModel>> _commentsResponse;
 
     private string _updatedComment = string.Empty;
-
-    private ICollection<CommentModel> _comments;
 
     private void NavigateToProfile(string id)
     {
@@ -140,11 +141,11 @@ else if (Utils.AllNotNull(_commentsResponse, _comments))
 
         if (updatedCommentResponse.StatusCode == (int)HttpStatusCode.OK)
         {
-            var currentComment = _comments.SingleOrDefault(p => p.Id == updatedCommentResponse.Result.Id);
-            _comments.Remove(currentComment);
+            var currentComment = Comments.SingleOrDefault(p => p.Id == updatedCommentResponse.Result.Id);
+            Comments.Remove(currentComment);
 
             currentComment = Mapper.Map<CommentModel>(updatedCommentResponse);
-            _comments.Add(currentComment);
+            Comments.Add(currentComment);
 
             StateHasChanged();
             ToastService.ClearSuccessToasts();
@@ -168,23 +169,25 @@ else if (Utils.AllNotNull(_commentsResponse, _comments))
         DialogService.OnClose -= Close;
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
 
-        if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
-        {
-            _comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
-        }
-    }
+    //    if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
+    //    {
+    //        _comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
+    //    }
+    //}
 
     public async Task Refresh()
     {
+        // TODO:Append the comment in the DOM instead of making real call
+
         _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
 
         if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
         {
-            _comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
+            Comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
             StateHasChanged();
         }
     }

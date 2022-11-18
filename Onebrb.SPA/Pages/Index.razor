@@ -11,6 +11,7 @@
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
+@inject NavigationManager Navigation
 
 <PageTitle>Onebrb</PageTitle>
 
@@ -23,7 +24,8 @@
         }
         else
         {
-            <ProfileComponent CurrentUser="_currentUser" ProfileModel="_currentUser" />
+            Navigation.NavigateTo($"/profiles/{_currentUser.Id}");
+            @*<ProfileComponent CurrentUser="_currentUser" ProfileModel="_currentUser" />*@
         }
     </Authorized>
     <NotAuthorized>

@@ -31,7 +31,7 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
 {
     if (Utils.AllNotNull(_currentUser, _profile))
     {
-        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" />
+        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" Comments="_comments" CurrentUserCommented=false/>
     }
 }
 
@@ -41,37 +41,56 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
 
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
+    private ICollection<CommentModel>? _comments;
+
+    bool _currentUserCommented = true;
 
     OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
     OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
+    OnebrbApiResponse<ICollection<CommentResponseModel>>? commentsResponseModel;
 
-    bool triedFetchingUserProfile;
-
-    protected override async Task OnInitializedAsync()
-    {
-        currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
-
-        if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK || userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
-        {
-            return;
-        }
-
-        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-        _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
-    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await LoadData();
+    //}
 
     protected override async Task OnParametersSetAsync()
     {
-        currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
+        await LoadData();
+    }
 
-        if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK || userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
+    private async Task LoadData()
+    {
+        currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+
+        if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK)
         {
             return;
         }
-
         _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+
+        userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
+
+        if (userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
+        {
+            return;
+        }
         _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
+
+        // Get comments (will show profile even if we can't fetch comments for better UX)
+        commentsResponseModel = await OnebrbApiClient.ApiUsersCommentsAsync(_profile?.Id);
+
+        // No need to make additional API calls to check if current user commented on current profile if we couldn't fetch comments in the first place
+        if (commentsResponseModel.StatusCode == (int)HttpStatusCode.OK)
+        {
+            _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponseModel.Result);
+
+            var commentsBetweenResponse = await OnebrbApiClient.ApiCommentsGetAsync(_profile?.Id, _currentUser?.Id);
+
+            if (commentsBetweenResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                _currentUserCommented = commentsBetweenResponse.Result.Count > 0;
+            }
+        }
     }
 }

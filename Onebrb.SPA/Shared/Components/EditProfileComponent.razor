@@ -76,6 +76,18 @@
                                 <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" />
                             </RadzenCard>
                         </div>
+
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="LinkedIn account" @bind-Value="@CurrentUser.LinkedInProfile" />
+                        </div>
+
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="Facebook profile" @bind-Value="@CurrentUser.FacebookProfile" />
+                        </div>
+
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenTextBox style="width: 100%;" Name="Instagram profile" @bind-Value="@CurrentUser.InstagramProfile" />
+                        </div>
                     </div>
                 </div>
             </div>

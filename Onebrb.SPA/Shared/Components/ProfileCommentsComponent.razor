@@ -10,9 +10,6 @@
 @inject IMapper Mapper
 @inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
 @inject IToastService ToastService
-@inject DialogService DialogService
-
-@implements IDisposable
 
 @if (Comments is null)
 {
@@ -45,11 +42,6 @@ else
                                     <RadzenBadge BadgeStyle="BadgeStyle.Primary">
                                         <StarComponent Value="@comment.RatingValue" />
                                     </RadzenBadge>
-                                    @if (CurrentUserId == comment.AuthorId)
-                                    {
-                                        <i class="bi bi-pencil-fill" @onclick="() => ShowEditComment(comment)"></i>
-                                        <i class="bi bi-trash3-fill" @onclick="() => OnCommentDelete(comment.Id)"></i>
-                                    }
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center profile-comments__content-box">
@@ -87,106 +79,21 @@ else
         Navigation.NavigateTo($"/profiles/{id}");
     }
 
-    private void OnCommentEditSubmit(string id)
-    {
-        Console.WriteLine($"Editting comment with id {id}");
-    }
-
-    private async Task OnCommentDelete(string id)
-    {
-        var deleteCommentResponse = await OnebrbApiClient.ApiCommentsDeleteAsync(id);
-
-        if (deleteCommentResponse.StatusCode == (int)HttpStatusCode.OK)
-        {
-            ToastService.ClearSuccessToasts();
-            ToastService.ShowSuccess("The comment has been deleted.");
-
-            // TODO: Remove it from the DOM (don't call API again???)
-
-            //await Refresh();
-        }
-    }
-
-    private async Task ShowEditComment(CommentModel comment)
-    {
-        var result = await DialogService.OpenAsync("Simple Dialog", ds =>
-    @<div>
-        <p class="mb-4">
-            <RadzenTextArea Value=@comment.Content Change="(args) => OnCommentChange(args)" Class="w-100" />
-        </p>
-        <div class="row">
-            <div class="col">
-                <RadzenButton Text="Save" Click="() => OnCommentChangeSubmit(comment, ds.Close)" Class="mr-1" Style="width: 80px;" />
-                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Class="mr-1" />
-            </div>
-        </div>
-    </div>
-    );
-
-    }
-
-    void OnCommentChange(string commentText)
-    {
-        _updatedComment = commentText;
-    }
-
-    async Task OnCommentChangeSubmit(CommentModel comment, Action<dynamic> callback)
-    {
-        PatchCommentRequestModel patchComment = new()
-            {
-                Id = comment.Id,
-                Content = _updatedComment,
-                AuthorId = comment.AuthorId,
-                RecipientId = RecipientId,
-            };
-
-        var updatedCommentResponse = await OnebrbApiClient.ApiCommentsPatchAsync(patchComment);
-
-        if (updatedCommentResponse.StatusCode == (int)HttpStatusCode.OK)
-        {
-            // TODO: Edit DOM
-            StateHasChanged();
-            ToastService.ClearSuccessToasts();
-            ToastService.ShowSuccess("The comment has been edited.");
-            callback.Invoke(true);
-        }
-    }
-
-    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
-    {
-    }
-
-    void Close(dynamic result)
-    {
-    }
-
-    public void Dispose()
-    {
-        // The DialogService is a singleton so it is advisable to unsubscribe.
-        DialogService.OnOpen -= Open;
-        DialogService.OnClose -= Close;
-    }
-
-    //protected override async Task OnParametersSetAsync()
+    //void OnCommentChange(string commentText)
     //{
+    //    _updatedComment = commentText;
+    //}
+
+    //public async Task Refresh()
+    //{
+    //    // TODO: Append the comment in the DOM instead of making real call
+
     //    _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
 
     //    if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
     //    {
-    //        _comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
+    //        Comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
+    //        StateHasChanged();
     //    }
     //}
-
-    public async Task Refresh()
-    {
-        // TODO: Append the comment in the DOM instead of making real call
-
-        _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId);
-
-        if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
-        {
-            Comments = Mapper.Map<ICollection<CommentModel>>(_commentsResponse.Result);
-            StateHasChanged();
-        }
-    }
 }

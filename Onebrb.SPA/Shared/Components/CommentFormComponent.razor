@@ -8,6 +8,8 @@
 @inject NavigationManager NavigationManager
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
+@inject DialogService DialogService
+@implements IDisposable
 
 <div class="comment-form-component">
     <h2>Add a comment</h2>
@@ -17,6 +19,14 @@
     </RadzenCard>
     <TextAreaComponent OnChange="ChangeHandler" />
     <ButtonComponent IsDisabled=@(_rating < 1 || string.IsNullOrWhiteSpace(_comment)) Text="Post" OnClick="OnCommentSubmit" />
+
+    @if (showConfirmDialog)
+    {
+        <RadzenCard>
+            <RadzenButton Text="Confirm dialog" Style="width: 100%;" ButtonStyle="ButtonStyle.Secondary" Click=@(args => DialogService.Confirm("Once submitted the comment can't be edited, so make sure it's correct. Continue?", "MyTitle", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) />
+        </RadzenCard>
+    }
+
 </div>
 
 @code {
@@ -30,30 +40,53 @@
 
     private int _rating;
     private string _comment = string.Empty;
-
+    private bool showConfirmDialog = false;
 
     void OnRatingChange(int value)
         => _rating = value;
 
     async Task OnCommentSubmit()
     {
-        // Call API to create the new comment
-        var comment = new PostCommentRequestModel
+        bool? continueComment = await DialogService.Confirm("You won't be able to edit or delete this comment once submitted. Do you want to proceed?", "Comment", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+
+        if (continueComment is true)
+        {
+            // Call API to create the new comment
+            var comment = new PostCommentRequestModel
+                {
+                    AuthorId = AuthorId,
+                    RecipientId = RecipientId,
+                    Content = _comment,
+                    Rating = _rating
+                };
+
+            var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);
+
+
+            if (result.StatusCode == (int)HttpStatusCode.OK)
             {
-                AuthorId = AuthorId,
-                RecipientId = RecipientId,
-                Content = _comment,
-                Rating = _rating
-            };
-
-        var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);
-
-        if (result.StatusCode == (int) HttpStatusCode.OK)
-            await OnPostedComment.InvokeAsync();
+                var commentModel = Mapper.Map<CommentModel>(result.Result);
+                await OnPostedComment.InvokeAsync(commentModel);
+            }
+        }
     }
 
     void ChangeHandler(string message)
     {
         _comment = message;
+    }
+
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+    }
+
+    void Close(dynamic result)
+    {
+    }
+
+    public void Dispose()
+    {
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
     }
 }

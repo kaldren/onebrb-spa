@@ -135,31 +135,11 @@ else
 
     private ProfileCommentsComponent _profileCommentsComponent;
 
-    protected override async Task OnInitializedAsync()
+    void OnPostedComment(object comment)
     {
-        //var userCommentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(ProfileModel?.Id);
+        CommentModel newComment = (CommentModel)comment;
 
-        //if (userCommentsResponse.StatusCode == (int)HttpStatusCode.OK)
-        //{
-        //    var userComments = Mapper.Map<ICollection<CommentModel>>(userCommentsResponse.Result);
-
-        //    var commentsBetweenResponse = await OnebrbApiClient.ApiCommentsGetAsync(ProfileModel?.Id, CurrentUser?.Id);
-
-        //    if (commentsBetweenResponse.StatusCode == (int)HttpStatusCode.OK)
-        //    {
-        //        _hasUserCommentedAlready = commentsBetweenResponse.Result.Count > 0;
-        //    }
-
-        //    //await _profileCommentsComponent.Refresh();
-        //}
-    }
-
-    async Task OnPostedComment()
-    {
-        // Add comment in the DOM and remove form
-
-        // or ... get only THAT comment and put it in the comments (better!)
-
-        await _profileCommentsComponent.Refresh();
+        Comments?.Add(newComment);
+        CurrentUserCommented = true;
     }
 }

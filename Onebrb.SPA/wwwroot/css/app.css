@@ -305,9 +305,12 @@ i.bi {
 /*#endregion Misc*/
 /*#region Footer*/
 footer {
+    color: white;
     position: absolute;
-    bottom: 0;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
 }
 /*#end#region Footer*/

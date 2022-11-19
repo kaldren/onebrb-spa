@@ -62,7 +62,7 @@ else
 
     @if (CurrentUserId != RecipientId && _currentUserCommented == false)
     {
-        <CommentFormComponent AuthorId="@CurrentUserId" RecipientId="@RecipientId" OnPostedComment="OnPostedComment" />
+        <CommentFormComponent AuthorId="@CurrentUserId" RecipientId="@RecipientId" OnPostedComment="@(args => OnPostedComment(args))" />
     }
 }
 
@@ -119,8 +119,9 @@ else
         _comments = Mapper.Map<List<CommentModel>>(result.Result);
     }
 
-    async Task OnPostedComment()
+    void OnPostedComment(object comment)
     {
-        
+        _comments.Add((CommentModel) comment);
+        _currentUserCommented = true;
     }
 }

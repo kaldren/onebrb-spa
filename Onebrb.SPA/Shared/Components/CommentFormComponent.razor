@@ -18,7 +18,7 @@
         <RadzenRating Change=@(args => OnRatingChange(args)) />
     </RadzenCard>
     <TextAreaComponent OnChange="ChangeHandler" />
-    <ButtonComponent IsDisabled=@(_rating < 1 || string.IsNullOrWhiteSpace(_comment)) Text="Post" OnClick="OnCommentSubmit" />
+    <RadzenButton Disabled=@(_rating < 1 || string.IsNullOrWhiteSpace(_comment)) Text="Post" Click="OnCommentSubmit" />
 
     @if (showConfirmDialog)
     {

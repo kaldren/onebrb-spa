@@ -97,16 +97,7 @@ else
                     </div>
                 </RadzenCard>
 
-                @if (Comments is not null)
-                {
-                    <ProfileCommentsComponent CurrentUserId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" Comments="Comments" @ref="_profileCommentsComponent" />
-
-                    @if (CurrentUser?.Id != ProfileModel?.Id && CurrentUserCommented == false)
-                    {
-                        <CommentFormComponent AuthorId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" OnPostedComment="OnPostedComment" />
-                    }
-                }
-
+                <ProfileCommentsComponent CurrentUserId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
             </div>
         </div>
     }
@@ -122,9 +113,6 @@ else
     public UserProfileModel? CurrentUser { get; set; }
 
     [Parameter]
-    public ICollection<CommentModel>? Comments { get; set; }
-
-    [Parameter]
     public bool CurrentUserCommented { get; set; }
 
     private ProfileCommentsComponent _profileCommentsComponent;
@@ -133,7 +121,6 @@ else
     {
         CommentModel newComment = (CommentModel)comment;
 
-        Comments?.Add(newComment);
         CurrentUserCommented = true;
     }
 }

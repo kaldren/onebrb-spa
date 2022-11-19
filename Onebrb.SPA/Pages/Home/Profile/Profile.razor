@@ -31,7 +31,7 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
 {
     if (Utils.AllNotNull(_currentUser, _profile))
     {
-        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" Comments="_comments" CurrentUserCommented=_currentUserCommented />
+        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" CurrentUserCommented=_currentUserCommented />
     }
 }
 
@@ -41,13 +41,13 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
 
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
-    private ICollection<CommentModel>? _comments;
+    //private ICollection<CommentModel>? _comments;
 
     bool _currentUserCommented = true;
 
     OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
     OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
-    OnebrbApiResponse<ICollection<CommentResponseModel>>? commentsResponseModel;
+    //OnebrbApiResponse<ICollection<CommentResponseModel>>? commentsResponseModel;
 
     //protected override async Task OnInitializedAsync()
     //{
@@ -77,20 +77,20 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
         }
         _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
 
-        // Get comments (will show profile even if we can't fetch comments for better UX)
-        commentsResponseModel = await OnebrbApiClient.ApiUsersCommentsAsync(_profile?.Id);
+        //// Get comments (will show profile even if we can't fetch comments for better UX)
+        //commentsResponseModel = await OnebrbApiClient.ApiUsersCommentsAsync(_profile?.Id, 5, 0);
 
-        // No need to make additional API calls to check if current user commented on current profile if we couldn't fetch comments in the first place
-        if (commentsResponseModel.StatusCode == (int)HttpStatusCode.OK)
-        {
-            _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponseModel.Result);
+        //// No need to make additional API calls to check if current user commented on current profile if we couldn't fetch comments in the first place
+        //if (commentsResponseModel.StatusCode == (int)HttpStatusCode.OK)
+        //{
+        //    _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponseModel.Result);
 
-            var commentsBetweenResponse = await OnebrbApiClient.ApiCommentsGetAsync(_profile?.Id, _currentUser?.Id);
+        //    var commentsBetweenResponse = await OnebrbApiClient.ApiCommentsGetAsync(_profile?.Id, _currentUser?.Id);
 
-            if (commentsBetweenResponse.StatusCode == (int)HttpStatusCode.OK)
-            {
-                _currentUserCommented = commentsBetweenResponse.Result.Count > 0;
-            }
-        }
+        //    if (commentsBetweenResponse.StatusCode == (int)HttpStatusCode.OK)
+        //    {
+        //        _currentUserCommented = commentsBetweenResponse.Result.Count > 0;
+        //    }
+        //}
     }
 }

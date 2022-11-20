@@ -27,8 +27,7 @@ else
                 {
                     <p>@Loc["UserHasNoComments"]</p>
                 }
-                @*<RadzenDataList PageSize="5" WrapItems="false" AllowPaging="true" Data="@_comments" TItem="CommentModel" LoadData="@LoadData">*@
-                <RadzenDataList WrapItems="false" AllowPaging="true" PageSize="3" Count="@_commentsCount" Data="@_comments" TItem="CommentModel" LoadData="@LoadData">
+                <RadzenDataList WrapItems="false" AllowPaging="true" PageSize="5" Count="@_commentsCount" Data="@_comments" TItem="CommentModel" LoadData="@LoadData">
                     <Template Context="comment">
                         <div class="profile-comments__profile-box__date">
                             <i class="bi bi-calendar3"></i>

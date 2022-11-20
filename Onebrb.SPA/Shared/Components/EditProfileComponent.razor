@@ -39,10 +39,10 @@ else
                 <div class="settings-component__form col-md-6">
                     <div class="row">
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="@CurrentUser.FirstName" />
+                            <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="@CurrentUser.LastName" />
+                            <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="@CurrentUser.Email" Disabled />
@@ -59,7 +59,7 @@ else
                             </RadzenCard>
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="@CurrentUser.Phone" />
+                            <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
                             <RadzenCard class="settings-component__form__privacy-toggle">
                                 <div class="privacy-toggle__lock">
                                     <i class="bi bi-file-lock2-fill"></i>
@@ -84,7 +84,8 @@ else
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
                                 <h4 class="mb-4">About</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" />
+                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" MaxLength="@_aboutMaxLength" />
+                                <span>(Max 500 characters)</span>
                             </RadzenCard>
                         </div>
 
@@ -129,10 +130,19 @@ else
     private bool _updatedUserProfile = false;
     private bool _updateUserProfileError = false;
 
-    IEnumerable<int> values = new int[] { 1, 2 };
+    private IEnumerable<int> values = new int[] { 1, 2 };
+
+    private int _firstNameMaxLength = 30;
+    private int _lastNameMaxLength = 30;
+    private int _phoneMaxLength = 20;
+    private int _aboutMaxLength = 500;
+
+    private int _aboutRemaining;
 
     protected override async Task OnInitializedAsync()
     {
+        _aboutRemaining = _aboutMaxLength - @CurrentUser.About.Length;
+
         var occupationsResponse = await OnebrbApiClient.ApiOccupationsAsync();
 
         if (occupationsResponse.StatusCode == (int)HttpStatusCode.OK)

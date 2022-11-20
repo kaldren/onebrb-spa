@@ -49,26 +49,37 @@ else
                 <RadzenCard class="profile-component__bottom-info">
                     <h3 class="h5">@Loc["ProfileAdditionalInfo"]</h3>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div>@Loc["ProfileAdditionalInfoCountry"]</div>
-                            <b>@(ProfileModel.Country)</b>
-                            <div class="mt-3">@Loc["ProfileAdditionalInfoCity"]</div>
-                            <b>@(ProfileModel.City)</b>
-                        </div>
-                        <div class="col-md-4">
-                            @if (ProfileModel.IsEmailVisible || CurrentUser.Id == ProfileModel.Id)
-                            {
-                                <div>@Loc["ProfileEmail"]</div>
-                                <b>@(ProfileModel.Email)</b>
-                            }
 
-                            @if (ProfileModel.IsPhoneVisible || CurrentUser.Id == ProfileModel.Id)
-                            {
-                                <div class="mt-3">@Loc["ProfilePhone"]</div>
-                                <b>@(ProfileModel.Phone)</b>
-                            }
-                        </div>
-                        <div class="col-md-4 profile-component__bottom-info__social">
+                        @if (Utils.AtLeastOneNotNull(ProfileModel?.Country, ProfileModel?.City))
+                        {
+                            <div class="col-md-4">
+                                <div>@Loc["ProfileAdditionalInfoCountry"]</div>
+                                <b>@(ProfileModel.Country)</b>
+                                <div class="mt-3">@Loc["ProfileAdditionalInfoCity"]</div>
+                                <b>@(ProfileModel.City)</b>
+                            </div>
+                        }
+
+                        @if (Utils.AtLeastOneNotNull(ProfileModel?.Email, ProfileModel?.Phone))
+                        {
+                            <div class="col-md-4">
+                                @if (ProfileModel.Email is not null)
+                                {
+                                    <div>@Loc["ProfileEmail"]</div>
+                                    <b>@(ProfileModel.Email)</b>
+                                }
+
+                                @if (ProfileModel.Phone is not null)
+                                {
+                                    <div class="mt-3">@Loc["ProfilePhone"]</div>
+                                    <b>@(ProfileModel.Phone)</b>
+                                }
+                            </div>
+                        }
+
+                        @if (Utils.AtLeastOneNotNull(ProfileModel?.LinkedInProfile, ProfileModel?.FacebookProfile, ProfileModel?.InstagramProfile))
+                        {
+                            <div class="col-md-4 profile-component__bottom-info__social">
                             @if (ProfileModel.LinkedInProfile is not null)
                             {
                                 <div>
@@ -94,6 +105,7 @@ else
                                 </div>
                             }
                         </div>
+                        }
                     </div>
                 </RadzenCard>
 

@@ -1,5 +1,6 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Onebrb.SPA.Models;
 @using OnebrbApi
 <RemoteAuthenticatorView Action="@Action" />
 
@@ -30,6 +31,12 @@
             var authState = await authenticationStateTask;
 
             var user = authState.User;
+            var userClaims = authState.User.Claims.ToList();
+
+            // Claims
+            string emailClaim = userClaims.Where(p => p.Type == "emails").First().Value;
+            string firstNameClaim = userClaims.Where(p => p.Type == "given_name").First().Value;
+            string lastNameClaim = userClaims.Where(p => p.Type == "family_name").First().Value;
 
             _authenticated = user.Identity?.IsAuthenticated ?? false;
 
@@ -37,6 +44,13 @@
 
             if (_authenticated)
             {
+                var activateUserModel = new ActivateUserProfileModel
+                {
+                    FirstName = firstNameClaim,
+                    LastName = lastNameClaim,
+                    Email = emailClaim,
+                };
+
                 await OnebrbApiClient.ApiUsersActivateAsync();
             }
 

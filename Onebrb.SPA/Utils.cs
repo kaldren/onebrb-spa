@@ -11,5 +11,10 @@
         {
             return objects.All(s => s != null);
         }
+
+        public static bool AtLeastOneNotNull(params object[] objects)
+        {
+            return objects.Any(s => s != null);
+        }
     }
 }

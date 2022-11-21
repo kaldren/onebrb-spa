@@ -38,12 +38,12 @@
                 <ChildContent>
                     @Body
                 </ChildContent>
-                <ErrorContent Context="Exception">
+@*                <ErrorContent Context="Exception">
                     @{
-                        toastService.ClearAll();
-                        toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                        //toastService.ClearAll();
+                        //toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
                     }
-                </ErrorContent>
+                </ErrorContent>*@
             </CustomErrorBoundry>
         </article>
     </main>

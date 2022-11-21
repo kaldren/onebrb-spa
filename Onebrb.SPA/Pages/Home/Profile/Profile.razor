@@ -14,8 +14,24 @@
 @inject IToastService ToastService
 
 <PageTitle>Profile</PageTitle>
+@if (statusCodeEnum is not null)
+{
+    if (statusCodeEnum == ResponseStatusCodeEnum.Unauthorized)
+    {
+        <p>Oops! You are not authorized to do that.</p>
+    }
 
-@if (Utils.AtLeastOneNull(_currentUser, _profile))
+    else if (statusCodeEnum == ResponseStatusCodeEnum.NotFound)
+    {
+        <p>The user was not found.</p>
+    }
+
+    else
+    {
+        <p>Oops! Something happened, please try again later.</p>
+    }
+}
+else if (Utils.AtLeastOneNull(_currentUser, _profile))
 {
     <RadzenCard>
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading profile...</RadzenText>
@@ -33,6 +49,7 @@ else
 
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
+    private ResponseStatusCodeEnum? statusCodeEnum;
 
     bool _currentUserCommented = true;
 
@@ -46,8 +63,8 @@ else
 
     private async Task LoadData()
     {
-        try
-        {
+        //try
+        //{
             currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
             _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
 
@@ -60,21 +77,24 @@ else
                 userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id ?? _currentUser.Id);
                 _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
             }
-        }
-        catch (ApiException<ProblemDetails> ex)
-        {
-            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-            {
-                ToastService.ShowError("Unauthorized action");
-            }
-            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-            {
-                ToastService.ShowError("User not found");
-            }
-        }
-        catch (Exception)
-        {
-            ToastService.ShowError("Sorry, something happened...");
-        }
+        //}
+        //catch (ApiException<ProblemDetails> ex)
+        //{
+        //    if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+        //    {
+        //        statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+        //        ToastService.ShowError("Unauthorized action.");
+        //    }
+        //    if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+        //    {
+        //        statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+        //        ToastService.ShowError("The user was not found.");
+        //    }
+        //}
+        //catch (Exception)
+        //{
+        //    statusCodeEnum = ResponseStatusCodeEnum.ServerError;
+        //    ToastService.ShowError("Sorry, something happened...");
+        //}
     }
 }

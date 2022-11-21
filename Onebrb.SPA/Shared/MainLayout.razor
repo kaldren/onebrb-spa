@@ -10,6 +10,7 @@
 @inject IWebAssemblyHostEnvironment environment
 @inject IToastService toastService
 @inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
+@inject NavigationManager Navigation
 
 
 <div class="page">
@@ -38,12 +39,22 @@
                 <ChildContent>
                     @Body
                 </ChildContent>
-@*                <ErrorContent Context="Exception">
+                <ErrorContent Context="ex">
                     @{
+                        //if (ex is ApiException<ProblemDetails>)
+                        //{
+                        //    toastService.ShowError(ex.Message);
+                        //}
+                        //else
+                        //{
+                        //    toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                        //}
+                        //ex
                         //toastService.ClearAll();
-                        //toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                        //
                     }
-                </ErrorContent>*@
+                    <ErrorPageComponent />
+                </ErrorContent>
             </CustomErrorBoundry>
         </article>
     </main>

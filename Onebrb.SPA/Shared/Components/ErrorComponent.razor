@@ -1,0 +1,19 @@
+﻿@if (StatusCode == ResponseStatusCodeEnum.NotFound)
+{
+    // Can add some image for 404    
+}
+
+<p>@Message ?? @DefaultMessage()</p>
+
+@code {
+    [Parameter]
+    public ResponseStatusCodeEnum StatusCode { get; set; }
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    private string DefaultMessage()
+    {
+        return "Oops! Please try again later.";
+    }
+}

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using OnebrbApi;
 
 namespace Onebrb.SPA
 {
@@ -16,15 +15,6 @@ namespace Onebrb.SPA
 
         protected override Task OnErrorAsync(Exception exception)
         {
-            if (exception is ApiException<ProblemDetails>)
-            {
-                _toastService.ShowError(exception.Message);
-            }
-            else
-            {
-                _toastService.ShowError("Error! Please try again later.");
-            }
-
             if (_env.IsDevelopment())
                 return base.OnErrorAsync(exception);
 

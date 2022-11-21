@@ -48,7 +48,7 @@
       "OperationGenerationMode": 5,
       "AdditionalNamespaceUsages": [],
       "AdditionalContractNamespaceUsages": [],
-      "GenerateOptionalParameters": false,
+      "GenerateOptionalParameters": true,
       "GenerateJsonMethods": false,
       "EnforceFlagEnums": false,
       "ParameterArrayType": "System.Collections.Generic.IEnumerable",

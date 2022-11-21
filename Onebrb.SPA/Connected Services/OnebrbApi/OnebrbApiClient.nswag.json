@@ -5332,7 +5332,8 @@
             "nullable": true
           },
           "isPhoneVisible": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "about": {
             "type": "string",
@@ -5508,7 +5509,8 @@
             "nullable": true
           },
           "isPhoneVisible": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "about": {
             "type": "string",

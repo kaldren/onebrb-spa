@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -49,6 +50,7 @@ if (appLanguage != null)
 }
 
 builder.Services.AddBlazoredToast();
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddScoped<DialogService>();
 
 await builder.Build().RunAsync();

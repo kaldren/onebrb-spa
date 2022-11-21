@@ -3,6 +3,7 @@
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <AuthorizeView>
     <Authorized>
@@ -15,6 +16,7 @@
     private async Task BeginLogout(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
+        await LocalStorage.ClearAsync();
         Navigation.NavigateTo("authentication/logout");
     }
 }

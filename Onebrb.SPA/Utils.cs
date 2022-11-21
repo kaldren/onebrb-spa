@@ -16,5 +16,10 @@
         {
             return objects.Any(s => s != null);
         }
+
+        public static bool AtLeastOneNull(params object[] objects)
+        {
+            return objects.Any(s => s == null);
+        }
     }
 }

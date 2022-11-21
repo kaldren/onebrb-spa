@@ -8,25 +8,18 @@
 @using OnebrbApi
 @using System.Net
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Loc
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Onebrb</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        @if (_currentUser is null)
-        {
-            <p>Loading user profile...</p>
-            OnAuthorized();
-        }
-        else
-        {
-            Navigation.NavigateTo($"/profiles/{_currentUser.Id}");
-            @*<ProfileComponent CurrentUser="_currentUser" ProfileModel="_currentUser" />*@
-        }
+        <p>Loading...</p>
     </Authorized>
     <NotAuthorized>
         <LoginFormComponent />
@@ -36,15 +29,23 @@
 
 @code {
     private UserProfileModel? _currentUser;
+    private bool isAuthorized = false;
 
-    private async void OnAuthorized()
+    protected override async Task OnInitializedAsync()
     {
-        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 
-        if (currentUserResponse.StatusCode == (int) HttpStatusCode.OK)
+        bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
+
+        if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
         {
-            _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-            StateHasChanged();
+            var userClaims = authState.User.Claims;
+            string userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
+
+            if (!string.IsNullOrEmpty(userIdClaim))
+            {
+                Navigation.NavigateTo($"/profiles/{userIdClaim}");
+            }
         }
     }
 }

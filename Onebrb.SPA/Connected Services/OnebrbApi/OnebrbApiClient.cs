@@ -19,158 +19,90 @@ namespace OnebrbApi
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v13.0.1.0))")]
     public partial interface IOnebrbApiClient
     {
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsGetAsync(string commentId);
+        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsGetAsync(string commentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsGetAsync(string commentId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse> ApiCommentsDeleteAsync(string commentId);
+        System.Threading.Tasks.Task<OnebrbApiResponse> ApiCommentsDeleteAsync(string commentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse> ApiCommentsDeleteAsync(string commentId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiCommentsGetAsync(string recipientId, string authorId);
+        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiCommentsGetAsync(string recipientId, string authorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiCommentsGetAsync(string recipientId, string authorId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPostAsync(PostCommentRequestModel body);
+        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPostAsync(PostCommentRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPostAsync(PostCommentRequestModel body, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPatchAsync(PatchCommentRequestModel body);
+        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPatchAsync(PatchCommentRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPatchAsync(PatchCommentRequestModel body, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync();
+        System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<bool>> ApiNotificationsPutAsync();
+        System.Threading.Tasks.Task<OnebrbApiResponse<bool>> ApiNotificationsPutAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<bool>> ApiNotificationsPutAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<OccupationResponseModel>>> ApiOccupationsAsync();
+        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<OccupationResponseModel>>> ApiOccupationsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<OccupationResponseModel>>> ApiOccupationsAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<ProfileEntity>>> ApiSearchAsync();
+        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<ProfileEntity>>> ApiSearchAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<ProfileEntity>>> ApiSearchAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersGetAsync(string userId);
+        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersGetAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersGetAsync(string userId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersActivateAsync();
+        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersActivateAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersActivateAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersCurrentAsync();
+        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersCurrentAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersCurrentAsync(System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiUsersCommentsAsync(string userId, int top, int skip);
+        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiUsersCommentsAsync(string userId, int top, int skip, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiUsersCommentsAsync(string userId, int top, int skip, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentsCountResponseModel>> ApiUsersCommentsCountAsync(string userId);
+        System.Threading.Tasks.Task<OnebrbApiResponse<CommentsCountResponseModel>> ApiUsersCommentsCountAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<CommentsCountResponseModel>> ApiUsersCommentsCountAsync(string userId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserRatingResponseModel>> ApiUsersRatingAsync(string userId);
+        System.Threading.Tasks.Task<OnebrbApiResponse<UserRatingResponseModel>> ApiUsersRatingAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserRatingResponseModel>> ApiUsersRatingAsync(string userId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<OccupationResponseModel>> ApiUsersOccupationAsync(string userId);
+        System.Threading.Tasks.Task<OnebrbApiResponse<OccupationResponseModel>> ApiUsersOccupationAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<OccupationResponseModel>> ApiUsersOccupationAsync(string userId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersPatchAsync(UpdateUserProfileRequestModel body);
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersPatchAsync(UpdateUserProfileRequestModel body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersPatchAsync(UpdateUserProfileRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
     }
     
@@ -209,17 +141,10 @@ namespace OnebrbApi
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsGetAsync(string commentId)
-        {
-            return ApiCommentsGetAsync(commentId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsGetAsync(string commentId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsGetAsync(string commentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (commentId == null)
                 throw new System.ArgumentNullException("commentId");
@@ -317,17 +242,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse> ApiCommentsDeleteAsync(string commentId)
-        {
-            return ApiCommentsDeleteAsync(commentId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse> ApiCommentsDeleteAsync(string commentId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse> ApiCommentsDeleteAsync(string commentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (commentId == null)
                 throw new System.ArgumentNullException("commentId");
@@ -419,17 +337,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiCommentsGetAsync(string recipientId, string authorId)
-        {
-            return ApiCommentsGetAsync(recipientId, authorId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiCommentsGetAsync(string recipientId, string authorId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiCommentsGetAsync(string recipientId, string authorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (recipientId == null)
                 throw new System.ArgumentNullException("recipientId");
@@ -512,17 +423,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPostAsync(PostCommentRequestModel body)
-        {
-            return ApiCommentsPostAsync(body, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPostAsync(PostCommentRequestModel body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPostAsync(PostCommentRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -622,17 +526,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPatchAsync(PatchCommentRequestModel body)
-        {
-            return ApiCommentsPatchAsync(body, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPatchAsync(PatchCommentRequestModel body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentResponseModel>> ApiCommentsPatchAsync(PatchCommentRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -732,17 +629,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync()
-        {
-            return ApiNotificationsGetAsync(System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/notifications");
@@ -820,17 +710,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<bool>> ApiNotificationsPutAsync()
-        {
-            return ApiNotificationsPutAsync(System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<bool>> ApiNotificationsPutAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<bool>> ApiNotificationsPutAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/notifications");
@@ -915,17 +798,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<OccupationResponseModel>>> ApiOccupationsAsync()
-        {
-            return ApiOccupationsAsync(System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<OccupationResponseModel>>> ApiOccupationsAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<OccupationResponseModel>>> ApiOccupationsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/occupations");
@@ -1009,17 +885,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<ProfileEntity>>> ApiSearchAsync()
-        {
-            return ApiSearchAsync(System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<ProfileEntity>>> ApiSearchAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<ProfileEntity>>> ApiSearchAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/search");
@@ -1093,17 +962,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersGetAsync(string userId)
-        {
-            return ApiUsersGetAsync(userId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersGetAsync(string userId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersGetAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -1191,17 +1053,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersActivateAsync()
-        {
-            return ApiUsersActivateAsync(System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersActivateAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersActivateAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/users/activate");
@@ -1285,17 +1140,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersCurrentAsync()
-        {
-            return ApiUsersCurrentAsync(System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersCurrentAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersCurrentAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/users/current");
@@ -1379,17 +1227,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiUsersCommentsAsync(string userId, int top, int skip)
-        {
-            return ApiUsersCommentsAsync(userId, top, skip, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiUsersCommentsAsync(string userId, int top, int skip, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<System.Collections.Generic.ICollection<CommentResponseModel>>> ApiUsersCommentsAsync(string userId, int top, int skip, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -1476,17 +1317,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<CommentsCountResponseModel>> ApiUsersCommentsCountAsync(string userId)
-        {
-            return ApiUsersCommentsCountAsync(userId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentsCountResponseModel>> ApiUsersCommentsCountAsync(string userId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<CommentsCountResponseModel>> ApiUsersCommentsCountAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -1564,17 +1398,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<UserRatingResponseModel>> ApiUsersRatingAsync(string userId)
-        {
-            return ApiUsersRatingAsync(userId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserRatingResponseModel>> ApiUsersRatingAsync(string userId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserRatingResponseModel>> ApiUsersRatingAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -1662,17 +1489,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<OccupationResponseModel>> ApiUsersOccupationAsync(string userId)
-        {
-            return ApiUsersOccupationAsync(userId, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<OccupationResponseModel>> ApiUsersOccupationAsync(string userId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<OccupationResponseModel>> ApiUsersOccupationAsync(string userId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -1760,17 +1580,10 @@ namespace OnebrbApi
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersPatchAsync(UpdateUserProfileRequestModel body)
-        {
-            return ApiUsersPatchAsync(body, System.Threading.CancellationToken.None);
-        }
-    
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersPatchAsync(UpdateUserProfileRequestModel body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<OnebrbApiResponse<UserProfileResponseModel>> ApiUsersPatchAsync(UpdateUserProfileRequestModel body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -2258,8 +2071,8 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("phone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Phone { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("isPhoneVisible", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsPhoneVisible { get; set; }
+        [Newtonsoft.Json.JsonProperty("isPhoneVisible", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsPhoneVisible { get; set; }
     
         [Newtonsoft.Json.JsonProperty("about", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string About { get; set; }
@@ -2396,8 +2209,8 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("phone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Phone { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("isPhoneVisible", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsPhoneVisible { get; set; }
+        [Newtonsoft.Json.JsonProperty("isPhoneVisible", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsPhoneVisible { get; set; }
     
         [Newtonsoft.Json.JsonProperty("about", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string About { get; set; }

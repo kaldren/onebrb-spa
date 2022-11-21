@@ -1,4 +1,4 @@
-﻿@page "/profiles/{Id}"
+﻿@page "/profiles/{Id?}"
 
 @using AutoMapper
 @using Microsoft.AspNetCore.Authorization
@@ -11,28 +11,20 @@
 @inject IStringLocalizer<Profile> Loc
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
+@inject IToastService ToastService
 
 <PageTitle>Profile</PageTitle>
 
-@if (Utils.AllNull(userByIdResponse, _currentUser, _profile))
+@if (Utils.AtLeastOneNull(_currentUser, _profile))
 {
     <RadzenCard>
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading profile...</RadzenText>
         <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
     </RadzenCard>
 }
-else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.NotFound)
+else
 {
-    <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Warning" Variant="Variant.Warning" Shade="Shade.Lighter">
-        Profile not found.
-    </RadzenAlert>
-}
-else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
-{
-    if (Utils.AllNotNull(_currentUser, _profile))
-    {
-        <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" CurrentUserCommented=_currentUserCommented />
-    }
+    <ProfileComponent CurrentUser="_currentUser" ProfileModel="_profile" CurrentUserCommented=_currentUserCommented />
 }
 
 @code {
@@ -41,56 +33,48 @@ else if (userByIdResponse?.StatusCode == (int)HttpStatusCode.OK)
 
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
-    //private ICollection<CommentModel>? _comments;
 
     bool _currentUserCommented = true;
 
     OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
     OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
-    //OnebrbApiResponse<ICollection<CommentResponseModel>>? commentsResponseModel;
 
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await LoadData();
-    //}
-
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         await LoadData();
     }
 
     private async Task LoadData()
     {
-        currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-
-        if (currentUserResponse.StatusCode != (int)HttpStatusCode.OK)
+        try
         {
-            return;
+            currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+            _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+
+            if (_currentUser.Id == Id)
+            {
+                _profile = _currentUser;
+            }
+            else
+            {
+                userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id ?? _currentUser.Id);
+                _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
+            }
         }
-        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-
-        userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id);
-
-        if (userByIdResponse.StatusCode != (int)HttpStatusCode.OK)
+        catch (ApiException<ProblemDetails> ex)
         {
-            return;
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                ToastService.ShowError("Unauthorized action");
+            }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                ToastService.ShowError("User not found");
+            }
         }
-        _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
-
-        //// Get comments (will show profile even if we can't fetch comments for better UX)
-        //commentsResponseModel = await OnebrbApiClient.ApiUsersCommentsAsync(_profile?.Id, 5, 0);
-
-        //// No need to make additional API calls to check if current user commented on current profile if we couldn't fetch comments in the first place
-        //if (commentsResponseModel.StatusCode == (int)HttpStatusCode.OK)
-        //{
-        //    _comments = Mapper.Map<ICollection<CommentModel>>(commentsResponseModel.Result);
-
-        //    var commentsBetweenResponse = await OnebrbApiClient.ApiCommentsGetAsync(_profile?.Id, _currentUser?.Id);
-
-        //    if (commentsBetweenResponse.StatusCode == (int)HttpStatusCode.OK)
-        //    {
-        //        _currentUserCommented = commentsBetweenResponse.Result.Count > 0;
-        //    }
-        //}
+        catch (Exception)
+        {
+            ToastService.ShowError("Sorry, something happened...");
+        }
     }
 }

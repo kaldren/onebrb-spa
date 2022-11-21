@@ -137,12 +137,9 @@ else
     private int _phoneMaxLength = 20;
     private int _aboutMaxLength = 500;
 
-    private int _aboutRemaining;
 
     protected override async Task OnInitializedAsync()
     {
-        _aboutRemaining = _aboutMaxLength - @CurrentUser.About.Length;
-
         var occupationsResponse = await OnebrbApiClient.ApiOccupationsAsync();
 
         if (occupationsResponse.StatusCode == (int)HttpStatusCode.OK)
@@ -150,11 +147,14 @@ else
             _occupations = Mapper.Map<ICollection<OccupationModel>>(occupationsResponse.Result);
 
             // Get current user's occupation
-            var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
-
-            if (currentUserOccupationResponse.StatusCode == (int)HttpStatusCode.OK)
+            try
             {
+                var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
                 _userOccupation = Mapper.Map<OccupationModel>(currentUserOccupationResponse.Result);
+            }
+            catch (Exception)
+            {
+                _userOccupation = new OccupationModel { Name = "" };
             }
         }
     }

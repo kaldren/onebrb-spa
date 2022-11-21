@@ -2,10 +2,14 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Onebrb.SPA.Models;
 @using OnebrbApi
+@using System.Net;
 <RemoteAuthenticatorView Action="@Action" />
 
 @inject IOnebrbApiClient OnebrbApiClient
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@inject IToastService ToastService
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 @code {
     private bool _authenticated;
@@ -31,12 +35,6 @@
             var authState = await authenticationStateTask;
 
             var user = authState.User;
-            var userClaims = authState.User.Claims.ToList();
-
-            // Claims
-            string emailClaim = userClaims.Where(p => p.Type == "emails").First().Value;
-            string firstNameClaim = userClaims.Where(p => p.Type == "given_name").First().Value;
-            string lastNameClaim = userClaims.Where(p => p.Type == "family_name").First().Value;
 
             _authenticated = user.Identity?.IsAuthenticated ?? false;
 
@@ -44,17 +42,24 @@
 
             if (_authenticated)
             {
-                var activateUserModel = new ActivateUserProfileModel
+                try
                 {
-                    FirstName = firstNameClaim,
-                    LastName = lastNameClaim,
-                    Email = emailClaim,
-                };
+                    var userClaims = authState.User.Claims;
 
-                await OnebrbApiClient.ApiUsersActivateAsync();
+                    // Claims
+                    string userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
+
+                    //var userResponse = await OnebrbApiClient.ApiUsersActivateAsync();
+                    //await LocalStorage.SetItemAsStringAsync("Onebrb_UserId", authState.User.Identity.Name);
+                    //Navigation.NavigateTo($"/profiles/{userIdClaim}");
+                    Navigation.NavigateTo("/");
+                }
+                catch (Exception ex)
+                {
+                    Navigation.NavigateTo("/");
+                }
             }
 
-            StateHasChanged();
         });
     }
 }

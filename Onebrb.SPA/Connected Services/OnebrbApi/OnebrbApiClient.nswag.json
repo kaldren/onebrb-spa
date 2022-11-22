@@ -2518,6 +2518,16 @@
           "Search"
         ],
         "operationId": "search",
+        "parameters": [
+          {
+            "name": "fullName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2526,7 +2536,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2534,7 +2544,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2542,7 +2552,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2550,7 +2560,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2558,7 +2568,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2566,7 +2576,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2574,7 +2584,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2582,7 +2592,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2590,7 +2600,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2598,7 +2608,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2606,7 +2616,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2614,7 +2624,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2622,7 +2632,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2630,7 +2640,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2638,7 +2648,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               },
@@ -2646,7 +2656,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProfileEntity"
+                    "$ref": "#/components/schemas/UserProfileResponseModel"
                   }
                 }
               }
@@ -4979,96 +4989,6 @@
   },
   "components": {
     "schemas": {
-      "City": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "trackId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateUpdated": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "dateDeleted": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "country": {
-            "$ref": "#/components/schemas/Country"
-          }
-        }
-      },
-      "CommentEntity": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "trackId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateUpdated": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "dateDeleted": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "authorId": {
-            "type": "string",
-            "nullable": true
-          },
-          "author": {
-            "$ref": "#/components/schemas/ProfileEntity"
-          },
-          "recipientId": {
-            "type": "string",
-            "nullable": true
-          },
-          "recipient": {
-            "$ref": "#/components/schemas/ProfileEntity"
-          },
-          "rating": {
-            "$ref": "#/components/schemas/RatingEntity"
-          }
-        }
-      },
       "CommentResponseModel": {
         "type": "object",
         "additionalProperties": false,
@@ -5125,87 +5045,14 @@
           }
         }
       },
-      "Country": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "trackId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateUpdated": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "dateDeleted": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "cities": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/City"
-            }
-          }
-        }
-      },
-      "OccupationEntity": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "trackId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateUpdated": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "dateDeleted": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "OccupationResponseModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -5283,156 +5130,6 @@
           }
         }
       },
-      "ProfileEntity": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "trackId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateUpdated": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "dateDeleted": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "isEmailVisible": {
-            "type": "boolean"
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPhoneVisible": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "about": {
-            "type": "string",
-            "nullable": true
-          },
-          "countryId": {
-            "type": "string",
-            "nullable": true
-          },
-          "country": {
-            "$ref": "#/components/schemas/Country"
-          },
-          "cityId": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "$ref": "#/components/schemas/City"
-          },
-          "comments": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/CommentEntity"
-            }
-          },
-          "ratings": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/RatingEntity"
-            }
-          },
-          "occupation": {
-            "$ref": "#/components/schemas/OccupationEntity"
-          },
-          "linkedInProfile": {
-            "type": "string",
-            "nullable": true
-          },
-          "facebookProfile": {
-            "type": "string",
-            "nullable": true
-          },
-          "instagramProfile": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "RatingEntity": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "trackId": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateCreated": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dateUpdated": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "dateDeleted": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "value": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "authorId": {
-            "type": "string",
-            "nullable": true
-          },
-          "author": {
-            "$ref": "#/components/schemas/ProfileEntity"
-          },
-          "recipientId": {
-            "type": "string",
-            "nullable": true
-          },
-          "recipient": {
-            "$ref": "#/components/schemas/ProfileEntity"
-          }
-        }
-      },
       "UpdateUserProfileRequestModel": {
         "type": "object",
         "additionalProperties": false,
@@ -5457,9 +5154,14 @@
             "nullable": true
           },
           "isPhoneVisible": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "about": {
+            "type": "string",
+            "nullable": true
+          },
+          "occupationId": {
             "type": "string",
             "nullable": true
           },
@@ -5494,6 +5196,10 @@
             "nullable": true
           },
           "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
             "type": "string",
             "nullable": true
           },

@@ -1,32 +1,47 @@
 ﻿@page "/search"
 
 @using System.Globalization
+@using AutoMapper;
 @using Onebrb.SPA.Models
+@using Onebrb.SPA.Shared.Components
+@using OnebrbApi;
+@using System.Net;
 
 @inject NavigationManager Nav
-@inject HttpClient Http
-@inject IStringLocalizer<Search> Loc
-@inject IConfiguration Configuration
+@inject IStringLocalizer<Profile> Loc
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+@inject IToastService ToastService
 
 <PageTitle>Search products</PageTitle>
 
 <div class="search-component">
     <div>
         <RadzenCard>
-            <h4 class="mb-4">Search products</h4>
+            <h4 class="mb-4">Search people</h4>
             <RadzenTextBox Placeholder="Name" Change=@(args => OnNameSearchChange(args, "TextBox")) Class="w-100" />
         </RadzenCard>
     </div>
 
     <div>
-        <RadzenButton Click=@OnClick Text="Search" class="search-component__search-btn" />
+        <RadzenButton Click=@OnClick Text="Search" class="search-component__search-btn" Disabled=@searchBtnClicked />
     </div>
 
 
     <div class="search-data">
-        @if (showLoader)
+        @if (profiles is null && searchBtnClicked)
         {
-            <object data="loading.svg" width="100" height="100"></object>
+            if (statusCodeEnum is null)
+            {
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading...</RadzenText>
+                    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+                </RadzenCard>
+            }
+            else
+            {
+                <ErrorComponent StatusCode="statusCodeEnum.Value" />
+            }
         }
 
         @if (profiles is not null)
@@ -52,15 +67,16 @@
 
 @code {
     //TODO: Search model
-    private string? firstName;
-    bool showLoader = false;
+    private string? fullName;
+    private bool searchBtnClicked = false;
 
     private HttpResponseMessage? res;
     private IEnumerable<UserProfileModel>? profiles;
+    private ResponseStatusCodeEnum? statusCodeEnum;
 
     void OnNameSearchChange(string value, string name)
     {
-        firstName = value;
+        fullName = value;
     }
 
     void OnRowClick(DataGridRowMouseEventArgs<UserProfileModel> selectedProfile)
@@ -70,15 +86,38 @@
 
     async Task OnClick()
     {
-        showLoader = true;
+        searchBtnClicked = true;
 
-        res = await Http.GetAsync($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{firstName}'");
-
-        if (res.IsSuccessStatusCode)
+        try
         {
-            profiles = await Http.GetFromJsonAsync<IEnumerable<UserProfileModel>>($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/search?$filter=FirstName eq '{firstName}'");
+            var profilesResponse = await OnebrbApiClient.ApiSearchAsync(fullName);
+
+            if (profilesResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                profiles = Mapper.Map<IEnumerable<UserProfileModel>>(profilesResponse.Result);
+            }
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                ToastService.ShowError("Unauthorized action.");
+            }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                ToastService.ShowError("The user was not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            statusCodeEnum = ResponseStatusCodeEnum.ServerError;
+            ToastService.ShowError("Sorry, something happened...");
         }
 
-        showLoader = false;
+        searchBtnClicked = false;
     }
 }

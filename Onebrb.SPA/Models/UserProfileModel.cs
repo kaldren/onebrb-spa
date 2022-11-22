@@ -14,7 +14,7 @@ public class UserProfileModel
 
     public string? Phone { get; set; }
 
-    public bool IsPhoneVisible { get; set; }
+    public bool? IsPhoneVisible { get; set; }
 
     public string? About { get; set; }
 
@@ -22,11 +22,11 @@ public class UserProfileModel
 
     public string? City { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public double? Rating { get; set; }
 
     public string? OccupationName { get; set; }
+
+    public string? OccupationId { get; set; }
 
     public string? LinkedInProfile { get; set; }
 

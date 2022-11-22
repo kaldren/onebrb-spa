@@ -68,6 +68,8 @@ else
         }
         catch (ApiException<ProblemDetails> ex)
         {
+            ToastService.ClearAll();
+
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;

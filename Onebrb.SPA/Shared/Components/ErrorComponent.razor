@@ -3,7 +3,7 @@
     // Can add some image for 404    
 }
 
-<p>@Message ?? @DefaultMessage()</p>
+<p>@Message</p>
 
 @code {
     [Parameter]
@@ -11,6 +11,13 @@
 
     [Parameter]
     public string? Message { get; set; }
+
+    protected override Task OnParametersSetAsync()
+    {
+        Message = Message ?? DefaultMessage();
+
+        return base.OnParametersSetAsync();
+    }
 
     private string DefaultMessage()
     {

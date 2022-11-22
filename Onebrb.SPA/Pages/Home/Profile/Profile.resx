@@ -144,8 +144,8 @@
   <data name="ProfilePhone" xml:space="preserve">
     <value>Phone</value>
   </data>
-  <data name="ProfileProfession" xml:space="preserve">
-    <value>Profession</value>
+  <data name="ProfileOccupation" xml:space="preserve">
+    <value>Occupation</value>
   </data>
   <data name="ProfileSellerAdditionalInfo" xml:space="preserve">
     <value>About the seller</value>

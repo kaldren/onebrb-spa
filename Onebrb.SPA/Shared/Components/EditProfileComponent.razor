@@ -39,13 +39,13 @@ else
                 <div class="settings-component__form col-md-6">
                     <div class="row">
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="First Name" @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name="First Name" Placeholder="First name" @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Last Name" @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name="Last Name" Placeholder="Last name" @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Email" @bind-Value="@CurrentUser.Email" Disabled />
+                            <RadzenTextBox style="width: 100%;" Name="Email" Placeholder="Email" @bind-Value="@CurrentUser.Email" Disabled />
                             <RadzenCard class="settings-component__form__privacy-toggle">
                                 <div class="privacy-toggle__lock">
                                     <i class="bi bi-file-lock2-fill"></i>
@@ -59,7 +59,7 @@ else
                             </RadzenCard>
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Phone" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name="Phone" Placeholder="Phone number" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
                             <RadzenCard class="settings-component__form__privacy-toggle">
                                 <div class="privacy-toggle__lock">
                                     <i class="bi bi-file-lock2-fill"></i>
@@ -84,7 +84,7 @@ else
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
                                 <h4 class="mb-4">About</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" MaxLength="@_aboutMaxLength" />
+                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder="Write something about yourself" MaxLength="@_aboutMaxLength" />
                                 <span>(Max 500 characters)</span>
                             </RadzenCard>
                         </div>
@@ -92,17 +92,17 @@ else
                         <div class="settings-component__social">
                             <div class="settings-component__form__input-div col-md-8">
                                 <i class="bi bi-linkedin"></i>
-                                <RadzenTextBox style="width: 100%;" Name="LinkedIn account" @bind-Value="@CurrentUser.LinkedInProfile" />
+                                <RadzenTextBox style="width: 100%;" Name="LinkedIn account" Placeholder="LinkedIn account name" @bind-Value="@CurrentUser.LinkedInProfile" />
                             </div>
 
                             <div class="settings-component__form__input-div col-md-8">
                                 <i class="bi bi-facebook"></i>
-                                <RadzenTextBox style="width: 100%;" Name="Facebook account" @bind-Value="@CurrentUser.FacebookProfile" />
+                                <RadzenTextBox style="width: 100%;" Name="Facebook account" Placeholder="Facebook account name" @bind-Value="@CurrentUser.FacebookProfile" />
                             </div>
 
                             <div class="settings-component__form__input-div col-md-8">
                                 <i class="bi bi-instagram"></i>
-                                <RadzenTextBox style="width: 100%;" Name="Instagram account" @bind-Value="@CurrentUser.InstagramProfile" />
+                                <RadzenTextBox style="width: 100%;" Name="Instagram account" Placeholder="Instagram account name" @bind-Value="@CurrentUser.InstagramProfile" />
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ else
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-12 d-flex" style="margin-top: 16px;">
-                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text="Save" />
+                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text="Save" Disabled=@_updatedUserProfile />
                     <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
                 </div>
             </div>

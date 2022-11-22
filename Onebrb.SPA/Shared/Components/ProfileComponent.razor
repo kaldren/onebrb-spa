@@ -36,8 +36,12 @@ else
                         <div class="profile-component__header-info__main-info">
                             <div>@Loc["ProfileName"]</div>
                             <b>@(ProfileModel.FirstName + " " + ProfileModel.LastName)</b>
-                            <div class="mt-3">@Loc["ProfileProfession"]</div>
-                            <b>@ProfileModel.OccupationName</b>
+
+                            @if (Utils.AllNotNull(ProfileModel.OccupationName))
+                            {
+                                <div class="mt-3">@Loc["ProfileOccupation"]</div>
+                                <b>@ProfileModel.OccupationName</b>
+                            }
                         </div>
                         <div class="profile-component__about-section">
                             <p>

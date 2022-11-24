@@ -49,9 +49,9 @@
             <RadzenDataGrid AllowColumnResize="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                         Data="@profiles" TItem="UserProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowClick=@OnRowClick>
                 <Columns>
-                    <RadzenDataGridColumn TItem="UserProfileModel" Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="60px">
+                    <RadzenDataGridColumn TItem="UserProfileModel" Title="" Frozen="true" Sortable="false" Filterable="false" Width="60px">
                         <Template Context="data">
-                            @*<RadzenImage Path="@data.Photo" style="width: 40px; height: 40px; border-radius: 8px;" />*@
+                            <RadzenImage Path="@data.Photo" style="display: block; margin: 0 auto; width: 70px; height: 70px; border-radius: 8px;" />
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="UserProfileModel" Property="FirstName" Title="First Name" Frozen="true" Width="140px" />

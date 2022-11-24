@@ -24,7 +24,7 @@
     </div>
 
     <div>
-        <RadzenButton Click=@OnClick Text="Search" class="search-component__search-btn" Disabled=@searchBtnClicked />
+        <RadzenButton Click=@OnClick Text="Search" class="search-component__search-btn" Disabled=@(string.IsNullOrWhiteSpace(fullName) || (!string.IsNullOrWhiteSpace(fullName) && searchBtnClicked)) />
     </div>
 
 
@@ -46,21 +46,32 @@
 
         @if (profiles is not null)
         {
-            <RadzenDataGrid AllowColumnResize="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                        Data="@profiles" TItem="UserProfileModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowClick=@OnRowClick>
-                <Columns>
-                    <RadzenDataGridColumn TItem="UserProfileModel" Title="" Frozen="true" Sortable="false" Filterable="false" Width="60px">
-                        <Template Context="data">
-                            <RadzenImage Path="@data.Photo" style="display: block; margin: 0 auto; width: 70px; height: 70px; border-radius: 8px;" />
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="UserProfileModel" Property="FirstName" Title="First Name" Frozen="true" Width="140px" />
-                    <RadzenDataGridColumn TItem="UserProfileModel" Property="LastName" Title="Last Name" Frozen="true" Width="140px" />
-                    <RadzenDataGridColumn TItem="UserProfileModel" Property="Email" Title="Email" Frozen="true" Width="200px" />
-                    <RadzenDataGridColumn TItem="UserProfileModel" Property="Phone" Title="Phone" Frozen="true" Width="100px" />
-                    <RadzenDataGridColumn TItem="UserProfileModel" Property="About" Title="About" Frozen="true" Width="140px" />
-                </Columns>
-            </RadzenDataGrid>
+            <RadzenDataList WrapItems="true" AllowPaging="false" Data="@profiles" TItem="UserProfileModel">
+                <Template Context="data">
+                    <RadzenCard Style="width:300px;">
+                        <div class="d-flex flex-row align-items-center">
+                            <a href="/profiles/@data.Id">
+                                <RadzenImage Path="@(data.Photo ?? _defaultPhotoUrl)" Class="rounded-circle float-start me-3" Style="width: 80px; height: 80px;" />
+                            </a>
+                            <div>
+                                <h4 class="mb-0">@(data?.FirstName + " " + data?.LastName)</h4>
+                                <div>@data?.OccupationName</div>
+                                <div style="font-size: .8em">@(data.Country)</div>
+                            </div>
+                        </div>
+                        <hr style="border: none; background-color: rgba(0,0,0,.08); height: 1px; margin: 1rem 0;" />
+                        <div class="row">
+                            @if (data.Rating is not null)
+                            {
+                                <div class="col-md-4 text-end">
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Text=@(data.Rating.ToString()) />
+                                </div>
+                            }
+                        </div>
+                    </RadzenCard>
+                </Template>
+            </RadzenDataList>
+            <RadzenPager ShowPagingSummary="true" PagingSummaryFormat="@pagingSummaryFormat" AlwaysVisible="true" HorizontalAlign="HorizontalAlign.Right" Count=@_profilesCount PageSize=@pageSize PageNumbersCount="5" PageChanged="@OnPageChanged" />
         }
     </div>
 </div>
@@ -69,14 +80,24 @@
     //TODO: Search model
     private string? fullName;
     private bool searchBtnClicked = false;
+    private string? _defaultPhotoUrl = "img/no-photo.svg";
 
     private HttpResponseMessage? res;
     private IEnumerable<UserProfileModel>? profiles;
     private ResponseStatusCodeEnum? statusCodeEnum;
 
+    string pagingSummaryFormat = "Displaying page {0} of {1} (total {2} records)";
+    private int _profilesCount = 0;
+    private int pageSize = 5;
+
     void OnNameSearchChange(string value, string name)
     {
         fullName = value;
+    }
+
+    async Task OnPageChanged(PagerEventArgs args)
+    {
+        await GetProfilesAsync(args.Top, args.Skip);
     }
 
     void OnRowClick(DataGridRowMouseEventArgs<UserProfileModel> selectedProfile)
@@ -88,14 +109,20 @@
     {
         searchBtnClicked = true;
 
+        await GetProfilesAsync();
+
+        searchBtnClicked = false;
+    }
+
+    async Task GetProfilesAsync(int top = 5, int skip = 0)
+    {
         try
         {
-            var profilesResponse = await OnebrbApiClient.ApiSearchAsync(fullName);
+            var searchCountResponse = await OnebrbApiClient.ApiSearchCountAsync(fullName);
+            var profilesResponse = await OnebrbApiClient.ApiSearchAsync(fullName, top, skip);
 
-            if (profilesResponse.StatusCode == (int)HttpStatusCode.OK)
-            {
-                profiles = Mapper.Map<IEnumerable<UserProfileModel>>(profilesResponse.Result);
-            }
+            profiles = Mapper.Map<IEnumerable<UserProfileModel>>(profilesResponse.Result);
+            _profilesCount = searchCountResponse.Result.Count;
         }
         catch (ApiException<ProblemDetails> ex)
         {
@@ -117,7 +144,5 @@
             statusCodeEnum = ResponseStatusCodeEnum.ServerError;
             ToastService.ShowError("Sorry, please try again later.");
         }
-
-        searchBtnClicked = false;
     }
 }

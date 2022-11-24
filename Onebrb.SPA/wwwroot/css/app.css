@@ -127,6 +127,7 @@ i.bi {
         display: flex;
         justify-content: center;
         margin-top: 50px;
+        flex-direction: column;
     }
 
         .search-component .search-data table tr:hover {

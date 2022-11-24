@@ -31,7 +31,14 @@ else
                 <RadzenCard class="profile-component__header-info">
                     <h3 class="h5">@Loc["Profile"]</h3>
                     <div class="d-flex flex-row">
-                        <RadzenImage Path=@CurrentUser.Photo Class="profile-component__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
+                        @if (CurrentUser.Photo is not null)
+                        {
+                            <RadzenImage Path=@CurrentUser.Photo Class="profile-component__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
+                        }
+                        else
+                        {
+                            <img src="/img/no-photo.svg" alt="Profile photo" width="140" height="140" />
+                        }
                         <div class="profile-component__header-info__main-info">
                             <div>@Loc["ProfileName"]</div>
                             <b>@(ProfileModel.FirstName + " " + ProfileModel.LastName)</b>

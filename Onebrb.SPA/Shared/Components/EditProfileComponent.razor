@@ -38,6 +38,14 @@ else
             <div class="row">
                 <div class="settings-component__form col-md-6">
                     <div class="row">
+
+                            <div class="settings-component__form__input-div col-md-8">
+                                <RadzenCard>
+                                    <p>Profile photo</p>
+                                    <RadzenFileInput Value="@CurrentUser.Photo" TValue=string Change=@(args => OnProfilePhotoChange(args)) />
+                                </RadzenCard>
+                            </div>
+
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenTextBox style="width: 100%;" Name="First Name" Placeholder="First name" @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
                         </div>
@@ -60,20 +68,20 @@ else
                         </div>
 
                         @*TODO: Phone validation - until then not showing phones*@
-@*                        <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Phone" Placeholder="Phone number" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
-                            <RadzenCard class="settings-component__form__privacy-toggle" Visible=(!string.IsNullOrWhiteSpace(CurrentUser.Phone))>
-                                <div class="privacy-toggle__lock">
-                                    <i class="bi bi-file-lock2-fill"></i>
-                                </div>
-                                <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsPhoneVisible TValue="bool?" Change=@(args => OnPhonePrivacyChange(args))>
-                                    <Items>
-                                        <RadzenSelectBarItem Text="Everyone" Value="true" />
-                                        <RadzenSelectBarItem Text="Only me" Value="false" />
-                                    </Items>
-                                </RadzenSelectBar>
-                            </RadzenCard>
-                        </div>*@
+                        @*                        <div class="settings-component__form__input-div col-md-8">
+                    <RadzenTextBox style="width: 100%;" Name="Phone" Placeholder="Phone number" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
+                    <RadzenCard class="settings-component__form__privacy-toggle" Visible=(!string.IsNullOrWhiteSpace(CurrentUser.Phone))>
+                    <div class="privacy-toggle__lock">
+                    <i class="bi bi-file-lock2-fill"></i>
+                    </div>
+                    <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsPhoneVisible TValue="bool?" Change=@(args => OnPhonePrivacyChange(args))>
+                    <Items>
+                    <RadzenSelectBarItem Text="Everyone" Value="true" />
+                    <RadzenSelectBarItem Text="Only me" Value="false" />
+                    </Items>
+                    </RadzenSelectBar>
+                    </RadzenCard>
+                    </div>*@
 
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
@@ -139,6 +147,8 @@ else
     private int _phoneMaxLength = 20;
     private int _aboutMaxLength = 500;
 
+    string fileName;
+    long? fileSize;
 
     protected override async Task OnInitializedAsync()
     {
@@ -168,6 +178,15 @@ else
                 _userOccupation = new OccupationModel { Name = "" };
             }
         }
+    }
+
+    void OnProfilePhotoChange(string value)
+    {
+        CurrentUser.Photo = value;
+    }
+
+    void OnProfilePhotoChangeError(UploadErrorEventArgs args)
+    {
     }
 
     void OnOccupationChange(object value)

@@ -5149,23 +5149,15 @@
           "isEmailVisible": {
             "type": "boolean"
           },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPhoneVisible": {
-            "type": "boolean",
-            "nullable": true
-          },
           "about": {
             "type": "string",
             "nullable": true
           },
-          "occupationId": {
+          "photo": {
             "type": "string",
             "nullable": true
           },
-          "occupationName": {
+          "occupationId": {
             "type": "string",
             "nullable": true
           },
@@ -5210,15 +5202,11 @@
           "isEmailVisible": {
             "type": "boolean"
           },
-          "phone": {
+          "about": {
             "type": "string",
             "nullable": true
           },
-          "isPhoneVisible": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "about": {
+          "photo": {
             "type": "string",
             "nullable": true
           },

@@ -1929,20 +1929,14 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("isEmailVisible", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsEmailVisible { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("phone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Phone { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("isPhoneVisible", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsPhoneVisible { get; set; }
-    
         [Newtonsoft.Json.JsonProperty("about", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string About { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("photo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Photo { get; set; }
+    
         [Newtonsoft.Json.JsonProperty("occupationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OccupationId { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("occupationName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string OccupationName { get; set; }
     
         [Newtonsoft.Json.JsonProperty("linkedInProfile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LinkedInProfile { get; set; }
@@ -1977,14 +1971,11 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("isEmailVisible", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsEmailVisible { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("phone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Phone { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("isPhoneVisible", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? IsPhoneVisible { get; set; }
-    
         [Newtonsoft.Json.JsonProperty("about", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string About { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("photo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Photo { get; set; }
     
         [Newtonsoft.Json.JsonProperty("country", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Country { get; set; }

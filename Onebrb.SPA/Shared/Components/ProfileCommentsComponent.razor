@@ -88,27 +88,47 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, 5, 0);
-
-        if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
+        try
         {
-            _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result);
+            _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, 5, 0);
 
-            // Get comments count
-            var commentsCountResponse = await OnebrbApiClient.ApiUsersCommentsCountAsync(RecipientId);
-
-            if (commentsCountResponse.StatusCode == (int)HttpStatusCode.OK)
+            if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
             {
-                _commentsCount = commentsCountResponse.Result.Count;
+                _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result);
+
+                // Get comments count
+                var commentsCountResponse = await OnebrbApiClient.ApiUsersCommentsCountAsync(RecipientId);
+
+                if (commentsCountResponse.StatusCode == (int)HttpStatusCode.OK)
+                {
+                    _commentsCount = commentsCountResponse.Result.Count;
+                }
+
+                // Check if current user already commented
+                var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
+
+                if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
+                {
+                    _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                }
             }
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
 
-            // Check if current user already commented
-            var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
-
-            if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                ToastService.ShowError("Unauthorized action.");
             }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                ToastService.ShowError("The user was not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Sorry, please try again later.");
         }
     }
 

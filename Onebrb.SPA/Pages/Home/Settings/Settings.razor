@@ -15,6 +15,7 @@
 @inject IHttpClientFactory ClientFactory
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
+@inject IToastService ToastService
 
 <PageTitle>Settings</PageTitle>
 
@@ -52,11 +53,31 @@
 
     async Task GetCurrentUser()
     {
-        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-
-        if (currentUserResponse.StatusCode == (int) HttpStatusCode.OK)
+        try
         {
-            currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+            var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+
+            if (currentUserResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+            }
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                ToastService.ShowError("Unauthorized action.");
+            }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                ToastService.ShowError("The user was not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Sorry, please try again later.");
         }
     }
 

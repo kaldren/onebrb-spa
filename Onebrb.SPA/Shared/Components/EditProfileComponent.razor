@@ -154,7 +154,20 @@ else
                 var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
                 _userOccupation = Mapper.Map<OccupationModel>(currentUserOccupationResponse.Result);
             }
-            catch (Exception)
+            catch (ApiException<ProblemDetails> ex)
+            {
+                ToastService.ClearAll();
+
+                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    ToastService.ShowError("Unauthorized action.");
+                }
+                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    ToastService.ShowError("The user was not found.");
+                }
+            }
+            catch (Exception ex)
             {
                 _userOccupation = new OccupationModel { Name = "" };
             }

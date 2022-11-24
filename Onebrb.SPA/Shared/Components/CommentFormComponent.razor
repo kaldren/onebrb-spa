@@ -10,6 +10,7 @@
 @inject IMapper Mapper
 @inject DialogService DialogService
 @implements IDisposable
+@inject IToastService ToastService
 
 <div class="comment-form-component">
     <h2>Add a comment</h2>
@@ -60,13 +61,34 @@
                     Rating = _rating
                 };
 
-            var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);
-
-            if (result.StatusCode == (int)HttpStatusCode.OK)
+            try
             {
-                var commentModel = Mapper.Map<CommentModel>(result.Result);
-                await OnPostedComment.InvokeAsync(commentModel);
+                var result = await OnebrbApiClient.ApiCommentsPostAsync(comment);
+
+                if (result.StatusCode == (int)HttpStatusCode.OK)
+                {
+                    var commentModel = Mapper.Map<CommentModel>(result.Result);
+                    await OnPostedComment.InvokeAsync(commentModel);
+                }
             }
+            catch (ApiException<ProblemDetails> ex)
+            {
+                ToastService.ClearAll();
+
+                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    ToastService.ShowError("Unauthorized action.");
+                }
+                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    ToastService.ShowError("The user was not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ToastService.ShowError("Sorry, please try again later.");
+            }
+
         }
     }
 

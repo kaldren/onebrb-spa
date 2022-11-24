@@ -13,7 +13,7 @@
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject NavigationManager Navigation
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject IToastService ToastService
 
 <PageTitle>Onebrb</PageTitle>
 
@@ -33,19 +33,39 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-
-        bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
-
-        if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
+        try
         {
-            var userClaims = authState.User.Claims;
-            string userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 
-            if (!string.IsNullOrEmpty(userIdClaim))
+            bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
+
+            if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
             {
-                Navigation.NavigateTo($"/profiles/{userIdClaim}");
+                var userClaims = authState.User.Claims;
+                string userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
+
+                if (!string.IsNullOrEmpty(userIdClaim))
+                {
+                    Navigation.NavigateTo($"/profiles/{userIdClaim}");
+                }
             }
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                ToastService.ShowError("Unauthorized action.");
+            }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                ToastService.ShowError("The user was not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Sorry, please try again later.");
         }
     }
 }

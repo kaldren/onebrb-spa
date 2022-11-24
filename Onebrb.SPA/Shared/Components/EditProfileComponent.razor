@@ -58,7 +58,9 @@ else
                                 </RadzenSelectBar>
                             </RadzenCard>
                         </div>
-                        <div class="settings-component__form__input-div col-md-8">
+
+                        @*TODO: Phone validation - until then not showing phones*@
+@*                        <div class="settings-component__form__input-div col-md-8">
                             <RadzenTextBox style="width: 100%;" Name="Phone" Placeholder="Phone number" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
                             <RadzenCard class="settings-component__form__privacy-toggle" Visible=(!string.IsNullOrWhiteSpace(CurrentUser.Phone))>
                                 <div class="privacy-toggle__lock">
@@ -71,7 +73,7 @@ else
                                     </Items>
                                 </RadzenSelectBar>
                             </RadzenCard>
-                        </div>
+                        </div>*@
 
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>

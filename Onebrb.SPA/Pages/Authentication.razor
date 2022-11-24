@@ -44,7 +44,7 @@
             {
                 try
                 {
-                    var userClaims = authState.User.Claims;
+                    var userClaims = authState.User.Claims.ToList();
 
                     // Claims
                     string userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;

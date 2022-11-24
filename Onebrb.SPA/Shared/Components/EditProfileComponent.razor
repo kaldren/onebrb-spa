@@ -162,10 +162,6 @@ else
                 {
                     ToastService.ShowError("Unauthorized action.");
                 }
-                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    ToastService.ShowError("The user was not found.");
-                }
             }
             catch (Exception ex)
             {

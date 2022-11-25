@@ -24,39 +24,34 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //try
-        //{
-        // var accessToken = User.Claims.Where(p => p.Type == "idp_access_token").SingleOrDefault()?.Value;
-        //    //result = await AcquireTokenSilent(scopes,
-        //    //        accounts.FirstOrDefault()).ExecuteAsync();
-        //}
-        //catch (Exception)
-        //{
-
-        //    throw;
-        //}
-
-
-        var tokenResult = await TokenProvider.RequestAccessToken();
-
-        if (tokenResult.TryGetToken(out var token))
+        try
         {
-            hubConnection = new HubConnectionBuilder()
-                .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"), options =>
-                {
-                    options.AccessTokenProvider = () => Task.FromResult(token.Value ?? null);
-                })
-                .Build();
+            var tokenResult = await TokenProvider.RequestAccessToken();
+
+            if (tokenResult.TryGetToken(out var token))
+            {
+                hubConnection = new HubConnectionBuilder()
+                    .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"), options =>
+                    {
+                        options.AccessTokenProvider = () => Task.FromResult(token.Value ?? null);
+                    })
+                    .Build();
+
+                hubConnection.On<string>("ToastNotification", (message) =>
+            {
+                toastService.ShowSuccess(message, "From server");
+                StateHasChanged();
+            });
+
+
+                await hubConnection.StartAsync();
+            }
+        }
+        catch (Exception)
+        {
+            // No SignalR notifications
         }
 
-        hubConnection.On<string>("ToastNotification", (message) =>
-    {
-    toastService.ShowSuccess(message, "From server");
-    StateHasChanged();
-    });
-
-
-        await hubConnection.StartAsync();
     }
 
     public bool IsConnected =>

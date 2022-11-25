@@ -15,10 +15,10 @@
 
 <div class="page">
     <RadzenDialog />
-    <SignalRNotifications />
-
     <AuthorizeView>
         <Authorized>
+            <SignalRNotifications />
+
             <div class="sidebar">
                 <NavMenu />
                 <footer>
@@ -30,6 +30,13 @@
 
     <main>
         <div class="top-row px-4 auth">
+            <AuthorizeView>
+                <Authorized>
+                    <HiUser />
+                    <NotificationAlert />
+                </Authorized>
+            </AuthorizeView>
+
             <LanguageSelector />
             <LoginDisplay />
         </div>

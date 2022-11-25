@@ -1,10 +1,13 @@
 ﻿@using Blazored.Toast.Configuration
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Security.Claims
 
 @implements IAsyncDisposable
 @inject IToastService toastService
 @inject NavigationManager Navigation
 @inject IConfiguration _configuration
+@inject IAccessTokenProvider TokenProvider
 
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="10"
@@ -21,15 +24,36 @@
 
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"))
-            .Build();
+        //try
+        //{
+        // var accessToken = User.Claims.Where(p => p.Type == "idp_access_token").SingleOrDefault()?.Value;
+        //    //result = await AcquireTokenSilent(scopes,
+        //    //        accounts.FirstOrDefault()).ExecuteAsync();
+        //}
+        //catch (Exception)
+        //{
+
+        //    throw;
+        //}
+
+
+        var tokenResult = await TokenProvider.RequestAccessToken();
+
+        if (tokenResult.TryGetToken(out var token))
+        {
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"), options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token.Value ?? null);
+                })
+                .Build();
+        }
 
         hubConnection.On<string>("ToastNotification", (message) =>
-        {
-            toastService.ShowSuccess(message, "From server");
-            StateHasChanged();
-        });
+    {
+    toastService.ShowSuccess(message, "From server");
+    StateHasChanged();
+    });
 
 
         await hubConnection.StartAsync();

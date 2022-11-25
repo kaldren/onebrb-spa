@@ -72,6 +72,7 @@ i.bi {
     font-size: 1.25rem;
 }
 /*#endregion Global */
+
 /*# Main */
 .basic-icon {
     font-size: 2rem;
@@ -107,12 +108,18 @@ i.bi {
     flex-wrap: wrap;
 }
 
-    .notification-bar p {
-        padding: 0 12px;
-        margin: 0;
-    }
-/*#endregion Main*/
+.notification-bar p {
+    padding: 0 12px;
+    margin: 0;
+}
 
+.notifications-alert {
+    margin: 0 50px;
+}
+.hi-user-component {
+
+}
+/*#endregion Main*/
 /*#region Search component*/
 .search-component {
     display: flex;

@@ -1,4 +1,4 @@
-﻿@page "/profiles/{Id?}"
+﻿@page "/users/{Id?}"
 
 @using AutoMapper
 @using Microsoft.AspNetCore.Authorization
@@ -8,12 +8,13 @@
 @using System.Net
 @attribute [Authorize]
 
-@inject IStringLocalizer<Profile> Loc
+@inject IStringLocalizer<Profile> Localizer
+@inject IStringLocalizer<Shared.Shared> LocalizerShared
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IToastService ToastService
 
-<PageTitle>Profile</PageTitle>
+<PageTitle>@Localizer["Profile"]</PageTitle>
 @if (statusCodeEnum is not null)
 {
     <ErrorComponent StatusCode="statusCodeEnum.Value" />
@@ -22,7 +23,7 @@
 else if (Utils.AtLeastOneNull(_currentUser, _profile))
 {
     <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading profile...</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
         <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
     </RadzenCard>
 }
@@ -73,18 +74,18 @@ else
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
-                ToastService.ShowError("Unauthorized action.");
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.NotFound;
-                ToastService.ShowError("The user was not found.");
+                ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }
         catch (Exception)
         {
             statusCodeEnum = ResponseStatusCodeEnum.ServerError;
-            ToastService.ShowError("Sorry, please try again later.");
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }
 }

@@ -150,4 +150,61 @@
   <data name="ProfileSellerAdditionalInfo" xml:space="preserve">
     <value>Информация за продавача</value>
   </data>
+  <data name="EditProfile_About" xml:space="preserve">
+    <value>За мен</value>
+  </data>
+  <data name="EditProfile_AboutMaxLength" xml:space="preserve">
+    <value>Максимум {0} символа</value>
+  </data>
+  <data name="EditProfile_AboutWriteSomething" xml:space="preserve">
+    <value>Опиши себе си накратко...</value>
+  </data>
+  <data name="EditProfile_Email" xml:space="preserve">
+    <value>Имейл</value>
+  </data>
+  <data name="EditProfile_FacebookAccount" xml:space="preserve">
+    <value>Facebook акаунт</value>
+  </data>
+  <data name="EditProfile_FirstName" xml:space="preserve">
+    <value>Собствено име</value>
+  </data>
+  <data name="EditProfile_InstagramAccount" xml:space="preserve">
+    <value>Instagram акаунт</value>
+  </data>
+  <data name="EditProfile_LastName" xml:space="preserve">
+    <value>Фамилно име</value>
+  </data>
+  <data name="EditProfile_LinkedInAccount" xml:space="preserve">
+    <value>LinkedIn акаунт</value>
+  </data>
+  <data name="EditProfile_NotUpdatedSuccessfully" xml:space="preserve">
+    <value>Неуспешно редактиране, моля опитайте по-късно.</value>
+  </data>
+  <data name="EditProfile_Occupation" xml:space="preserve">
+    <value>Професия</value>
+  </data>
+  <data name="EditProfile_PrivacyEveryone" xml:space="preserve">
+    <value>Всички</value>
+  </data>
+  <data name="EditProfile_PrivacyOnlyMe" xml:space="preserve">
+    <value>Само аз</value>
+  </data>
+  <data name="EditProfile_ProfilePhoto" xml:space="preserve">
+    <value>Профилна снимка</value>
+  </data>
+  <data name="EditProfile_UpdatedSuccessfully" xml:space="preserve">
+    <value>Профилът е обновен успешно.</value>
+  </data>
+  <data name="LoadingProfile" xml:space="preserve">
+    <value>Зареждане на профил...</value>
+  </data>
+  <data name="ProfileComments_UserHasNoComments" xml:space="preserve">
+    <value>Потребителят няма коментари.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Не е намерен такъв потребител.</value>
+  </data>
+  <data name="ProfileComments" xml:space="preserve">
+    <value>Коментари</value>
+  </data>
 </root>

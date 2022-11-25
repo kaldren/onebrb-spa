@@ -16,8 +16,10 @@
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IToastService ToastService
+@inject IStringLocalizer<Settings> Localizer
+@inject IStringLocalizer<Shared.Shared> LocalizerShared
 
-<PageTitle>Settings</PageTitle>
+<PageTitle>@Localizer["SettingsPageTitle"]</PageTitle>
 
 <style>
     form .row {
@@ -68,16 +70,16 @@
 
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                ToastService.ShowError("Unauthorized action.");
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
-                ToastService.ShowError("The user was not found.");
+                ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            ToastService.ShowError("Sorry, please try again later.");
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }
 

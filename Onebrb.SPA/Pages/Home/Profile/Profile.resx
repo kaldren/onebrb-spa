@@ -150,4 +150,61 @@
   <data name="ProfileSellerAdditionalInfo" xml:space="preserve">
     <value>About the seller</value>
   </data>
+  <data name="EditProfile_About" xml:space="preserve">
+    <value>About me</value>
+  </data>
+  <data name="EditProfile_AboutMaxLength" xml:space="preserve">
+    <value>Max {0} characters</value>
+  </data>
+  <data name="EditProfile_AboutWriteSomething" xml:space="preserve">
+    <value>Write something about your self...</value>
+  </data>
+  <data name="EditProfile_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EditProfile_FacebookAccount" xml:space="preserve">
+    <value>Facebook account</value>
+  </data>
+  <data name="EditProfile_FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="EditProfile_InstagramAccount" xml:space="preserve">
+    <value>Instagram account</value>
+  </data>
+  <data name="EditProfile_LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="EditProfile_LinkedInAccount" xml:space="preserve">
+    <value>LinkedIn account</value>
+  </data>
+  <data name="EditProfile_NotUpdatedSuccessfully" xml:space="preserve">
+    <value>Profile wasn't updated, please try again later.</value>
+  </data>
+  <data name="EditProfile_Occupation" xml:space="preserve">
+    <value>Occupation</value>
+  </data>
+  <data name="EditProfile_PrivacyEveryone" xml:space="preserve">
+    <value>Everyone</value>
+  </data>
+  <data name="EditProfile_PrivacyOnlyMe" xml:space="preserve">
+    <value>Only me</value>
+  </data>
+  <data name="EditProfile_ProfilePhoto" xml:space="preserve">
+    <value>Profile photo</value>
+  </data>
+  <data name="EditProfile_UpdatedSuccessfully" xml:space="preserve">
+    <value>Profile updated successfully.</value>
+  </data>
+  <data name="LoadingProfile" xml:space="preserve">
+    <value>Loading profile...</value>
+  </data>
+  <data name="ProfileComments_UserHasNoComments" xml:space="preserve">
+    <value>The user doesn't have any comments yet.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>The user was not found.</value>
+  </data>
+  <data name="ProfileComments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
 </root>

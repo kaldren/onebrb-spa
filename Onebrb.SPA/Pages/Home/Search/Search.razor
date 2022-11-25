@@ -8,18 +8,19 @@
 @using System.Net;
 
 @inject NavigationManager Nav
-@inject IStringLocalizer<Profile> Loc
+@inject IStringLocalizer<Search> Localizer
+@inject IStringLocalizer<Shared.Shared> LocalizerShared
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IToastService ToastService
 
-<PageTitle>Search products</PageTitle>
+<PageTitle>@Localizer["SearchPageTitle"]</PageTitle>
 
 <div class="search-component">
     <div>
         <RadzenCard>
-            <h4 class="mb-4">Search people</h4>
-            <RadzenTextBox Placeholder="Name" Change=@(args => OnNameSearchChange(args, "TextBox")) Class="w-100" />
+            <h4 class="mb-4">@LocalizerShared["Search"]</h4>
+            <RadzenTextBox Placeholder=@LocalizerShared["SearchNamePlaceholder"] Change=@(args => OnNameSearchChange(args, "TextBox")) Class="w-100" />
         </RadzenCard>
     </div>
 
@@ -34,7 +35,7 @@
             if (statusCodeEnum is null)
             {
                 <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading...</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
                     <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
                 </RadzenCard>
             }
@@ -50,7 +51,7 @@
                 <Template Context="data">
                     <RadzenCard Style="width:300px;">
                         <div class="d-flex flex-row align-items-center">
-                            <a href="/profiles/@data.Id">
+                            <a href="/users/@data.Id">
                                 <RadzenImage Path="@(data.Photo ?? _defaultPhotoUrl)" Class="rounded-circle float-start me-3" Style="width: 80px; height: 80px;" />
                             </a>
                             <div>
@@ -86,7 +87,7 @@
     private IEnumerable<UserProfileModel>? profiles;
     private ResponseStatusCodeEnum? statusCodeEnum;
 
-    string pagingSummaryFormat = "Displaying page {0} of {1} (total {2} records)";
+    private string pagingSummaryFormat = "Displaying page {0} of {1} (total {2} records)";
     private int _profilesCount = 0;
     private int pageSize = 5;
 
@@ -102,7 +103,7 @@
 
     void OnRowClick(DataGridRowMouseEventArgs<UserProfileModel> selectedProfile)
     {
-        Nav.NavigateTo($"profiles/{selectedProfile.Data.Id}");
+        Nav.NavigateTo($"users/{selectedProfile.Data.Id}");
     }
 
     async Task OnClick()
@@ -131,18 +132,18 @@
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
-                ToastService.ShowError("Unauthorized action.");
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.NotFound;
-                ToastService.ShowError("The user was not found.");
+                ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }
         catch (Exception ex)
         {
             statusCodeEnum = ResponseStatusCodeEnum.ServerError;
-            ToastService.ShowError("Sorry, please try again later.");
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }
 }

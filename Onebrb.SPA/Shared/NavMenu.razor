@@ -4,6 +4,7 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -22,22 +23,22 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                        <span class="oi oi-home" aria-hidden="true"></span> @LocalizerShared["Home"]
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Search">
-                        <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search
+                        <span class="oi oi-magnifying-glass" aria-hidden="true"></span> @LocalizerShared["Search"]
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Settings">
-                        <span class="oi oi-cog" aria-hidden="true"></span> Settings
+                        <span class="oi oi-cog" aria-hidden="true"></span> @LocalizerShared["Settings"]
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="javascript:void(0)" @onclick="BeginLogout">
-                        <span class="oi oi-account-logout" aria-hidden="true"></span> Log out
+                        <span class="oi oi-account-logout" aria-hidden="true"></span> @LocalizerShared["Logout"]
                     </NavLink>
                 </div>
             </Authorized>

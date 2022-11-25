@@ -1,7 +1,9 @@
-﻿<div>
+﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+<div>
     <RadzenCard>
         <h4>@Text</h4>
-        <RadzenTextArea Placeholder="Some text..." Change="@((e) => OnChange.InvokeAsync(e))" />
+        <RadzenTextArea Placeholder=@LocalizerShared["TextAreaPlaceholder"] Change="@((e) => OnChange.InvokeAsync(e))" />
     </RadzenCard>
 </div>
 

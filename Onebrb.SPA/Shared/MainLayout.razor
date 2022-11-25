@@ -9,7 +9,7 @@
 
 @inject IWebAssemblyHostEnvironment environment
 @inject IToastService toastService
-@inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 @inject NavigationManager Navigation
 
 
@@ -22,7 +22,7 @@
             <div class="sidebar">
                 <NavMenu />
                 <footer>
-                    Onebrb &copy; - All rights reserved
+                    @LocalizerShared["AllRightsReserved"]
                 </footer>
             </div>
         </Authorized>

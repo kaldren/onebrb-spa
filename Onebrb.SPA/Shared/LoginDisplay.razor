@@ -4,10 +4,12 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
 
 <AuthorizeView>
     <Authorized>
-        <button class="nav-link btn btn-link" @onclick="BeginLogout">Log out</button>
+        <button class="nav-link btn btn-link" @onclick="BeginLogout">@LocalizerShared["Logout"]</button>
     </Authorized>
 </AuthorizeView>
 

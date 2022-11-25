@@ -1,4 +1,6 @@
-﻿@if (StatusCode == ResponseStatusCodeEnum.NotFound)
+﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+@if (StatusCode == ResponseStatusCodeEnum.NotFound)
 {
     // Can add some image for 404    
 }
@@ -22,6 +24,6 @@
     private string DefaultMessage()
     {
         // TODO: Check status code for custom message
-        return "Oops! Please try again later.";
+        return @LocalizerShared["ErrorGenericMessage"];
     }
 }

@@ -12,22 +12,25 @@
 @inject IMapper Mapper
 @inject IToastService ToastService
 
+@inject IStringLocalizer<Pages.Home.Profile.Profile> Localizer
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
 @if (_updatedUserProfile)
 {
     ToastService.ClearAll();
-    ToastService.ShowSuccess("Profile updated successfully.");
+    ToastService.ShowSuccess(@Localizer["EditProfile_UpdatedSuccessfully"]);
 }
 
 @if (_updateUserProfileError)
 {
     ToastService.ClearAll();
-    ToastService.ShowError("Error occured, please try again later.");
+    ToastService.ShowError(@LocalizerShared["EditProfile_NotUpdatedSuccessfully"]);
 }
 
 @if (@CurrentUser is null && _occupations is null)
 {
     <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading profile...</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
         <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
     </RadzenCard>
 }
@@ -39,29 +42,29 @@ else
                 <div class="settings-component__form col-md-6">
                     <div class="row">
 
-                            <div class="settings-component__form__input-div col-md-8">
-                                <RadzenCard>
-                                    <p>Profile photo</p>
-                                    <RadzenFileInput Value="@CurrentUser.Photo" TValue=string Change=@(args => OnProfilePhotoChange(args)) />
-                                </RadzenCard>
-                            </div>
+                        <div class="settings-component__form__input-div col-md-8">
+                            <RadzenCard>
+                                <p>@Localizer["EditProfile_ProfilePhoto"]</p>
+                                <RadzenFileInput Value="@CurrentUser.Photo" TValue=string Change=@(args => OnProfilePhotoChange(args)) />
+                            </RadzenCard>
+                        </div>
 
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="First Name" Placeholder="First name" @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FirstName"] Placeholder=@Localizer["EditProfile_FirstName"] @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Last Name" Placeholder="Last name" @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LastName"] Placeholder=@Localizer["EditProfile_LastName"] @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
                         </div>
                         <div class="settings-component__form__input-div col-md-8">
-                            <RadzenTextBox style="width: 100%;" Name="Email" Placeholder="Email" @bind-Value="@CurrentUser.Email" Disabled />
+                            <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_Email"] Placeholder=@Localizer["EditProfile_Email"] @bind-Value="@CurrentUser.Email" Disabled />
                             <RadzenCard class="settings-component__form__privacy-toggle">
                                 <div class="privacy-toggle__lock">
                                     <i class="bi bi-file-lock2-fill"></i>
                                 </div>
                                 <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsEmailVisible TValue="bool" Change=@(args => OnEmailPrivacyChange(args))>
                                     <Items>
-                                        <RadzenSelectBarItem Text="Everyone" Value="true" />
-                                        <RadzenSelectBarItem Text="Only me" Value="false" />
+                                        <RadzenSelectBarItem Text=@Localizer["EditProfile_PrivacyEveryone"] Value="true" />
+                                        <RadzenSelectBarItem Text=@Localizer["EditProfile_PrivacyOnlyMe"] Value="false" />
                                     </Items>
                                 </RadzenSelectBar>
                             </RadzenCard>
@@ -85,7 +88,7 @@ else
 
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
-                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Occupation</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@Localizer["EditProfile_Occupation"]</RadzenText>
                                 <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Id
                                             TextProperty="Name" ValueProperty="Id" Change=@(args => OnOccupationChange(args)) Class="w-100" />
                             </RadzenCard>
@@ -93,26 +96,26 @@ else
 
                         <div class="settings-component__form__input-div col-md-8">
                             <RadzenCard>
-                                <h4 class="mb-4">About</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder="Write something about yourself" MaxLength="@_aboutMaxLength" />
-                                <span>(Max 500 characters)</span>
+                                <h4 class="mb-4">@Localizer["EditProfile_About"]</h4>
+                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder=@Localizer["EditProfile_AboutWriteSomething"] MaxLength="@_aboutMaxLength" />
+                                <span>(@string.Format(@Localizer["EditProfile_AboutMaxLength"], _aboutMaxLength))</span>
                             </RadzenCard>
                         </div>
 
                         <div class="settings-component__social">
                             <div class="settings-component__form__input-div col-md-8">
                                 <i class="bi bi-linkedin"></i>
-                                <RadzenTextBox style="width: 100%;" Name="LinkedIn account" Placeholder="LinkedIn account name" @bind-Value="@CurrentUser.LinkedInProfile" />
+                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LinkedInAccount"] Placeholder=@Localizer["EditProfile_LinkedInAccount"] @bind-Value="@CurrentUser.LinkedInProfile" />
                             </div>
 
                             <div class="settings-component__form__input-div col-md-8">
                                 <i class="bi bi-facebook"></i>
-                                <RadzenTextBox style="width: 100%;" Name="Facebook account" Placeholder="Facebook account name" @bind-Value="@CurrentUser.FacebookProfile" />
+                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FacebookAccount"] Placeholder=@Localizer["EditProfile_FacebookAccount"] @bind-Value="@CurrentUser.FacebookProfile" />
                             </div>
 
                             <div class="settings-component__form__input-div col-md-8">
                                 <i class="bi bi-instagram"></i>
-                                <RadzenTextBox style="width: 100%;" Name="Instagram account" Placeholder="Instagram account name" @bind-Value="@CurrentUser.InstagramProfile" />
+                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_InstagramAccount"] Placeholder=@Localizer["EditProfile_InstagramAccount"] @bind-Value="@CurrentUser.InstagramProfile" />
                             </div>
                         </div>
                     </div>
@@ -120,8 +123,8 @@ else
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-12 d-flex" style="margin-top: 16px;">
-                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text="Save" Disabled=@_updatedUserProfile />
-                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text=@LocalizerShared["Save"] Disabled=@_updatedUserProfile />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text=@LocalizerShared["Cancel"] Click="@Cancel" />
                 </div>
             </div>
         </RadzenTemplateForm>
@@ -170,10 +173,10 @@ else
 
                 if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
                 {
-                    ToastService.ShowError("Unauthorized action.");
+                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _userOccupation = new OccupationModel { Name = "" };
             }
@@ -207,19 +210,35 @@ else
 
     async Task OnUpdateProfileClick()
     {
-        var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
-
-        var updateUserResponse = await OnebrbApiClient.ApiUsersPatchAsync(model);
-
-        if (updateUserResponse.StatusCode == (int)HttpStatusCode.OK)
+        try
         {
-            CurrentUser = Mapper.Map<UserProfileModel>(updateUserResponse.Result);
-        }
+            var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
 
-        if (CurrentUser is not null)
-            _updatedUserProfile = true;
-        else
-            _updateUserProfileError = true;
+            var updateUserResponse = await OnebrbApiClient.ApiUsersPatchAsync(model);
+
+            if (updateUserResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                CurrentUser = Mapper.Map<UserProfileModel>(updateUserResponse.Result);
+            }
+
+            if (CurrentUser is not null)
+                _updatedUserProfile = true;
+            else
+                _updateUserProfileError = true;
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+            }
+        }
+        catch (Exception)
+        {
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+        }
     }
 
     void Cancel()

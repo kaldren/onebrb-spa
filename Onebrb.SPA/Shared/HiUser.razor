@@ -1,7 +1,9 @@
-﻿<AuthorizeView>
+﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+<AuthorizeView>
     <Authorized>
         <div class="hi-user-component">
-            Hello, @context.User.Identity?.Name!
+            @LocalizerShared["Hello"], @context.User.Identity?.Name!
         </div>
     </Authorized>
 </AuthorizeView>

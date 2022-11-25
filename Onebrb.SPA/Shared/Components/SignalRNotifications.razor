@@ -9,6 +9,9 @@
 @inject IConfiguration _configuration
 @inject IAccessTokenProvider TokenProvider
 
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="10"
                 IconType="IconType.FontAwesome"
@@ -39,7 +42,7 @@
 
                 hubConnection.On<string>("ToastNotification", (message) =>
             {
-                toastService.ShowSuccess(message, "From server");
+                toastService.ShowSuccess(message, @LocalizerShared["SignalrTitleNotification"]);
                 StateHasChanged();
             });
 

@@ -44,14 +44,6 @@
             {
                 try
                 {
-                    var userClaims = authState.User.Claims.ToList();
-
-                    // Claims
-                    string userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
-
-                    //var userResponse = await OnebrbApiClient.ApiUsersActivateAsync();
-                    //await LocalStorage.SetItemAsStringAsync("Onebrb_UserId", authState.User.Identity.Name);
-                    //Navigation.NavigateTo($"/profiles/{userIdClaim}");
                     Navigation.NavigateTo("/");
                 }
                 catch (Exception ex)

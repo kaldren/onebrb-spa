@@ -1,5 +1,8 @@
-﻿<RadzenCard class="login-form-component">
-    <h2 class="mb-4">Welcome to Onebrb</h2>
+﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+
+<RadzenCard class="login-form-component">
+    <h2 class="mb-4">@LocalizerShared["WelcomeToOnebrb"]</h2>
     <RadzenTemplateForm Data=@("LoginWithRegisterAndReset")>
         <RadzenLogin Login=@(args => OnLogin(args, "Login with register and password reset"))
                      ResetPassword=@(args => OnResetPassword(args, "Login with register and password reset"))

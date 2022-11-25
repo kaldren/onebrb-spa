@@ -12,10 +12,12 @@
 @implements IDisposable
 @inject IToastService ToastService
 
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
 <div class="comment-form-component">
-    <h2>Add a comment</h2>
+    <h2>@LocalizerShared["CommentForm_AddComment"]</h2>
     <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Rating with 5 stars</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["CommentForm_RatingFiveStars"]</RadzenText>
         <RadzenRating Change=@(args => OnRatingChange(args)) />
     </RadzenCard>
     <TextAreaComponent OnChange="ChangeHandler" />
@@ -24,7 +26,7 @@
     @if (showConfirmDialog)
     {
         <RadzenCard>
-            <RadzenButton Text="Confirm dialog" Style="width: 100%;" ButtonStyle="ButtonStyle.Secondary" Click=@(args => DialogService.Confirm("Once submitted the comment can't be edited, so make sure it's correct. Continue?", "MyTitle", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) />
+            <RadzenButton Text=@LocalizerShared["CommentForm_PostConfirmationDialogTitle"] Style="width: 100%;" ButtonStyle="ButtonStyle.Secondary" Click=@(args => DialogService.Confirm(@LocalizerShared["CommentForm_PostConfirmation"], @LocalizerShared["CommentForm_PostConfirmationTitle"], new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) />
         </RadzenCard>
     }
 
@@ -48,7 +50,7 @@
 
     async Task OnCommentSubmit()
     {
-        bool? continueComment = await DialogService.Confirm("You won't be able to edit or delete this comment once submitted. Do you want to proceed?", "Comment", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        bool? continueComment = await DialogService.Confirm(@LocalizerShared["CommentForm_PostConfirmation"], @LocalizerShared["CommentForm_PostConfirmationTitle"], new ConfirmOptions() { OkButtonText = @LocalizerShared["Yes"], CancelButtonText = @LocalizerShared["No"] });
 
         if (continueComment is true)
         {
@@ -77,18 +79,17 @@
 
                 if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
                 {
-                    ToastService.ShowError("Unauthorized action.");
+                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
                 }
                 if (ex.StatusCode == (int)HttpStatusCode.NotFound)
                 {
-                    ToastService.ShowError("The user was not found.");
+                    ToastService.ShowError(@LocalizerShared["UserNotFound"]);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ToastService.ShowError("Sorry, please try again later.");
+                ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
             }
-
         }
     }
 

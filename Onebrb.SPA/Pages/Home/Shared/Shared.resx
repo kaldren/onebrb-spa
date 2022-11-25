@@ -117,10 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllRightsReserved" xml:space="preserve">
+    <value>Onebrb - All rights reserved</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CommentForm_AddComment" xml:space="preserve">
+    <value>Add a comment</value>
+  </data>
+  <data name="CommentForm_PostConfirmation" xml:space="preserve">
+    <value>Once submitted the comment can't be edited or deleted, so make sure it's correct. Continue?</value>
+  </data>
+  <data name="CommentForm_PostConfirmationDialogTitle" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="CommentForm_PostConfirmationTitle" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="CommentForm_RatingFiveStars" xml:space="preserve">
+    <value>Rating with 5 stars</value>
+  </data>
   <data name="ErrorGenericMessage" xml:space="preserve">
-    <value>Oops, something evil happened.</value>
+    <value>Error, please try again later.</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading, please wait...</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NotAuthorizedToViewResource" xml:space="preserve">
+    <value>You are not authorized to access this resource.</value>
+  </data>
+  <data name="NothingAtThisAddress" xml:space="preserve">
+    <value>Sorry, there's nothing at this address.</value>
+  </data>
+  <data name="ProfileSearch" xml:space="preserve">
+    <value>Searching users</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchNamePlaceholder" xml:space="preserve">
+    <value>Name of the user</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SignalrTitleNotification" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="TextAreaPlaceholder" xml:space="preserve">
+    <value>Text...</value>
+  </data>
+  <data name="UnauthorizedAction" xml:space="preserve">
+    <value>Unauthorized action.</value>
   </data>
   <data name="UserHasNoComments" xml:space="preserve">
     <value>The user doesn't have any comments yet.</value>
+  </data>
+  <data name="WelcomeToOnebrb" xml:space="preserve">
+    <value>Welcome to Onebrb</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

@@ -8,13 +8,14 @@
 @inject NavigationManager Navigation
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
-@inject IStringLocalizer<Pages.Home.Shared.Shared> Loc
+@inject IStringLocalizer<Pages.Home.Profile.Profile> Localizer
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 @inject IToastService ToastService
 
 @if (_comments is null)
 {
     <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Loading comments...</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
         <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
     </RadzenCard>
 }
@@ -25,7 +26,7 @@ else
             <RadzenTabsItem Text="Comments">
                 @if (_comments.Count() == 0)
                 {
-                    <p>@Loc["UserHasNoComments"]</p>
+                    <p>@Localizer["ProfileComments_UserHasNoComments"]</p>
                 }
                 <RadzenDataList WrapItems="false" AllowPaging="true" PageSize="5" Count="@_commentsCount" Data="@_comments" TItem="CommentModel" LoadData="@LoadData">
                     <Template Context="comment">
@@ -83,7 +84,7 @@ else
 
     private void NavigateToProfile(string id)
     {
-        Navigation.NavigateTo($"/profiles/{id}");
+        Navigation.NavigateTo($"/users/{id}");
     }
 
     protected override async Task OnParametersSetAsync()
@@ -119,16 +120,16 @@ else
 
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                ToastService.ShowError("Unauthorized action.");
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
-                ToastService.ShowError("The user was not found.");
+                ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            ToastService.ShowError("Sorry, please try again later.");
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }
 

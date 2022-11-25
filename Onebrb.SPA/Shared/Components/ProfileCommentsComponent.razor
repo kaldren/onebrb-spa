@@ -23,7 +23,7 @@ else
 {
     <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
         <Tabs>
-            <RadzenTabsItem Text="Comments">
+            <RadzenTabsItem Text=@Localizer["ProfileComments"]>
                 @if (_comments.Count() == 0)
                 {
                     <p>@Localizer["ProfileComments_UserHasNoComments"]</p>

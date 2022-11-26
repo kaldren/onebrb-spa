@@ -4,10 +4,13 @@
 @using Onebrb.SPA.Pages.Home.Profile
 @using OnebrbApi
 @using System.Net
+@using System.Windows
 
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> Localizer
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Shared.Shared> LocalizerShared
 @inject IMapper Mapper
+@inject IToastService ToastService
+@inject IJSRuntime JSRuntime
 
 @if (ProfileModel is null)
 {
@@ -30,6 +33,12 @@ else
                     }
                 </div>
                 <RadzenCard class="profile-component__header-info">
+
+                    <div class="profile-component__short-url">
+                        <RadzenTextBox Disabled="true" Class="w-100" Value="@_profileUrlShortText" />
+                        <CopyToClipboard Text="@_profileUrlShortText" OnClicked="@OnProfileUrlShortClicked" />
+                    </div>
+
                     <h3 class="h5">@Localizer["Profile"]</h3>
                     <div class="d-flex flex-row">
                         @if (CurrentUser.Photo is not null)
@@ -88,42 +97,42 @@ else
                                 }
 
                                 // TODO: Phone validation - until then not showing phones
-@*                                @if (ProfileModel.Phone is not null)
-                                {
-                                    <div class="mt-3">@Loc["ProfilePhone"]</div>
-                                    <b>@(ProfileModel.Phone)</b>
-                                }*@
+                                @*                                @if (ProfileModel.Phone is not null)
+                    {
+                    <div class="mt-3">@Loc["ProfilePhone"]</div>
+                    <b>@(ProfileModel.Phone)</b>
+                    }*@
                             </div>
                         }
 
                         @if (Utils.AtLeastOneNotNull(ProfileModel?.LinkedInProfile, ProfileModel?.FacebookProfile, ProfileModel?.InstagramProfile))
                         {
                             <div class="col-md-4 profile-component__bottom-info__social">
-                            @if (ProfileModel.LinkedInProfile is not null)
-                            {
-                                <div>
-                                    <a href="https://linkedin.com/in/@ProfileModel.LinkedInProfile" target="_blank">
-                                        <i class="bi bi-linkedin"></i>
-                                    </a>
-                                </div>
-                            }
-                            @if (ProfileModel.FacebookProfile is not null)
-                            {
-                                <div>
-                                    <a href="https://facebook.com/@ProfileModel.FacebookProfile" target="_blank">
-                                        <i class="bi bi-facebook"></i>
-                                    </a>
-                                </div>
-                            }
-                            @if (ProfileModel.InstagramProfile is not null)
-                            {
-                                <div>
-                                    <a href="https://instagram.com/@ProfileModel.InstagramProfile" target="_blank">
-                                        <i class="bi bi-instagram"></i>
-                                    </a>
-                                </div>
-                            }
-                        </div>
+                                @if (ProfileModel.LinkedInProfile is not null)
+                                {
+                                    <div>
+                                        <a href="https://linkedin.com/in/@ProfileModel.LinkedInProfile" target="_blank">
+                                            <i class="bi bi-linkedin"></i>
+                                        </a>
+                                    </div>
+                                }
+                                @if (ProfileModel.FacebookProfile is not null)
+                                {
+                                    <div>
+                                        <a href="https://facebook.com/@ProfileModel.FacebookProfile" target="_blank">
+                                            <i class="bi bi-facebook"></i>
+                                        </a>
+                                    </div>
+                                }
+                                @if (ProfileModel.InstagramProfile is not null)
+                                {
+                                    <div>
+                                        <a href="https://instagram.com/@ProfileModel.InstagramProfile" target="_blank">
+                                            <i class="bi bi-instagram"></i>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
                         }
                     </div>
                 </RadzenCard>
@@ -148,10 +157,23 @@ else
 
     private ProfileCommentsComponent _profileCommentsComponent;
 
+    private string _profileUrlShortText = "1brb.com/cvHz";
+    private bool _isProfileUrlShortBtnClicked = false;
+
     void OnPostedComment(object comment)
     {
         CommentModel newComment = (CommentModel)comment;
 
         CurrentUserCommented = true;
+    }
+
+    void OnProfileUrlShortClicked()
+    {
+        if (_isProfileUrlShortBtnClicked == false)
+        {
+            ToastService.ShowSuccess("Profile url copied to clipboard.");
+        }
+
+        _isProfileUrlShortBtnClicked = true;
     }
 }

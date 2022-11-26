@@ -42,6 +42,16 @@
             get: () => window.localStorage['empData'],
             set: (value) => window.localStorage['empData'] = value
         };
+
+        window.clipboardCopy = {
+            copyText: function (text) {
+                navigator.clipboard.writeText(text).then(function () {
+                })
+                    .catch(function (error) {
+                        alert(error);
+                    });
+            }
+        };
     </script>
 </body>
 

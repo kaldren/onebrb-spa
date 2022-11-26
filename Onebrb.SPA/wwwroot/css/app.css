@@ -108,16 +108,16 @@ i.bi {
     flex-wrap: wrap;
 }
 
-.notification-bar p {
-    padding: 0 12px;
-    margin: 0;
-}
+    .notification-bar p {
+        padding: 0 12px;
+        margin: 0;
+    }
 
 .notifications-alert {
     margin: 0 50px;
 }
-.hi-user-component {
 
+.hi-user-component {
 }
 /*#endregion Main*/
 /*#region Search component*/
@@ -155,14 +155,31 @@ i.bi {
     flex-direction: column;
 }
 
-    .profile-component .profile-component__header-info {
-        display: flex;
-        margin: 1rem;
-    }
+.profile-component__short-url {
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+    justify-content: end;
+}
 
-    .profile-component rz-card > div {
-        display: flex;
-    }
+.profile-component__short-url input {
+    width: 200px !important;
+    max-width: 100%;
+    margin: 0 10px;
+}
+
+.profile-component__short-url:hover {
+    cursor: pointer;
+}
+
+.profile-component .profile-component__header-info {
+    display: flex;
+    margin: 1rem;
+}
+
+.profile-component rz-card > div {
+    display: flex;
+}
 
 .profile-component__header-info__photo {
 }
@@ -232,15 +249,17 @@ i.bi {
     display: flex;
     flex-direction: column;
 }
+
 .profile-comments__profile-box__date {
     display: flex;
     justify-content: left;
     font-size: 0.8rem;
 }
-.profile-comments__profile-box__date .bi {
-    font-size: 0.8rem;
-    margin: 0px 3px 0px 0px;
-}
+
+    .profile-comments__profile-box__date .bi {
+        font-size: 0.8rem;
+        margin: 0px 3px 0px 0px;
+    }
 
 .profile-comments__content {
     font-size: 1rem;
@@ -266,9 +285,9 @@ i.bi {
     align-items: center;
 }
 
-.settings-component__form__privacy-toggle i {
-    color: #ff6d41;
-}
+    .settings-component__form__privacy-toggle i {
+        color: #ff6d41;
+    }
 
 .valid.modified:not([type="checkbox"]) {
     outline: unset !important;

@@ -1,0 +1,14 @@
+﻿@inject IJSRuntime JSRuntime
+
+<RadzenIcon Icon="content_copy" @onclick="CopyTextToClipboard" />
+
+@code {
+    [Parameter] public string Text { get; set; }
+    [Parameter] public EventCallback OnClicked { get; set; }
+
+    private async Task CopyTextToClipboard()
+    {
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", Text);
+        await OnClicked.InvokeAsync();
+    }
+}

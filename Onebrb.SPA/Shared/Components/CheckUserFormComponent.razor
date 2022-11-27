@@ -1,0 +1,10 @@
+﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+<RadzenCard class="check-user-form-component">
+    <RadzenTextBox Placeholder="@LocalizerShared["CheckUserFormPlaceholder"]" />
+    <RadzenButton Text=@LocalizerShared["CheckUserFormButton"] ButtonStyle="ButtonStyle.Primary" />
+</RadzenCard>
+
+@code {
+
+}

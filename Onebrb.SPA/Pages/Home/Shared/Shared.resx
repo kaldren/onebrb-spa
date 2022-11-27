@@ -123,6 +123,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CheckUserFormButton" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="CheckUserFormPlaceholder" xml:space="preserve">
+    <value>Check someone by their Onebrb Id...</value>
+  </data>
   <data name="CommentForm_AddComment" xml:space="preserve">
     <value>Add a comment</value>
   </data>

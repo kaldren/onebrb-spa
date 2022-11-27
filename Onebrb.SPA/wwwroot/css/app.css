@@ -2,6 +2,11 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /*background: #118ab2;*/
+}
+
+#app {
+    background: #118ab2;
 }
 
 h1:focus {
@@ -129,9 +134,40 @@ i.bi {
     max-width: 100%;
     margin: 0 10px;
 }
+
+.logo {
+    max-width: 250px;
+}
     /*#endregion Main*/
-    /*#region Search component*/
-    .search-component {
+
+/*#region WelcomeComponent*/
+.welcome-component h2 {color: white;}
+.welcome-component__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.welcome-component__text .logo {
+}
+    /*#endregion WelcomeComponent*/
+    /*#region CheckUserFormComponent*/
+    .check-user-form-component {
+    display: flex;
+    max-width: 960px;
+    margin: 20px auto;
+    flex-direction: row;
+    justify-content: center;
+}
+.check-user-form-component input {
+    flex: 2;
+}
+    .check-user-form-component button {
+        margin:0 20px;
+    }
+        /*#endregion CheckUserFormComponent*/
+        /*#region Search component*/
+        .search-component {
     display: flex;
     flex-direction: column;
 }
@@ -316,7 +352,11 @@ i.bi {
 /*#region Login Form Component*/
 .login-form-component {
     max-width: 960px;
-    margin: 0 auto;
+    margin: 20px auto;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .login-form-component__social {

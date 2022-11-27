@@ -123,6 +123,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Отказ</value>
   </data>
+  <data name="CheckUserFormButton" xml:space="preserve">
+    <value>Провери</value>
+  </data>
+  <data name="CheckUserFormPlaceholder" xml:space="preserve">
+    <value>Проверете някого по неговия Onebrb Id...</value>
+  </data>
   <data name="CommentForm_AddComment" xml:space="preserve">
     <value>Добави коментар</value>
   </data>

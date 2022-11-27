@@ -1,9 +1,6 @@
 ﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
-
 <RadzenCard class="login-form-component">
-    <h2 class="mb-4">@LocalizerShared["WelcomeToOnebrb"]</h2>
-    <RadzenTextBox Placeholder="Paste Onebrb ID here to see their profile'..." />
     <div class="login-form-component__social">
         <a href="authentication/login">
             <RadzenButton Text=@LocalizerShared["LoginToOnebrb"] ButtonStyle="ButtonStyle.Primary" />

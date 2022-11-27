@@ -3,13 +3,18 @@
 @using Onebrb.SPA.Models;
 @using OnebrbApi
 @using System.Net;
-<RemoteAuthenticatorView Action="@Action" />
 
 @inject IOnebrbApiClient OnebrbApiClient
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Navigation
 @inject IToastService ToastService
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<RemoteAuthenticatorView Action="@Action">
+    <LogOutSucceeded>
+        @InvokeAsync(() => Navigation.NavigateTo("/login"))
+    </LogOutSucceeded>
+</RemoteAuthenticatorView>
 
 @code {
     private bool _authenticated;

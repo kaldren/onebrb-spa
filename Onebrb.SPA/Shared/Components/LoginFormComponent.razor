@@ -3,33 +3,20 @@
 
 <RadzenCard class="login-form-component">
     <h2 class="mb-4">@LocalizerShared["WelcomeToOnebrb"]</h2>
-    <RadzenTemplateForm Data=@("LoginWithRegisterAndReset")>
-        <RadzenLogin Login=@(args => OnLogin(args, "Login with register and password reset"))
-                     ResetPassword=@(args => OnResetPassword(args, "Login with register and password reset"))
-                     Register=@(args => OnRegister("Login with register and password reset")) />
-        <div class="login-form-component__social">
-            <a href="authentication/login">
-                <RadzenImage Path="img/btn_google_signin_dark_pressed_web@2x.png" class="login-form-component__social__btnGoogle" />
-            </a>
-        </div>
-    </RadzenTemplateForm>
+    <RadzenTextBox Placeholder="Paste Onebrb ID here to see their profile'..." />
+    <div class="login-form-component__social">
+        <a href="authentication/login">
+            <RadzenButton Click=@(args => OnBtnLoginClick()) Text="OR LOG IN :)" ButtonStyle="ButtonStyle.Primary" />
+        </a>
+    </div>
 </RadzenCard>
 
 @code {
     bool _busy = false;
 
-    void OnLogin(LoginArgs args, string name)
+    void OnBtnLoginClick()
     {
     }
-
-    void OnRegister(string name)
-    {
-    }
-
-    void OnResetPassword(string value, string name)
-    {
-    }
-
     async Task OnBusyClick()
     {
         _busy = true;

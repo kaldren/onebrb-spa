@@ -1,0 +1,18 @@
+﻿@page "/login"
+
+@using Onebrb.SPA.Shared.Components
+
+<PageTitle>Log in to Onebrb</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <p>Loading...</p>
+    </Authorized>
+    <NotAuthorized>
+        <LoginFormComponent />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

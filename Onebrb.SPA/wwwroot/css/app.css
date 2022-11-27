@@ -1,12 +1,16 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+﻿/*#region Colors*/
+/* Primary blue: #19b5e9 */
+/*#endregion*/
+
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    /*background: #118ab2;*/
+    /*background: #19b5e9;*/
 }
 
 #app {
-    background: #118ab2;
+    background: #19b5e9;
 }
 
 h1:focus {
@@ -140,17 +144,6 @@ i.bi {
 }
     /*#endregion Main*/
 
-/*#region WelcomeComponent*/
-.welcome-component h2 {color: white;}
-.welcome-component__text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.welcome-component__text .logo {
-}
-    /*#endregion WelcomeComponent*/
     /*#region CheckUserFormComponent*/
     .check-user-form-component {
     display: flex;

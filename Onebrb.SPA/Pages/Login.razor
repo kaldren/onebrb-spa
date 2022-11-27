@@ -1,12 +1,14 @@
 ﻿@page "/login"
 
 @using Onebrb.SPA.Shared.Components
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
-<PageTitle>Log in to Onebrb</PageTitle>
+<PageTitle>@LocalizerShared["LoginToOnebrb"]</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        <p>Loading...</p>
+        @InvokeAsync(() => Navigation.NavigateTo("/"))
     </Authorized>
     <NotAuthorized>
         <LoginFormComponent />

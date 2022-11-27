@@ -6,21 +6,11 @@
     <RadzenTextBox Placeholder="Paste Onebrb ID here to see their profile'..." />
     <div class="login-form-component__social">
         <a href="authentication/login">
-            <RadzenButton Click=@(args => OnBtnLoginClick()) Text="OR LOG IN :)" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Text=@LocalizerShared["LoginToOnebrb"] ButtonStyle="ButtonStyle.Primary" />
         </a>
     </div>
 </RadzenCard>
 
 @code {
-    bool _busy = false;
 
-    void OnBtnLoginClick()
-    {
-    }
-    async Task OnBusyClick()
-    {
-        _busy = true;
-        await Task.Delay(2000);
-        _busy = false;
-    }
 }

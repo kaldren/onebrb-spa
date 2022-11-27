@@ -1,14 +1,11 @@
-﻿@using  System.Globalization
+﻿@using System.Globalization
 @inject IJSRuntime JSRuntime
 @inject NavigationManager Nav
 
-<div>
-    <select class="form-control" @bind="Culture">
-        @foreach (var language in supportedLanguages)
-        {
-            <option value="@language">@language.DisplayName</option>
-        }
-    </select>
+<div class="language-select">
+    <RadzenIcon Icon="language" />
+
+    <RadzenDropDown FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@supportedLanguages @bind-Value=Culture />
 </div>
 
 @code

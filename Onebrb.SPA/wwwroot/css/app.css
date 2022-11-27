@@ -119,9 +119,19 @@ i.bi {
 
 .hi-user-component {
 }
-/*#endregion Main*/
-/*#region Search component*/
-.search-component {
+
+.language-select {
+    display: flex;
+    align-items: center;
+}
+.language-select .rz-dropdown {
+    width: 100px;
+    max-width: 100%;
+    margin: 0 10px;
+}
+    /*#endregion Main*/
+    /*#region Search component*/
+    .search-component {
     display: flex;
     flex-direction: column;
 }

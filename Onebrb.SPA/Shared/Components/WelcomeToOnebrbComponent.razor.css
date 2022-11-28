@@ -1,4 +1,9 @@
-﻿.welcome-component h2 {
+﻿.welcome-component {
+    background: #006ba1;
+    padding: 1rem;
+    margin: 0;
+}
+.welcome-component h2 {
     color: white;
 }
 

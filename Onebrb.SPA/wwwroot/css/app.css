@@ -6,11 +6,10 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    /*background: #19b5e9;*/
 }
 
-#app {
-    background: #19b5e9;
+.page {
+    background: #f4f4f4;
 }
 
 h1:focus {
@@ -28,7 +27,7 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
+    padding: 0 !important;
 }
 
 .valid.modified:not([type=checkbox]) {

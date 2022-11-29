@@ -22,9 +22,9 @@ else
 {
     @if (CurrentUser is not null && ProfileModel is not null)
     {
-        <div class="profile-component">
+        <div class="ProfileComponent">
             <div>
-                <div class="profile-component__profile-rating">
+                <div class="ProfileComponent__profile-rating">
                     @if (ProfileModel.Rating.HasValue)
                     {
                         <RadzenBadge BadgeStyle="BadgeStyle.Primary">
@@ -32,9 +32,9 @@ else
                         </RadzenBadge>
                     }
                 </div>
-                <RadzenCard class="profile-component__header-info">
+                <RadzenCard class="ProfileComponent__header-info">
 
-                    <div class="profile-component__short-url">
+                    <div class="ProfileComponent__short-url">
                         <RadzenTextBox Disabled="true" Class="w-100" Value="@_profileUrlShortText" />
                         <CopyToClipboard Text="@_profileUrlShortText" OnClicked="@OnProfileUrlShortClicked" />
                     </div>
@@ -43,13 +43,13 @@ else
                     <div class="d-flex flex-row">
                         @if (CurrentUser.Photo is not null)
                         {
-                            <RadzenImage Path=@CurrentUser.Photo Class="profile-component__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
+                            <RadzenImage Path=@CurrentUser.Photo Class="ProfileComponent__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
                         }
                         else
                         {
                             <img src="/img/no-photo.svg" alt="Profile photo" width="140" height="140" />
                         }
-                        <div class="profile-component__header-info__main-info">
+                        <div class="ProfileComponent__header-info__main-info">
                             <div>@Localizer["ProfileName"]</div>
                             <b>@(ProfileModel.FirstName + " " + ProfileModel.LastName)</b>
 
@@ -59,14 +59,14 @@ else
                                 <b>@ProfileModel.OccupationName</b>
                             }
                         </div>
-                        <div class="profile-component__about-section">
+                        <div class="ProfileComponent__about-section">
                             <p>
                                 @ProfileModel.About
                             </p>
                         </div>
                     </div>
                 </RadzenCard>
-                <RadzenCard class="profile-component__bottom-info">
+                <RadzenCard class="ProfileComponent__bottom-info">
                     <h3 class="h5">@Localizer["ProfileAdditionalInfo"]</h3>
                     <div class="row">
 
@@ -107,7 +107,7 @@ else
 
                         @if (Utils.AtLeastOneNotNull(ProfileModel?.LinkedInProfile, ProfileModel?.FacebookProfile, ProfileModel?.InstagramProfile))
                         {
-                            <div class="col-md-4 profile-component__bottom-info__social">
+                            <div class="col-md-4 ProfileComponent__bottom-info__social">
                                 @if (ProfileModel.LinkedInProfile is not null)
                                 {
                                     <div>

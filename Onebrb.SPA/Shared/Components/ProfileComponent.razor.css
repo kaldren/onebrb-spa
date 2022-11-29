@@ -1,0 +1,61 @@
+﻿.ProfileComponent {
+    display: flex;
+    max-width: 920px;
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+.ProfileComponent__short-url {
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+    justify-content: end;
+}
+
+.ProfileComponent__short-url ::deep input {
+    width: 200px !important;
+    max-width: 100%;
+    margin: 0 10px;
+}
+
+.ProfileComponent__short-url:hover {
+    cursor: pointer;
+}
+
+.ProfileComponent ::deep .ProfileComponent__header-info {
+    display: flex;
+    margin: 1rem;
+}
+
+.ProfileComponent ::deep rz-card > div {
+    display: flex;
+}
+
+
+.ProfileComponent__header-info__main-info {
+    flex: 1;
+}
+
+.ProfileComponent__profile-rating {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+
+.ProfileComponent__profile-rating ::deep .bi {
+    margin: 0.1rem;
+}
+
+::deep .ProfileComponent__about-section {
+    flex: 2;
+}
+
+::deep .ProfileComponent__bottom-info {
+    margin: 1rem;
+}
+
+::deep .ProfileComponent__bottom-info__social {
+    display: flex;
+    justify-content: space-evenly;
+}

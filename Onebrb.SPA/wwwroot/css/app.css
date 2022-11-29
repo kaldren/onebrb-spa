@@ -145,59 +145,6 @@ i.bi {
 }
     /*#endregion Main*/
 
-/*#region Profile comments*/
-.profile-comments .profile-comments__profile-commented-link:hover {
-    cursor: pointer;
-}
-
-.profile-comments .rz-datalist-data > li {
-    border: none;
-}
-
-.profile-comments .rz-datalist-data {
-    padding: 0;
-}
-
-.profile-comments__content-box {
-    margin: 10px 0;
-}
-
-.comment-form-component {
-    margin: 20px auto;
-}
-
-    .comment-form-component .btn-primary {
-        margin: 20px 0
-    }
-
-.profile-comments__comment-options .rz-badge {
-    font-size: 0.95rem;
-}
-
-.profile-comments__comment-options .bi {
-    margin: 3px;
-}
-
-.profile-comments__profile-box {
-    display: flex;
-    flex-direction: column;
-}
-
-.profile-comments__profile-box__date {
-    display: flex;
-    justify-content: left;
-    font-size: 0.8rem;
-}
-
-    .profile-comments__profile-box__date .bi {
-        font-size: 0.8rem;
-        margin: 0px 3px 0px 0px;
-    }
-
-.profile-comments__content {
-    font-size: 1rem;
-}
-/*#endregion Profile comments*/
 /*#region Settings component*/
 .settings-component .settings-component__form__input-div {
     margin: 0.5rem 0;

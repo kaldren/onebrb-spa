@@ -12,60 +12,61 @@
 @inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 @inject IToastService ToastService
 
-@if (_comments is null)
-{
-    <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
-        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
-    </RadzenCard>
-}
-else
-{
-    <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
-        <Tabs>
-            <RadzenTabsItem Text=@Localizer["ProfileComments"]>
-                @if (_comments.Count() == 0)
-                {
-                    <p>@Localizer["ProfileComments_UserHasNoComments"]</p>
-                }
-                <RadzenDataList WrapItems="false" AllowPaging="true" PageSize="5" Count="@_commentsCount" Data="@_comments" TItem="CommentModel" LoadData="@LoadData">
-                    <Template Context="comment">
-                        <div class="profile-comments__profile-box__date">
-                            <i class="bi bi-calendar3"></i>
-                            <span>@comment.DateCreated.LocalDateTime.ToString()</span>
-                        </div>
-                        <RadzenCard>
-                            <div class="row">
-                                <div class="profile-comments__profile-box col-md-8 text-truncate">
-                                    <a @onclick="() => NavigateToProfile(comment.AuthorId)">
-                                        <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 text-right profile-comments__comment-options">
-                                    <RadzenBadge BadgeStyle="BadgeStyle.Primary">
-                                        <StarComponent Value="@comment.RatingValue" />
-                                    </RadzenBadge>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row align-items-center profile-comments__content-box">
-                                <RadzenImage Path="@comment.PhotoUrl" Class="rounded-circle float-left mr-3" Style="width: 80px; height: 80px;" />
-                                <p class="profile-comments__content">
-                                    @comment.Content
-                                </p>
-                            </div>
-                        </RadzenCard>
-                    </Template>
-                </RadzenDataList>
-            </RadzenTabsItem>
-        </Tabs>
-    </RadzenTabs>
-
-    @if (CurrentUserId != RecipientId && _currentUserCommented == false)
+<div class="ProfileCommentsComponent">
+    @if (_comments is null)
     {
-        <CommentFormComponent AuthorId="@CurrentUserId" RecipientId="@RecipientId" OnPostedComment="@(args => OnPostedComment(args))" />
+        <RadzenCard>
+            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </RadzenCard>
     }
-}
+    else
+    {
+        <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
+            <Tabs>
+                <RadzenTabsItem Text=@Localizer["ProfileComments"]>
+                    @if (_comments.Count() == 0)
+                    {
+                        <p>@Localizer["ProfileComments_UserHasNoComments"]</p>
+                    }
+                    <RadzenDataList WrapItems="false" AllowPaging="true" PageSize="5" Count="@_commentsCount" Data="@_comments" TItem="CommentModel" LoadData="@LoadData">
+                        <Template Context="comment">
+                            <div class="profile-comments__profile-box__date">
+                                <i class="bi bi-calendar3"></i>
+                                <span>@comment.DateCreated.LocalDateTime.ToString()</span>
+                            </div>
+                            <RadzenCard>
+                                <div class="row">
+                                    <div class="profile-comments__profile-box col-md-8 text-truncate">
+                                        <a @onclick="() => NavigateToProfile(comment.AuthorId)">
+                                            <b class="profile-comments__profile-commented-link">@(comment.AuthorFirstName) @(comment.AuthorLastName)</b>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 text-right profile-comments__comment-options">
+                                        <RadzenBadge BadgeStyle="BadgeStyle.Primary">
+                                            <StarComponent Value="@comment.RatingValue" />
+                                        </RadzenBadge>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row align-items-center profile-comments__content-box">
+                                    <RadzenImage Path="@comment.PhotoUrl" Class="rounded-circle float-left mr-3" Style="width: 80px; height: 80px;" />
+                                    <p class="profile-comments__content">
+                                        @comment.Content
+                                    </p>
+                                </div>
+                            </RadzenCard>
+                        </Template>
+                    </RadzenDataList>
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
 
+        @if (CurrentUserId != RecipientId && _currentUserCommented == false)
+        {
+            <CommentFormComponent AuthorId="@CurrentUserId" RecipientId="@RecipientId" OnPostedComment="@(args => OnPostedComment(args))" />
+        }
+    }
+</div>
 @code {
 
     [Parameter]

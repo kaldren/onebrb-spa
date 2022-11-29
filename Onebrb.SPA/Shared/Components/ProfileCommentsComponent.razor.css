@@ -1,0 +1,51 @@
+﻿.ProfileCommentsComponent ::deep .profile-comments .profile-comments__profile-commented-link:hover {
+    cursor: pointer;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments .rz-datalist-data > li {
+    border: none;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments .rz-datalist-data {
+    padding: 0;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__content-box {
+    margin: 10px 0;
+}
+
+.ProfileCommentsComponent ::deep .comment-form-component {
+    margin: 20px auto;
+}
+
+.ProfileCommentsComponent ::deep .comment-form-component .btn-primary {
+    margin: 20px 0
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__comment-options .rz-badge {
+    font-size: 0.95rem;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__comment-options .bi {
+    margin: 3px;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__profile-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__profile-box__date {
+    display: flex;
+    justify-content: left;
+    font-size: 0.8rem;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__profile-box__date .bi {
+    font-size: 0.8rem;
+    margin: 0px 3px 0px 0px;
+}
+
+.ProfileCommentsComponent ::deep .profile-comments__content {
+    font-size: 1rem;
+}

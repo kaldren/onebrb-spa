@@ -27,7 +27,9 @@ a, .btn-link {
 }
 
 .content {
-    padding: 0 !important;
+    padding: 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -142,33 +144,6 @@ i.bi {
     max-width: 250px;
 }
     /*#endregion Main*/
-
-        /*#region Search component*/
-        .search-component {
-    display: flex;
-    flex-direction: column;
-}
-
-    .search-component .search-component__search-btn {
-        margin-top: 20px;
-    }
-
-    .search-component .search-data {
-        display: flex;
-        justify-content: center;
-        margin-top: 50px;
-        flex-direction: column;
-    }
-
-        .search-component .search-data table tr:hover {
-            background: #ccc;
-            cursor: pointer;
-        }
-
-        .search-component .search-data table tr td {
-            background: transparent
-        }
-/*#endregion Search component*/
 
 /*#region Profile component*/
 .profile-component {

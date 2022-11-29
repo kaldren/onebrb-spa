@@ -1,0 +1,7 @@
+﻿.FooterMenuComponent {
+    display: flex;
+    justify-content: center;
+}
+.FooterMenuComponent a {
+    margin: 1rem;
+}

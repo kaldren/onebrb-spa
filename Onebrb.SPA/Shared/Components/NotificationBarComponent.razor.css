@@ -1,0 +1,13 @@
+﻿.NotificationBarComponent {
+    display: flex;
+    width: 100%;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.NotificationBarComponent p {
+    padding: 0 12px;
+    margin: 0;
+}

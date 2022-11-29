@@ -1,0 +1,24 @@
+﻿.SearchComponent {
+    display: flex;
+    flex-direction: column;
+}
+
+.SearchComponent ::deep .SearchComponent__search-btn {
+    margin-top: 20px;
+}
+
+.SearchComponent ::deep .search-data {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    flex-direction: column;
+}
+
+.SearchComponent ::deep .search-data table tr:hover {
+    background: #ccc;
+    cursor: pointer;
+}
+
+.SearchComponent ::deep .search-data table tr td {
+    background: transparent
+}

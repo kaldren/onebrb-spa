@@ -1,12 +1,4 @@
-﻿.LoginFormComponent {
-    max-width: 960px;
-    margin: 20px auto;
-    padding: 0 !important;
-    background: none;
-    box-shadow: none;
-}
-
-.LoginFormComponent ::deep .LoginFormComponent__social {
+﻿.LoginFormComponent ::deep .LoginFormComponent__social {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -14,10 +6,10 @@
     color: #fff;
 }
 
-.LoginFormComponent ::deep .card {
-    background: none;
-    border: none;
-    box-shadow: none;
+::deep .card {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .LoginFormComponent ::deep .LoginFormComponent__social button {

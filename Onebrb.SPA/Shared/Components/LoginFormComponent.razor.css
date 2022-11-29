@@ -1,0 +1,33 @@
+﻿.LoginFormComponent {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 0 !important;
+    background: none;
+    box-shadow: none;
+}
+
+.LoginFormComponent ::deep .LoginFormComponent__social {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    color: #fff;
+}
+
+.LoginFormComponent ::deep .card {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.LoginFormComponent ::deep .LoginFormComponent__social button {
+    margin: 0 10px;
+}
+
+.LoginFormComponent ::deep .LoginFormComponent__social__btnGoogle {
+    max-width: 240px;
+}
+
+.LoginFormComponent ::deep .LoginFormComponent__social__btnGoogle:hover {
+    cursor: pointer;
+}

@@ -42,29 +42,31 @@
         </div>
 
         <article class="content">
-            <CustomErrorBoundry @ref="_errorBoundry">
-                <ChildContent>
-                    @Body
-                </ChildContent>
-                <ErrorContent Context="ex">
-                    @{
-                        //if (ex is ApiException<ProblemDetails>)
-                        //{
-                        //    toastService.ShowError(ex.Message);
-                        //}
-                        //else
-                        //{
-                        //    toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
-                        //}
-                        //ex
-                        //toastService.ClearAll();
-                        //
-                    }
-                    <ErrorPageComponent />
-                </ErrorContent>
-            </CustomErrorBoundry>
+            <div class="content__inner">
+                <CustomErrorBoundry @ref="_errorBoundry">
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                    <ErrorContent Context="ex">
+                        @{
+                            //if (ex is ApiException<ProblemDetails>)
+                            //{
+                            //    toastService.ShowError(ex.Message);
+                            //}
+                            //else
+                            //{
+                            //    toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                            //}
+                            //ex
+                            //toastService.ClearAll();
+                            //
+                        }
+                        <ErrorPageComponent />
+                    </ErrorContent>
+                </CustomErrorBoundry>
+            </div>
         </article>
-    <FooterMenuComponent />
+        <FooterMenuComponent />
     </main>
 </div>
 

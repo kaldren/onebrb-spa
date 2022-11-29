@@ -27,6 +27,10 @@ a, .btn-link {
 }
 
 .content {
+    background: #006ba1;
+}
+
+.content__inner {
     padding: 1.5rem;
     max-width: 960px;
     margin: 0 auto;
@@ -144,36 +148,6 @@ i.bi {
     max-width: 250px;
 }
     /*#endregion Main*/
-
-/*#region Login Form Component*/
-.login-form-component {
-    max-width: 960px;
-    margin: 20px auto;
-    padding: 0 !important;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-.login-form-component__social {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    color: #fff;
-}
-
-.login-form-component__social button {
-    margin: 0 10px;
-}
-.login-form-component__social__btnGoogle {
-    max-width: 240px;
-}
-
-.login-form-component__social__btnGoogle:hover {
-    cursor: pointer;
-}
-/*#endregion Login Form Component*/
 
 /*#region Misc*/
 .rz-dialog-wrapper .rz-dialog {

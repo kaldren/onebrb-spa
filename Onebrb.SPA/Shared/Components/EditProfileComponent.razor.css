@@ -1,0 +1,40 @@
+﻿.EditProfileComponent ::deep .EditProfileComponent__form__input-div {
+    margin: 0.5rem 0;
+}
+
+.EditProfileComponent ::deep .privacy-toggle__lock {
+    margin: 10px;
+}
+
+.EditProfileComponent ::deep .EditProfileComponent__form__privacy-toggle.rz-card {
+    padding: unset;
+}
+
+.EditProfileComponent ::deep .EditProfileComponent__form__privacy-toggle {
+    background-color: beige !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.EditProfileComponent ::deep .EditProfileComponent__form__privacy-toggle i {
+    color: #ff6d41;
+}
+
+.EditProfileComponent ::deep .valid.modified:not([type="checkbox"]) {
+    outline: unset !important;
+}
+
+.EditProfileComponent ::deep .EditProfileComponent__social > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.EditProfileComponent ::deep .EditProfileComponent__social input {
+    margin: 0 0 0 10px;
+}
+
+.EditProfileComponent ::deep textarea {
+    height: 150px;
+}

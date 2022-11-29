@@ -26,38 +26,37 @@
     ToastService.ClearAll();
     ToastService.ShowError(@LocalizerShared["EditProfile_NotUpdatedSuccessfully"]);
 }
-
-@if (@CurrentUser is null && _occupations is null)
-{
-    <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
-        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
-    </RadzenCard>
-}
-else
-{
-    <div class="settings-component">
+<div class="EditProfileComponent">
+    @if (@CurrentUser is null && _occupations is null)
+    {
+        <RadzenCard>
+            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </RadzenCard>
+    }
+    else
+    {
         <RadzenTemplateForm Data="CurrentUser">
             <div class="row">
-                <div class="settings-component__form col-md-6">
+                <div class="EditProfileComponent__form">
                     <div class="row">
 
-                        <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
                                 <p>@Localizer["EditProfile_ProfilePhoto"]</p>
                                 <RadzenFileInput Value="@CurrentUser.Photo" TValue=string Change=@(args => OnProfilePhotoChange(args)) />
                             </RadzenCard>
                         </div>
 
-                        <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__form__input-div">
                             <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FirstName"] Placeholder=@Localizer["EditProfile_FirstName"] @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
                         </div>
-                        <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__form__input-div">
                             <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LastName"] Placeholder=@Localizer["EditProfile_LastName"] @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
                         </div>
-                        <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__form__input-div">
                             <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_Email"] Placeholder=@Localizer["EditProfile_Email"] @bind-Value="@CurrentUser.Email" Disabled />
-                            <RadzenCard class="settings-component__form__privacy-toggle">
+                            <RadzenCard class="EditProfileComponent__form__privacy-toggle">
                                 <div class="privacy-toggle__lock">
                                     <i class="bi bi-file-lock2-fill"></i>
                                 </div>
@@ -71,9 +70,9 @@ else
                         </div>
 
                         @*TODO: Phone validation - until then not showing phones*@
-                        @*                        <div class="settings-component__form__input-div col-md-8">
+                        @*                        <div class="EditProfileComponent__form__input-div">
                     <RadzenTextBox style="width: 100%;" Name="Phone" Placeholder="Phone number" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
-                    <RadzenCard class="settings-component__form__privacy-toggle" Visible=(!string.IsNullOrWhiteSpace(CurrentUser.Phone))>
+                    <RadzenCard class="EditProfileComponent__form__privacy-toggle" Visible=(!string.IsNullOrWhiteSpace(CurrentUser.Phone))>
                     <div class="privacy-toggle__lock">
                     <i class="bi bi-file-lock2-fill"></i>
                     </div>
@@ -86,7 +85,7 @@ else
                     </RadzenCard>
                     </div>*@
 
-                        <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@Localizer["EditProfile_Occupation"]</RadzenText>
                                 <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Id
@@ -94,7 +93,7 @@ else
                             </RadzenCard>
                         </div>
 
-                        <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
                                 <h4 class="mb-4">@Localizer["EditProfile_About"]</h4>
                                 <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder=@Localizer["EditProfile_AboutWriteSomething"] MaxLength="@_aboutMaxLength" />
@@ -102,18 +101,18 @@ else
                             </RadzenCard>
                         </div>
 
-                        <div class="settings-component__social">
-                            <div class="settings-component__form__input-div col-md-8">
+                        <div class="EditProfileComponent__social">
+                            <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-linkedin"></i>
                                 <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LinkedInAccount"] Placeholder=@Localizer["EditProfile_LinkedInAccount"] @bind-Value="@CurrentUser.LinkedInProfile" />
                             </div>
 
-                            <div class="settings-component__form__input-div col-md-8">
+                            <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-facebook"></i>
                                 <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FacebookAccount"] Placeholder=@Localizer["EditProfile_FacebookAccount"] @bind-Value="@CurrentUser.FacebookProfile" />
                             </div>
 
-                            <div class="settings-component__form__input-div col-md-8">
+                            <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-instagram"></i>
                                 <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_InstagramAccount"] Placeholder=@Localizer["EditProfile_InstagramAccount"] @bind-Value="@CurrentUser.InstagramProfile" />
                             </div>
@@ -128,9 +127,8 @@ else
                 </div>
             </div>
         </RadzenTemplateForm>
-    </div>
-}
-
+    }
+</div>
 
 @code {
     [Parameter]

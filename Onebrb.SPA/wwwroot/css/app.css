@@ -145,44 +145,6 @@ i.bi {
 }
     /*#endregion Main*/
 
-/*#region Settings component*/
-.settings-component .settings-component__form__input-div {
-    margin: 0.5rem 0;
-}
-
-.settings-component .privacy-toggle__lock {
-    margin: 10px;
-}
-
-.settings-component__form__privacy-toggle.rz-card {
-    padding: unset;
-}
-
-.settings-component__form__privacy-toggle {
-    background-color: beige !important;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-    .settings-component__form__privacy-toggle i {
-        color: #ff6d41;
-    }
-
-.valid.modified:not([type="checkbox"]) {
-    outline: unset !important;
-}
-
-.settings-component__social > div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.settings-component__social input {
-    margin: 0 0 0 10px;
-}
-/*#endregion Settings component*/
 /*#region Login Form Component*/
 .login-form-component {
     max-width: 960px;

@@ -143,21 +143,6 @@ i.bi {
 }
     /*#endregion Main*/
 
-    /*#region CheckUserFormComponent*/
-    .check-user-form-component {
-    display: flex;
-    max-width: 960px;
-    margin: 20px auto;
-    flex-direction: row;
-    justify-content: center;
-}
-.check-user-form-component input {
-    flex: 2;
-}
-    .check-user-form-component button {
-        margin:0 20px;
-    }
-        /*#endregion CheckUserFormComponent*/
         /*#region Search component*/
         .search-component {
     display: flex;
@@ -362,13 +347,13 @@ i.bi {
 .login-form-component__social button {
     margin: 0 10px;
 }
-    .login-form-component__social__btnGoogle {
+.login-form-component__social__btnGoogle {
     max-width: 240px;
 }
 
-    .login-form-component__social__btnGoogle:hover {
-        cursor: pointer;
-    }
+.login-form-component__social__btnGoogle:hover {
+    cursor: pointer;
+}
 /*#endregion Login Form Component*/
 
 /*#region Misc*/

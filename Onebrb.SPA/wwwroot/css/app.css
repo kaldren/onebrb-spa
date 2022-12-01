@@ -20,14 +20,12 @@ a, .btn-link {
     color: #0071c1;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-
 .content {
     background: #006ba1;
+}
+
+.content.auth {
+    background: #f4f4f4;
 }
 
 .content__inner {
@@ -44,9 +42,6 @@ a, .btn-link {
     outline: 1px solid red;
 }
 
-.validation-message {
-    color: red;
-}
 
 #blazor-error-ui {
     background: lightyellow;
@@ -88,31 +83,6 @@ i.bi {
 /*#endregion Global */
 
 /*# Main */
-.basic-icon {
-    font-size: 2rem;
-}
-
-.basic-input,
-.basic-textarea {
-    display: block;
-    margin: 20px auto;
-    width: 100%;
-}
-
-.basic-textarea {
-    height: 200px;
-    max-height: 100%;
-}
-
-.basic-button {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    width: 80px;
-    max-width: 100%;
-    margin: 10px 0;
-}
-
 .language-select {
     display: flex;
     align-items: center;

@@ -1,0 +1,20 @@
+﻿.WelcomeComponent h2 {
+    color: white;
+}
+
+.WelcomeComponent__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 450px) {
+    .WelcomeComponent ::deep .CheckUserFormComponent .card {
+        flex-direction: column;
+    }
+
+    .WelcomeComponent ::deep .CheckUserFormComponent .card button {
+        margin: 0.5rem 0;
+    }
+}

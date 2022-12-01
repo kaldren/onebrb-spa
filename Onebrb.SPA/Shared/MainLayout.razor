@@ -11,7 +11,7 @@
 @inject IToastService toastService
 @inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 @inject NavigationManager Navigation
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="page">
     <RadzenDialog />
@@ -41,37 +41,73 @@
             <LoginDisplay />
         </div>
 
-        <article class="content">
-            <div class="content__inner">
-                <CustomErrorBoundry @ref="_errorBoundry">
-                    <ChildContent>
-                        @Body
-                    </ChildContent>
-                    <ErrorContent Context="ex">
-                        @{
-                            //if (ex is ApiException<ProblemDetails>)
-                            //{
-                            //    toastService.ShowError(ex.Message);
-                            //}
-                            //else
-                            //{
-                            //    toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
-                            //}
-                            //ex
-                            //toastService.ClearAll();
-                            //
-                        }
-                        <ErrorPageComponent />
-                    </ErrorContent>
-                </CustomErrorBoundry>
-            </div>
-        </article>
+        <AuthorizeView>
+            <Authorized>
+                <article class="content auth">
+                    <div class="content__inner">
+                        <CustomErrorBoundry @ref="_errorBoundry">
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                            <ErrorContent Context="ex">
+                                @{
+                                    //if (ex is ApiException<ProblemDetails>)
+                                    //{
+                                    //    toastService.ShowError(ex.Message);
+                                    //}
+                                    //else
+                                    //{
+                                    //    toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                                    //}
+                                    //ex
+                                    //toastService.ClearAll();
+                                    //
+                                }
+                                <ErrorPageComponent />
+                            </ErrorContent>
+                        </CustomErrorBoundry>
+                    </div>
+                </article>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView>
+            <NotAuthorized>
+                <article class="content">
+                    <div class="content__inner">
+                        <CustomErrorBoundry @ref="_errorBoundry">
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                            <ErrorContent Context="ex">
+                                @{
+                                    //if (ex is ApiException<ProblemDetails>)
+                                    //{
+                                    //    toastService.ShowError(ex.Message);
+                                    //}
+                                    //else
+                                    //{
+                                    //    toastService.ShowError($"{@Loc["ErrorGenericMessage"]}");
+                                    //}
+                                    //ex
+                                    //toastService.ClearAll();
+                                    //
+                                }
+                                <ErrorPageComponent />
+                            </ErrorContent>
+                        </CustomErrorBoundry>
+                    </div>
+                </article>
+            </NotAuthorized>
+        </AuthorizeView>
+
         <FooterMenuComponent />
     </main>
 </div>
 
 @code {
     private CustomErrorBoundry _errorBoundry;
+    private bool _isAuthenticated = false;
 
     protected override void OnInitialized()
     {

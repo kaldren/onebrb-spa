@@ -40,7 +40,7 @@ else
                     </div>
 
                     <h3 class="h5">@Localizer["Profile"]</h3>
-                    <div class="d-flex flex-row">
+                    <div class="ProfileComponent__profile-box">
                         @if (CurrentUser.Photo is not null)
                         {
                             <RadzenImage Path=@CurrentUser.Photo Class="ProfileComponent__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />

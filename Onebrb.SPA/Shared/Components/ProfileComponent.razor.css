@@ -13,8 +13,7 @@
 }
 
 .ProfileComponent__short-url ::deep input {
-    width: 200px !important;
-    max-width: 100%;
+    max-width: 200px;
     margin: 0 10px;
 }
 
@@ -27,6 +26,15 @@
     margin: 1rem;
 }
 
+.ProfileComponent__profile-box {
+    display: flex;
+    padding: 1rem;
+}
+
+.ProfileComponent__profile-box .ProfileComponent__about-section {
+    padding: 0 0.5rem;
+}
+
 .ProfileComponent ::deep rz-card > div {
     display: flex;
 }
@@ -34,6 +42,7 @@
 
 .ProfileComponent__header-info__main-info {
     flex: 1;
+    padding: 0 2rem;
 }
 
 .ProfileComponent__profile-rating {
@@ -43,9 +52,9 @@
     padding: 1rem;
 }
 
-.ProfileComponent__profile-rating ::deep .bi {
-    margin: 0.1rem;
-}
+    .ProfileComponent__profile-rating ::deep .bi {
+        margin: 0.1rem;
+    }
 
 ::deep .ProfileComponent__about-section {
     flex: 2;
@@ -58,4 +67,22 @@
 ::deep .ProfileComponent__bottom-info__social {
     display: flex;
     justify-content: space-evenly;
+}
+
+@media (max-width: 1024px) {
+    .ProfileComponent ::deep .ProfileComponent__profile-box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ProfileComponent ::deep .ProfileComponent__header-info__main-info {
+        padding: 1rem;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ProfileComponent ::deep .ProfileComponent__about-section {
+        padding: 1rem;
+    }
 }

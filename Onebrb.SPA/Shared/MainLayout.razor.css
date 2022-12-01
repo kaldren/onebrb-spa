@@ -46,11 +46,16 @@ main {
     }
 
     .top-row.auth {
-        justify-content: space-between;
+        flex-wrap: wrap;
     }
 
     .top-row ::deep a, .top-row ::deep .btn-link {
         margin-left: 0;
+    }
+    footer {
+        display: block;
+        margin: 1rem auto;
+        position: relative;
     }
 }
 

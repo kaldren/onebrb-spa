@@ -189,6 +189,9 @@
   <data name="SignalrTitleNotification" xml:space="preserve">
     <value>Нотификация</value>
   </data>
+  <data name="SignInToSeeComments" xml:space="preserve">
+    <value>Влезте в Onebrb за да видите какво казват хората за {0} {1}.</value>
+  </data>
   <data name="TextAreaPlaceholder" xml:space="preserve">
     <value>Текст...</value>
   </data>

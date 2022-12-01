@@ -3,8 +3,6 @@
 @using OnebrbApi
 @using System.Net
 
-@inject IHttpClientFactory ClientFactory
-@inject IConfiguration Configuration
 @inject NavigationManager Navigation
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
@@ -61,7 +59,7 @@
             </Tabs>
         </RadzenTabs>
 
-        @if (CurrentUserId != RecipientId && _currentUserCommented == false)
+        @if (CurrentUserId is not null && CurrentUserId != RecipientId && _currentUserCommented == false)
         {
             <CommentFormComponent AuthorId="@CurrentUserId" RecipientId="@RecipientId" OnPostedComment="@(args => OnPostedComment(args))" />
         }
@@ -70,10 +68,11 @@
 @code {
 
     [Parameter]
-    public string RecipientId { get; set; }
+    public string? RecipientId { get; set; }
 
     [Parameter]
-    public string CurrentUserId { get; set; }
+    public string? CurrentUserId { get; set; }
+
 
     private List<CommentModel> _comments = new();
     private int _commentsCount = 0;
@@ -107,11 +106,14 @@
                 }
 
                 // Check if current user already commented
-                var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
-
-                if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
+                if (CurrentUserId is not null)
                 {
-                    _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                    var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
+
+                    if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
+                    {
+                        _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                    }
                 }
             }
         }
@@ -136,7 +138,7 @@
 
     async Task LoadData(LoadDataArgs args)
     {
-        var result = await OnebrbApiClient.ApiUsersCommentsAsync(CurrentUserId, args.Top.Value, args.Skip.Value);
+        var result = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, args.Top.Value, args.Skip.Value);
         _comments = Mapper.Map<List<CommentModel>>(result.Result);
     }
 

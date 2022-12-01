@@ -18,7 +18,7 @@
       "ConfigurationClass": null,
       "GenerateClientClasses": true,
       "GenerateClientInterfaces": true,
-      "ClientBaseInterface": null,
+      "ClientBaseInterface": "IOnebrbApiClientPublic",
       "InjectHttpClient": true,
       "DisposeHttpClient": true,
       "ProtectedMethods": [],

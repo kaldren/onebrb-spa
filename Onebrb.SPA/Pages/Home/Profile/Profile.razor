@@ -2,15 +2,20 @@
 
 @using AutoMapper
 @using Microsoft.AspNetCore.Authorization
+@using Onebrb.SPA.Interfaces;
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
 @using System.Net
-@attribute [Authorize]
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@*@attribute [Authorize]*@
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IStringLocalizer<Profile> Localizer
 @inject IStringLocalizer<Shared.Shared> LocalizerShared
 @inject IOnebrbApiClient OnebrbApiClient
+@inject IOnebrbApiClientPublic OnebrbApiClientPublic
 @inject IMapper Mapper
 @inject IToastService ToastService
 
@@ -20,7 +25,7 @@
     <ErrorComponent StatusCode="statusCodeEnum.Value" />
 
 }
-else if (Utils.AtLeastOneNull(_currentUser, _profile))
+else if (Utils.AtLeastOneNull(_profile))
 {
     <RadzenCard>
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
@@ -47,10 +52,20 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadData();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            await LoadAuthProfileData();
+        }
+        else
+        {
+            await LoadNotAuthProfileData();
+        }
     }
 
-    private async Task LoadData()
+    private async Task LoadAuthProfileData()
     {
         try
         {
@@ -66,6 +81,35 @@ else
                 userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id ?? _currentUser.Id);
                 _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
             }
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+            }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                ToastService.ShowError(@Localizer["UserNotFound"]);
+            }
+        }
+        catch (Exception)
+        {
+            statusCodeEnum = ResponseStatusCodeEnum.ServerError;
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+        }
+    }
+
+    private async Task LoadNotAuthProfileData()
+    {
+        try
+        {
+            userByIdResponse = await OnebrbApiClientPublic.ApiUsersGetAsync(Id);
+            _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
         }
         catch (ApiException<ProblemDetails> ex)
         {

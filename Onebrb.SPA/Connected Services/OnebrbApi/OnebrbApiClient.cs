@@ -14,6 +14,7 @@
 
 namespace OnebrbApi
 {
+    using Onebrb.SPA.Interfaces;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v13.0.1.0))")]
@@ -47,7 +48,7 @@ namespace OnebrbApi
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(string userId, string message, string method = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
@@ -112,7 +113,7 @@ namespace OnebrbApi
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v13.0.1.0))")]
-    public partial class OnebrbApiClient : IOnebrbApiClient
+    public partial class OnebrbApiClient : IOnebrbApiClientPublic
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
@@ -637,10 +638,23 @@ namespace OnebrbApi
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<OnebrbApiResponse> ApiNotificationsGetAsync(string userId, string message, string method = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            if (userId == null)
+                throw new System.ArgumentNullException("userId");
+    
+            if (message == null)
+                throw new System.ArgumentNullException("message");
+    
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/notifications");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/notifications?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("userId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("message") + "=").Append(System.Uri.EscapeDataString(ConvertToString(message, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (method != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("method") + "=").Append(System.Uri.EscapeDataString(ConvertToString(method, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
     
             var client_ = _httpClient;
             var disposeClient_ = false;

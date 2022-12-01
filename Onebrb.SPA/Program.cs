@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using Onebrb.SPA;
+using Onebrb.SPA.Interfaces;
 using OnebrbApi;
 using Radzen;
 using System.Globalization;
@@ -14,7 +15,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
-builder.Services.AddHttpClient("OnebrbAPI",
+builder.Services.AddHttpClient("OnebrbAPIAuth",
         (srv, client) =>
         {
             client.BaseAddress = new Uri("https://localhost:7088");
@@ -23,11 +24,26 @@ builder.Services.AddHttpClient("OnebrbAPI",
 
 builder.Services.AddScoped<IOnebrbApiClient, OnebrbApiClient>((x) =>
 {
-    var httpClient = x.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPI");
+    var httpClient = x.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPIAuth");
     var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://localhost:7088", httpClient);
 
     return client;
 });
+
+builder.Services.AddHttpClient("OnebrbAPINoAuth",
+        (srv, client) =>
+        {
+            client.BaseAddress = new Uri("https://localhost:7088");
+        });
+
+builder.Services.AddScoped<IOnebrbApiClientPublic, OnebrbApiClient>((x) =>
+{
+    var httpClient = x.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPINoAuth");
+    var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://localhost:7088", httpClient);
+
+    return client;
+});
+
 
 builder.Services.AddMsalAuthentication(options =>
 {

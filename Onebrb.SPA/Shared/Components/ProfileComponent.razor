@@ -20,8 +20,6 @@
 }
 else
 {
-    @if (CurrentUser is not null && ProfileModel is not null)
-    {
         <div class="ProfileComponent">
             <div>
                 <div class="ProfileComponent__profile-rating">
@@ -41,9 +39,9 @@ else
 
                     <h3 class="h5">@Localizer["Profile"]</h3>
                     <div class="ProfileComponent__profile-box">
-                        @if (CurrentUser.Photo is not null)
+                        @if (ProfileModel?.Photo is not null)
                         {
-                            <RadzenImage Path=@CurrentUser.Photo Class="ProfileComponent__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
+                            <RadzenImage Path=@ProfileModel.Photo Class="ProfileComponent__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
                         }
                         else
                         {
@@ -137,10 +135,18 @@ else
                     </div>
                 </RadzenCard>
 
+            @if (CurrentUser is not null)
+            {
                 <ProfileCommentsComponent CurrentUserId="@CurrentUser.Id" RecipientId="@ProfileModel.Id" @ref="_profileCommentsComponent" />
-            </div>
+            }
+            else
+            {
+                <p class="ProfileComponent__sign-in-for-comments">@string.Format(LocalizerShared["SignInToSeeComments"], ProfileModel.FirstName, ProfileModel.LastName)</p>
+
+                <LoginFormComponent />
+            }
         </div>
-    }
+        </div>
 }
 
 

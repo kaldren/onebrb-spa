@@ -52,9 +52,17 @@
     padding: 1rem;
 }
 
-    .ProfileComponent__profile-rating ::deep .bi {
-        margin: 0.1rem;
-    }
+.ProfileComponent__profile-rating ::deep .bi {
+    margin: 0.1rem;
+}
+
+.ProfileComponent ::deep .ProfileComponent__sign-in-for-comments {
+    text-align: center;
+    color: #fff;
+    font-size: 1.25rem;
+    padding: 0;
+    margin: 0;
+}
 
 ::deep .ProfileComponent__about-section {
     flex: 2;

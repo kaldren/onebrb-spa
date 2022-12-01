@@ -43,18 +43,9 @@
 
             _authenticated = user.Identity?.IsAuthenticated ?? false;
 
-            Console.WriteLine("OnAuthenticationStateChanged - {0}", _authenticated);
-
             if (_authenticated)
             {
-                try
-                {
-                    Navigation.NavigateTo("/");
-                }
-                catch (Exception ex)
-                {
-                    Navigation.NavigateTo("/");
-                }
+                Navigation.NavigateTo("/");
             }
 
         });

@@ -2,6 +2,7 @@
 @using Onebrb.SPA.Models
 @using OnebrbApi
 @using System.Net
+@using System.Text.RegularExpressions;
 
 @inject IHttpClientFactory ClientFactory
 @inject IConfiguration Configuration
@@ -50,6 +51,18 @@
 
     async Task OnCommentSubmit()
     {
+        var urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
+
+        if (urlRegex.IsMatch(_comment))
+        {
+            await DialogService.OpenAsync("Comment error", ds =>
+            @<div>
+                The comment cannot contain any urls / website links.
+                </div>
+            , new DialogOptions() { CloseDialogOnOverlayClick = true });
+            return;
+        }
+
         bool? continueComment = await DialogService.Confirm(@LocalizerShared["CommentForm_PostConfirmation"], @LocalizerShared["CommentForm_PostConfirmationTitle"], new ConfirmOptions() { OkButtonText = @LocalizerShared["Yes"], CancelButtonText = @LocalizerShared["No"] });
 
         if (continueComment is true)

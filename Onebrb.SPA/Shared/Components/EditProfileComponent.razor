@@ -7,6 +7,7 @@
 @using System.Text.Json
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
+@using System.Text.RegularExpressions;
 
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
@@ -14,6 +15,9 @@
 
 @inject IStringLocalizer<Pages.Home.Profile.Profile> Localizer
 @inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+
+@inject DialogService DialogService
+@implements IDisposable
 
 @if (_updatedUserProfile)
 {
@@ -104,17 +108,17 @@
                         <div class="EditProfileComponent__social">
                             <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-linkedin"></i>
-                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LinkedInAccount"] Placeholder=@Localizer["EditProfile_LinkedInAccount"] @bind-Value="@CurrentUser.LinkedInProfile" />
+                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LinkedInAccount"] Placeholder=@Localizer["EditProfile_LinkedInAccount"] @bind-Value="@CurrentUser.LinkedInProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
                             </div>
 
                             <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-facebook"></i>
-                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FacebookAccount"] Placeholder=@Localizer["EditProfile_FacebookAccount"] @bind-Value="@CurrentUser.FacebookProfile" />
+                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FacebookAccount"] Placeholder=@Localizer["EditProfile_FacebookAccount"] @bind-Value="@CurrentUser.FacebookProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
                             </div>
 
                             <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-instagram"></i>
-                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_InstagramAccount"] Placeholder=@Localizer["EditProfile_InstagramAccount"] @bind-Value="@CurrentUser.InstagramProfile" />
+                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_InstagramAccount"] Placeholder=@Localizer["EditProfile_InstagramAccount"] @bind-Value="@CurrentUser.InstagramProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
                             </div>
                         </div>
                     </div>
@@ -211,6 +215,51 @@
     {
         _isUpdateBtnClicked = true;
 
+        // Validate social accounts
+        if (Utils.AtLeastOneNull(CurrentUser.LinkedInProfile, CurrentUser.FacebookProfile, CurrentUser.InstagramProfile))
+        {
+            var urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
+
+            if (CurrentUser.LinkedInProfile is not null)
+            {
+                if (urlRegex.IsMatch(CurrentUser.LinkedInProfile))
+                {
+                    await DialogService.OpenAsync("LinkedIn Account Error", ds =>
+                    @<div>
+                        The LinkedIn account cannot contain any urls / website links.
+                    </div>
+                    , new DialogOptions() { CloseDialogOnOverlayClick = true });
+                    return;
+                }
+            }
+
+            if (CurrentUser.FacebookProfile is not null)
+            {
+                if (urlRegex.IsMatch(CurrentUser.FacebookProfile))
+                {
+                    await DialogService.OpenAsync("Facebook Account Error", ds =>
+                    @<div>
+                        The Facebook account cannot contain any urls / website links.
+                    </div>
+            , new DialogOptions() { CloseDialogOnOverlayClick = true });
+                    return;
+                }
+            }
+
+            if (CurrentUser.InstagramProfile is not null)
+            {
+                if (urlRegex.IsMatch(CurrentUser.InstagramProfile))
+                {
+                    await DialogService.OpenAsync("Facebook Account Error", ds =>
+                    @<div>
+                        The Instagram account cannot contain any urls / website links.
+                    </div>
+        , new DialogOptions() { CloseDialogOnOverlayClick = true });
+                    return;
+                }
+            }
+        }
+
         try
         {
             var model = Mapper.Map<UpdateUserProfileRequestModel>(CurrentUser);
@@ -245,5 +294,19 @@
     void Cancel()
     {
         //
+    }
+
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+    }
+
+    void Close(dynamic result)
+    {
+    }
+
+    public void Dispose()
+    {
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
     }
 }

@@ -1,8 +1,19 @@
 ﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+@inject NavigationManager Navigation
 
 <div class="CheckUserFormComponent">
     <RadzenCard>
-        <RadzenTextBox Placeholder="@LocalizerShared["CheckUserFormPlaceholder"]" />
-        <RadzenButton Text=@LocalizerShared["CheckUserFormButton"] ButtonStyle="ButtonStyle.Primary" />
+        <RadzenTextBox Placeholder="@LocalizerShared["CheckUserFormPlaceholder"]" @bind-Value=@_id />
+        <RadzenButton Text=@LocalizerShared["CheckUserFormButton"] ButtonStyle="ButtonStyle.Primary" Click="OnClick" Disabled=@(string.IsNullOrWhiteSpace(_id)) />
     </RadzenCard>
 </div>
+
+@code {
+    private string? _id;
+
+    void OnClick()
+    {
+        if (!string.IsNullOrWhiteSpace(_id))
+            Navigation.NavigateTo($"/users/{_id}");
+    }
+}

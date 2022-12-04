@@ -8,7 +8,7 @@
     "ServiceName": "OnebrbApi",
     "AcceptAllUntrustedCertificates": true,
     "GeneratedFileName": "OnebrbApiClient",
-    "Endpoint": "https://localhost:7088/swagger/v1/swagger.json",
+    "Endpoint": "https://onebrbapi20221203165217.azurewebsites.net/swagger/v1/swagger.json",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": true,
     "GenerateTypeScriptClient": false,

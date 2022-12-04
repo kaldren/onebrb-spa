@@ -1,10 +1,14 @@
 ﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+@inject IJSRuntime JS
+@inject DialogService DialogService
+@implements IDisposable
+@inject NavigationManager Navigation
 
 <div class="LoginFormComponent">
     <RadzenCard>
         <div class="LoginFormComponent__social">
             <RadzenIcon Icon="login" class="login_icon" />
-            <a href="authentication/login">
+            <a @onclick=onSignInClick>
                 <RadzenButton Text=@LocalizerShared["LoginToOnebrb"] ButtonStyle="ButtonStyle.Primary" />
             </a>
         </div>
@@ -12,5 +16,40 @@
 </div>
 
 @code {
+    private bool _isValidBrowser;
+
     // Check browser compatibility
+    protected override async Task OnInitializedAsync()
+    {
+        _isValidBrowser = await JS.InvokeAsync<bool>("isValidBrowser.get");
+    }
+
+    async Task onSignInClick()
+    {
+        if (!_isValidBrowser)
+        {
+            await DialogService.OpenAsync("Invalid browser", ds =>
+            @<div>
+                You are using embedded or outdated browser. Please use Chrome, Edge, Firefox or Safari.
+            </div>
+            , new DialogOptions() { CloseDialogOnOverlayClick = true });
+            return;
+        }
+
+        Navigation.NavigateTo($"authentication/login");
+    }
+
+    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+    }
+
+    void Close(dynamic result)
+    {
+    }
+
+    public void Dispose()
+    {
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
+    }
 }

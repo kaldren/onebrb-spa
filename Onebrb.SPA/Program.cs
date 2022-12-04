@@ -68,6 +68,5 @@ if (appLanguage != null)
 builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddScoped<DialogService>();
-//builder.Services.AddDetection();
 
 await builder.Build().RunAsync();

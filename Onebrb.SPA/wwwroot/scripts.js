@@ -90,12 +90,6 @@ var isMobile = {
     }
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-    window.location.reload(true)
-
-    let isValidBrowser = (BrowserDetect.browser === 'Safari' || BrowserDetect.browser === 'Chrome' || BrowserDetect.browser === 'Mozilla' || BrowserDetect.browser === 'Edge' || BrowserDetect.browser === 'Opera');
-
-    if (!isValidBrowser) {
-        window.location.href = "/invalid-browser";
-    }
-});
+window.isValidBrowser = {
+    get: () => (BrowserDetect.browser === 'Safari' || BrowserDetect.browser === 'Chrome' || BrowserDetect.browser === 'Mozilla' || BrowserDetect.browser === 'Edge' || BrowserDetect.browser === 'Opera')
+}

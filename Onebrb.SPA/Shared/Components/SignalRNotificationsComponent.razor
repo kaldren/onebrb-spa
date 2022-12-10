@@ -34,7 +34,7 @@
             if (tokenResult.TryGetToken(out var token))
             {
                 hubConnection = new HubConnectionBuilder()
-                    .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"), options =>
+                    .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["Api:FullUrl"]}/notifications-hub"), options =>
                     {
                         options.AccessTokenProvider = () => Task.FromResult(token.Value ?? null);
                     })

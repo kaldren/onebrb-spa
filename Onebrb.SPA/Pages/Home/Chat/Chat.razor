@@ -40,7 +40,7 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri($"{Configuration["AppConfiguration:OnebrbAPIEndpoint"]}/notifications-hub"))
+            .WithUrl(Navigation.ToAbsoluteUri($"{Configuration["Api:FullUrl"]}/notifications-hub"))
             .Build();
 
         hubConnection.On<string>("ReceiveMessage", (message) =>

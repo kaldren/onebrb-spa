@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Onebrb.SPA</title>
     <base href="/" />
-    <link href="https://onebrb.azureedge.net/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://onebrb.azureedge.net/css/app.css" rel="stylesheet" />
-    <link href="https://onebrb.azureedge.net/manifest.json" rel="manifest" />
-    <link rel="https://onebrb.azureedge.net/apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="https://onebrb.azureedge.net/apple-touch-icon" sizes="192x192" href="icon-192.png" />
-    <link rel="stylesheet" href="https://onebrb.azureedge.net/_content/Radzen.Blazor/css/default-base.css">
-    <link rel="stylesheet" href="https://onebrb.azureedge.net/_content/Radzen.Blazor/css/default.css">
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <link href="https://onebrb.azureedge.net/_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
+    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link href="https://onebrb.azureedge.net/Onebrb.SPA.styles.css" rel="stylesheet" />
-    <script src="https://onebrb.azureedge.net/scripts.js"></script>
+    <link href="Onebrb.SPA.styles.css" rel="stylesheet" />
+    <script src="/scripts.js"></script>
 </head>
 
 <body>
@@ -32,10 +32,10 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="https://onebrb.azureedge.net/_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
-    <script src="https://onebrb.azureedge.net/_framework/blazor.webassembly.js"></script>
+    <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
-    <script src="https://onebrb.azureedge.net/_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script>
         window.appCulture = {
             get: () => window.localStorage['AppLanguage'],

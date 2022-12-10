@@ -8,7 +8,7 @@
     <RadzenCard>
         <div class="LoginFormComponent__social">
             <RadzenIcon Icon="login" class="login_icon" />
-            <a href=@_signInUrl @onclick=onSignInClick>
+            <a href=@_signInUrl>
                 <RadzenButton Text=@LocalizerShared["LoginToOnebrb"] ButtonStyle="ButtonStyle.Primary" />
             </a>
         </div>
@@ -30,7 +30,7 @@
 
     async Task onSignInClick()
     {
-        if (_isValidBrowser)
+        if (!_isValidBrowser)
         {
             await DialogService.OpenAsync("Invalid browser", ds =>
             @<div>

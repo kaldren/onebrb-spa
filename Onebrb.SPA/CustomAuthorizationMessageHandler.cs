@@ -8,10 +8,10 @@ public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
         : base(provider, navigationManager)
     {
         //ConfigureHandler(
-        //    authorizedUrls: new[] { "https://localhost:7088/api" },
+        //    authorizedUrls: new[] { "https://onebrbapi20221203165217.azurewebsites.net/api" },
         //    scopes: new[] { "https://onebrb.onmicrosoft.com/api/Onebrb.Read" });
 
 
-        ConfigureHandler(new[] { "https://localhost:7088/api" });
+        ConfigureHandler(new[] { "https://onebrbapi20221203165217.azurewebsites.net/api" });
     }
 }

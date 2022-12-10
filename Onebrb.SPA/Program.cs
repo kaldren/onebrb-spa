@@ -18,14 +18,14 @@ builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 builder.Services.AddHttpClient("OnebrbAPIAuth",
         (srv, client) =>
         {
-            client.BaseAddress = new Uri("https://localhost:7088");
+            client.BaseAddress = new Uri("https://onebrbapi20221203165217.azurewebsites.net");
         })
 .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped<IOnebrbApiClient, OnebrbApiClient>((x) =>
 {
     var httpClient = x.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPIAuth");
-    var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://localhost:7088", httpClient);
+    var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://onebrbapi20221203165217.azurewebsites.net", httpClient);
 
     return client;
 });
@@ -33,13 +33,13 @@ builder.Services.AddScoped<IOnebrbApiClient, OnebrbApiClient>((x) =>
 builder.Services.AddHttpClient("OnebrbAPINoAuth",
         (srv, client) =>
         {
-            client.BaseAddress = new Uri("https://localhost:7088");
+            client.BaseAddress = new Uri("https://onebrbapi20221203165217.azurewebsites.net");
         });
 
 builder.Services.AddScoped<IOnebrbApiClientPublic, OnebrbApiClient>((x) =>
 {
     var httpClient = x.GetRequiredService<IHttpClientFactory>().CreateClient("OnebrbAPINoAuth");
-    var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://localhost:7088", httpClient);
+    var client = ActivatorUtilities.CreateInstance<OnebrbApiClient>(x, "https://onebrbapi20221203165217.azurewebsites.net", httpClient);
 
     return client;
 });

@@ -8,7 +8,7 @@
     <RadzenCard>
         <div class="LoginFormComponent__social">
             <RadzenIcon Icon="login" class="login_icon" />
-            <a @onclick=onSignInClick>
+            <a href=@_signInUrl>
                 <RadzenButton Text=@LocalizerShared["LoginToOnebrb"] ButtonStyle="ButtonStyle.Primary" />
             </a>
         </div>
@@ -17,11 +17,15 @@
 
 @code {
     private bool _isValidBrowser;
+    private string _signInUrl = "javascript:void(0)";
 
     // Check browser compatibility
     protected override async Task OnInitializedAsync()
     {
         _isValidBrowser = await JS.InvokeAsync<bool>("isValidBrowser.get");
+
+        if (_isValidBrowser)
+            _signInUrl = "authentication/login";
     }
 
     async Task onSignInClick()
@@ -31,12 +35,10 @@
             await DialogService.OpenAsync("Invalid browser", ds =>
             @<div>
                 You are using embedded or outdated browser. Please use Chrome, Edge, Firefox or Safari.
-            </div>
-            , new DialogOptions() { CloseDialogOnOverlayClick = true });
+        </div>
+    , new DialogOptions() { CloseDialogOnOverlayClick = true });
             return;
         }
-
-        Navigation.NavigateTo($"authentication/login");
     }
 
     void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)

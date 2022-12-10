@@ -42,10 +42,6 @@ a, .btn-link {
     outline: 1px solid red;
 }
 
-.spinner-border {
-    display: flex;
-    justify-content: center;
-}
 
 #blazor-error-ui {
     background: lightyellow;

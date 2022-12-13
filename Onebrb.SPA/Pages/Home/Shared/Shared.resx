@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutPage" xml:space="preserve">
+    <value>Onebrb helps you create online business card page visible to billions of people around the world. People who know you can share their opinion of you and rate you.</value>
+  </data>
+  <data name="AboutPageHeading" xml:space="preserve">
+    <value>About Onebrb</value>
+  </data>
   <data name="AllRightsReserved" xml:space="preserve">
     <value>Onebrb - All rights reserved</value>
   </data>
@@ -200,6 +206,9 @@
   </data>
   <data name="UserHasNoComments" xml:space="preserve">
     <value>The user doesn't have any comments yet.</value>
+  </data>
+  <data name="WelcomeComponentIntro" xml:space="preserve">
+    <value>Create online business card page visible to billions of people around the world. Let people who know you share their opinion of you, your work and rate you.</value>
   </data>
   <data name="WelcomeToOnebrb" xml:space="preserve">
     <value>Welcome to Onebrb</value>

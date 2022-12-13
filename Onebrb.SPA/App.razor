@@ -1,6 +1,7 @@
 ﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
 <CascadingAuthenticationState>
+    @*<BytexDigital.Blazor.Components.CookieConsent.CookieConsentHandler>*@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
@@ -24,4 +25,5 @@
             </LayoutView>
         </NotFound>
     </Router>
+    @*</BytexDigital.Blazor.Components.CookieConsent.CookieConsentHandler>*@
 </CascadingAuthenticationState>

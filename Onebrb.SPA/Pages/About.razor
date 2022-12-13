@@ -1,3 +1,10 @@
 ﻿@page "/about"
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
-<h3>About</h3>
+<div class="AboutComponent">
+    <h3>@LocalizerShared["AboutPageHeading"]</h3>
+
+    <p>
+        @LocalizerShared["AboutPage"]
+    </p>
+</div>

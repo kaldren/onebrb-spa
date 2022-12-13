@@ -9,6 +9,13 @@
     align-items: center;
 }
 
+.WelcomeComponent__intro-text {
+    text-align: center;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
 @media (max-width: 450px) {
     .WelcomeComponent ::deep .CheckUserFormComponent .card {
         flex-direction: column;

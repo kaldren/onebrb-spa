@@ -1,6 +1,6 @@
 {
   "navigationFallback": {
     "rewrite": "index.html",
-    "exclude": [ "/images/*.{png,jpg,gif}", "/css/*", "/_framework/*" ]
+    "exclude": [ "/images/*.{png,jpg,gif}", "/css/*", "/_framework/*", "/signin-oidc" ]
   }
 }

@@ -60,7 +60,7 @@
         };
     </script>
     <script type="module">
-        import { BrotliDecode } from './decode.min.js';
+        import { BrotliDecode } from './decode.js';
         Blazor.start({
             loadBootResource: function (type, name, defaultUri, integrity) {
                 if (type !== 'dotnetjs' && location.hostname !== 'localhost') {

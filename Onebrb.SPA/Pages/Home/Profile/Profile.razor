@@ -2,6 +2,7 @@
 
 @using AutoMapper
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using Onebrb.SPA.Interfaces;
 @using Onebrb.SPA.Models
 @using Onebrb.SPA.Shared.Components
@@ -18,6 +19,10 @@
 @inject IOnebrbApiClientPublic OnebrbApiClientPublic
 @inject IMapper Mapper
 @inject IToastService ToastService
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>@Localizer["Profile"]</PageTitle>
 @if (statusCodeEnum is not null)
@@ -95,9 +100,11 @@ else
             {
                 statusCodeEnum = ResponseStatusCodeEnum.NotFound;
                 ToastService.ShowError(@Localizer["UserNotFound"]);
+
+                // Delete profile
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             statusCodeEnum = ResponseStatusCodeEnum.ServerError;
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);

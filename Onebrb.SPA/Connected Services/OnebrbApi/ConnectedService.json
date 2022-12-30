@@ -1,6 +1,6 @@
 ﻿{
   "ProviderId": "Unchase.OpenAPI.ConnectedService",
-  "Version": "1.7.0.0",
+  "Version": "1.8.0.0",
   "GettingStartedDocument": {
     "Uri": "https://github.com/unchase/Unchase.OpenAPI.Connectedservice/"
   },
@@ -8,7 +8,7 @@
     "ServiceName": "OnebrbApi",
     "AcceptAllUntrustedCertificates": true,
     "GeneratedFileName": "OnebrbApiClient",
-    "Endpoint": "https://onebrbapi20221203165217.azurewebsites.net/swagger/v1/swagger.json",
+    "Endpoint": "https://localhost:7088/swagger/v1/swagger.json",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": true,
     "GenerateTypeScriptClient": false,
@@ -94,7 +94,6 @@
       "TypeNameGeneratorType": null,
       "PropertyNameGeneratorType": null,
       "EnumNameGeneratorType": null,
-      "ChecksumCacheEnabled": false,
       "ServiceHost": null,
       "ServiceSchemes": null,
       "output": "OnebrbApiClient.cs",

@@ -207,4 +207,19 @@
   <data name="ProfileComments" xml:space="preserve">
     <value>Comments</value>
   </data>
+  <data name="EditProfile_DeleteProfileConfirm" xml:space="preserve">
+    <value>Deleting a profile can't be undone. Are you sure?</value>
+  </data>
+  <data name="EditProfile_DeleteProfileConfirmTitle" xml:space="preserve">
+    <value>Deleting a profile</value>
+  </data>
+  <data name="EditProfile_DeleteProfileFailed" xml:space="preserve">
+    <value>Error, couldn't delete the profile.</value>
+  </data>
+  <data name="EditProfile_DeleteProfileSuccess" xml:space="preserve">
+    <value>Profile was deleted successfully.</value>
+  </data>
+  <data name="EditProfile_DeleteProfileButton" xml:space="preserve">
+    <value>Delete your profile</value>
+  </data>
 </root>

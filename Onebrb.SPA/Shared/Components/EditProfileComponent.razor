@@ -13,16 +13,22 @@
 @inject IMapper Mapper
 @inject IToastService ToastService
 
-@inject IStringLocalizer<Pages.Home.Profile.Profile> Localizer
+@inject IStringLocalizer<Pages.Home.Profile.Profile> LocalizerProfile
+@inject IStringLocalizer<Pages.Home.Settings.Settings> LocalizerSettings
 @inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
 @inject DialogService DialogService
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
 @implements IDisposable
 
 @if (_updatedUserProfile)
 {
     ToastService.ClearAll();
-    ToastService.ShowSuccess(@Localizer["EditProfile_UpdatedSuccessfully"]);
+    ToastService.ShowSuccess(@LocalizerProfile["EditProfile_UpdatedSuccessfully"]);
 }
 
 @if (_updateUserProfileError)
@@ -47,27 +53,27 @@
 
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
-                                <p>@Localizer["EditProfile_ProfilePhoto"]</p>
+                                <p>@LocalizerProfile["EditProfile_ProfilePhoto"]</p>
                                 <RadzenFileInput Value="@CurrentUser.Photo" TValue=string Change=@(args => OnProfilePhotoChange(args)) />
                             </RadzenCard>
                         </div>
 
                         <div class="EditProfileComponent__form__input-div">
-                            <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FirstName"] Placeholder=@Localizer["EditProfile_FirstName"] @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_FirstName"] Placeholder=@LocalizerProfile["EditProfile_FirstName"] @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
                         </div>
                         <div class="EditProfileComponent__form__input-div">
-                            <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LastName"] Placeholder=@Localizer["EditProfile_LastName"] @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_LastName"] Placeholder=@LocalizerProfile["EditProfile_LastName"] @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
                         </div>
                         <div class="EditProfileComponent__form__input-div">
-                            <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_Email"] Placeholder=@Localizer["EditProfile_Email"] @bind-Value="@CurrentUser.Email" Disabled />
+                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_Email"] Placeholder=@LocalizerProfile["EditProfile_Email"] @bind-Value="@CurrentUser.Email" Disabled />
                             <RadzenCard class="EditProfileComponent__form__privacy-toggle">
                                 <div class="privacy-toggle__lock">
                                     <i class="bi bi-file-lock2-fill"></i>
                                 </div>
                                 <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsEmailVisible TValue="bool" Change=@(args => OnEmailPrivacyChange(args))>
                                     <Items>
-                                        <RadzenSelectBarItem Text=@Localizer["EditProfile_PrivacyEveryone"] Value="true" />
-                                        <RadzenSelectBarItem Text=@Localizer["EditProfile_PrivacyOnlyMe"] Value="false" />
+                                        <RadzenSelectBarItem Text=@LocalizerProfile["EditProfile_PrivacyEveryone"] Value="true" />
+                                        <RadzenSelectBarItem Text=@LocalizerProfile["EditProfile_PrivacyOnlyMe"] Value="false" />
                                     </Items>
                                 </RadzenSelectBar>
                             </RadzenCard>
@@ -91,7 +97,7 @@
 
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
-                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@Localizer["EditProfile_Occupation"]</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerProfile["EditProfile_Occupation"]</RadzenText>
                                 <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Id
                                             TextProperty="Name" ValueProperty="Id" Change=@(args => OnOccupationChange(args)) Class="w-100" />
                             </RadzenCard>
@@ -99,26 +105,26 @@
 
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
-                                <h4 class="mb-4">@Localizer["EditProfile_About"]</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder=@Localizer["EditProfile_AboutWriteSomething"] MaxLength="@_aboutMaxLength" />
-                                <span>(@string.Format(@Localizer["EditProfile_AboutMaxLength"], _aboutMaxLength))</span>
+                                <h4 class="mb-4">@LocalizerProfile["EditProfile_About"]</h4>
+                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder=@LocalizerProfile["EditProfile_AboutWriteSomething"] MaxLength="@_aboutMaxLength" />
+                                <span>(@string.Format(@LocalizerProfile["EditProfile_AboutMaxLength"], _aboutMaxLength))</span>
                             </RadzenCard>
                         </div>
 
                         <div class="EditProfileComponent__social">
                             <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-linkedin"></i>
-                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_LinkedInAccount"] Placeholder=@Localizer["EditProfile_LinkedInAccount"] @bind-Value="@CurrentUser.LinkedInProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
+                                <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_LinkedInAccount"] Placeholder=@LocalizerProfile["EditProfile_LinkedInAccount"] @bind-Value="@CurrentUser.LinkedInProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
                             </div>
 
                             <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-facebook"></i>
-                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_FacebookAccount"] Placeholder=@Localizer["EditProfile_FacebookAccount"] @bind-Value="@CurrentUser.FacebookProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
+                                <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_FacebookAccount"] Placeholder=@LocalizerProfile["EditProfile_FacebookAccount"] @bind-Value="@CurrentUser.FacebookProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
                             </div>
 
                             <div class="EditProfileComponent__form__input-div">
                                 <i class="bi bi-instagram"></i>
-                                <RadzenTextBox style="width: 100%;" Name=@Localizer["EditProfile_InstagramAccount"] Placeholder=@Localizer["EditProfile_InstagramAccount"] @bind-Value="@CurrentUser.InstagramProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
+                                <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_InstagramAccount"] Placeholder=@LocalizerProfile["EditProfile_InstagramAccount"] @bind-Value="@CurrentUser.InstagramProfile" MaxLength=ValidationConstants.SocialAccountMaxLength />
                             </div>
                         </div>
                     </div>
@@ -128,6 +134,9 @@
                 <div class="col-md-12 d-flex" style="margin-top: 16px;">
                     <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnUpdateProfileClick()) Icon="save" Text=@LocalizerShared["Save"] Disabled=@_isUpdateBtnClicked />
                     <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text=@LocalizerShared["Cancel"] Click="@Cancel" Disabled=@_isUpdateBtnClicked />
+                </div>
+                <div class="col-md-12 d-flex" style="margin-top: 16px;">
+                    <RadzenButton ButtonType="ButtonType.Submit" Click=@(args => OnDeleteProfileClick()) class="btn-danger" Icon="delete_forever" Text=@LocalizerProfile["EditProfile_DeleteProfileButton"] Disabled=@_isDeleteBtnClicked />
                 </div>
             </div>
         </RadzenTemplateForm>
@@ -144,6 +153,7 @@
 
     private bool _updatedUserProfile = false;
     private bool _isUpdateBtnClicked = false;
+    private bool _isDeleteBtnClicked = false;
     private bool _updateUserProfileError = false;
 
     private IEnumerable<int> values = new int[] { 1, 2 };
@@ -253,8 +263,8 @@
                     await DialogService.OpenAsync("Facebook Account Error", ds =>
                     @<div>
                         The Instagram account cannot contain any urls / website links.
-                    </div>
-        , new DialogOptions() { CloseDialogOnOverlayClick = true });
+        </div>
+    , new DialogOptions() { CloseDialogOnOverlayClick = true });
                     return;
                 }
             }
@@ -289,6 +299,33 @@
         {
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
+    }
+
+    async Task OnDeleteProfileClick()
+    {
+        bool? continueDelete = await DialogService.Confirm(@LocalizerProfile["EditProfile_DeleteProfileConfirm"], @LocalizerProfile["EditProfile_DeleteProfileConfirmTitle"], new ConfirmOptions() { OkButtonText = @LocalizerShared["Yes"], CancelButtonText = @LocalizerShared["No"] });
+
+        if (continueDelete is true)
+        {
+            var response = await OnebrbApiClient.ApiUsersDeleteAsync();
+
+            if (response.StatusCode != (int)HttpStatusCode.OK)
+            {
+                ToastService.ShowSuccess(@LocalizerProfile["EditProfile_DeleteProfileFailed"]);
+            }
+            else
+            {
+                ToastService.ShowError(@LocalizerProfile["EditProfile_DeleteProfileSuccess"]);
+                await BeginLogout();
+            }
+        }
+    }
+
+    private async Task BeginLogout()
+    {
+        await SignOutManager.SetSignOutState();
+        await LocalStorage.ClearAsync();
+        Navigation.NavigateTo("authentication/logout");
     }
 
     void Cancel()

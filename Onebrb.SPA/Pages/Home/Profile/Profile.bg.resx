@@ -207,4 +207,16 @@
   <data name="ProfileComments" xml:space="preserve">
     <value>Коментари</value>
   </data>
+  <data name="EditProfile_DeleteProfile" xml:space="preserve">
+    <value>Изтрий профила</value>
+  </data>
+  <data name="EditProfile_DeleteProfileConfirm" xml:space="preserve">
+    <value>Изтриването на профил е необратимо. Сигурни ли сте?</value>
+  </data>
+  <data name="EditProfile_DeleteProfileConfirmTitle" xml:space="preserve">
+    <value>Изтриване на профил</value>
+  </data>
+  <data name="EditProfile_DeleteProfileButton" xml:space="preserve">
+    <value>Изтрий профила си</value>
+  </data>
 </root>

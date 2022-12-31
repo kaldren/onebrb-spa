@@ -34,53 +34,51 @@
 @code {
     private UserProfileModel? _currentUser;
     private bool isAuthorized = false;
+    string userIdClaim;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
+        try
         {
-            try
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+            bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
+
+            if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
             {
-                var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                var userClaims = authState.User.Claims;
+                userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
+                var userIsDeleted = await OnebrbApiClient.ApiUsersIsDeletedAsync(userIdClaim);
 
-                bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
-
-                if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
+                if (userIsDeleted.Result == true)
                 {
-                    var userClaims2 = authState.User.Claims;
-                    string userIdClaim2 = userClaims2.Where(p => p.Type == "sub").First().Value;
-                    var userIsDeleted2 = await OnebrbApiClient.ApiUsersIsDeletedAsync(userIdClaim2);
+                    await SignOutManager.SetSignOutState();
+                    await LocalStorage.ClearAsync();
+                    Navigation.NavigateTo("authentication/logout");
+                }
 
-                    if (userIsDeleted2.Result == true)
-                    {
-                        await SignOutManager.SetSignOutState();
-                        await LocalStorage.ClearAsync();
-                        Navigation.NavigateTo("authentication/logout");
-                    }
-
-                    if (!string.IsNullOrEmpty(userIdClaim2))
-                    {
-                        Navigation.NavigateTo($"/users/{userIdClaim2}");
-                    }
+                if (!string.IsNullOrEmpty(userIdClaim))
+                {
+                    Navigation.NavigateTo($"/users/{userIdClaim}");
                 }
             }
-            catch (ApiException<ProblemDetails> ex)
-            {
-                ToastService.ClearAll();
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
 
-                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-                {
-                    ToastService.ShowError("Unauthorized action.");
-                }
-                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    ToastService.ShowError("The user was not found.");
-                }
-            }
-            catch (Exception ex)
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                ToastService.ShowError("Sorry, please try again later.");
+                ToastService.ShowError("Unauthorized action.");
             }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                Navigation.NavigateTo($"/users/{userIdClaim}");
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Sorry, please try again later.");
         }
     }
 }

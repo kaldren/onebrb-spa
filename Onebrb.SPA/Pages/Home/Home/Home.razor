@@ -1,0 +1,33 @@
+﻿@page "/home"
+@attribute [Authorize]
+
+@using AutoMapper;
+@using Microsoft.AspNetCore.Authorization;
+@using Onebrb.SPA.Models;
+@using Onebrb.SPA.Shared.Components
+@using OnebrbApi;
+@inject IOnebrbApiClient OnebrbApiClient
+@inject IMapper Mapper
+
+@if (_currentUser is not null)
+{
+    <ProfileComponent CurrentUser="@_currentUser" ProfileModel="@_currentUser" />
+}
+
+@code {
+    private UserProfileModel? _currentUser;
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+    //        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+    //    }
+    //}
+    protected override async Task OnInitializedAsync()
+    {
+        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+    }
+}

@@ -23,7 +23,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <p>Loading...</p>
+        <p>Hi :)</p>
     </Authorized>
     <NotAuthorized>
         <WelcomeComponent />
@@ -34,34 +34,54 @@
 @code {
     private UserProfileModel? _currentUser;
     private bool isAuthorized = false;
-    string userIdClaim;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //if (firstRender)
+        //{
+        //    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        //    bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
+
+        //    if (isAuth.HasValue && isAuth.Value is true)
+        //    {
+        //        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        //        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+        //    }
+        //}
+    }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 
-            bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
+            //bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
 
-            if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
-            {
-                var userClaims = authState.User.Claims;
-                userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
-                var userIsDeleted = await OnebrbApiClient.ApiUsersIsDeletedAsync(userIdClaim);
+            //if (isAuth.HasValue && isAuth.Value is true)
+            //{
+            //    var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+            //    _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+            //}
 
-                if (userIsDeleted.Result == true)
-                {
-                    await SignOutManager.SetSignOutState();
-                    await LocalStorage.ClearAsync();
-                    Navigation.NavigateTo("authentication/logout");
-                }
+            //if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
+            //{
+            //    var userClaims = authState.User.Claims;
+            //    var userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
+            //    var userIsDeleted = await OnebrbApiClient.ApiUsersIsDeletedAsync(userIdClaim);
 
-                if (!string.IsNullOrEmpty(userIdClaim))
-                {
-                    Navigation.NavigateTo($"/users/{userIdClaim}");
-                }
-            }
+            //    if (userIsDeleted.Result == true)
+            //    {
+            //        await SignOutManager.SetSignOutState();
+            //        Navigation.NavigateTo("authentication/logout");
+            //    }
+
+            //    if (!string.IsNullOrEmpty(userIdClaim))
+            //    {
+            //        Navigation.NavigateTo($"/users/{userIdClaim}");
+            //    }
+            //}
         }
         catch (ApiException<ProblemDetails> ex)
         {
@@ -73,7 +93,7 @@
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
-                Navigation.NavigateTo($"/users/{userIdClaim}");
+                ToastService.ShowError("User not found.");
             }
         }
         catch (Exception ex)

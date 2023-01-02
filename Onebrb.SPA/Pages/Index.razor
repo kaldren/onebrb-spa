@@ -23,82 +23,9 @@
 
 <AuthorizeView>
     <Authorized>
-        <ProfileComponent CurrentUser="null" ProfileModel="null" />
+        <ProfileComponent />
     </Authorized>
     <NotAuthorized>
         <WelcomeComponent />
     </NotAuthorized>
 </AuthorizeView>
-
-
-@code {
-    private UserProfileModel? _currentUser;
-    private bool isAuthorized = false;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        //if (firstRender)
-        //{
-        //    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-
-        //    bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
-
-        //    if (isAuth.HasValue && isAuth.Value is true)
-        //    {
-        //        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        //        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-        //    }
-        //}
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-
-            //bool? isAuth = authState?.User?.Identity?.IsAuthenticated;
-
-            //if (isAuth.HasValue && isAuth.Value is true)
-            //{
-            //    var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-            //    _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-            //}
-
-            //if (_currentUser is null && (isAuth.HasValue && isAuth.Value is true))
-            //{
-            //    var userClaims = authState.User.Claims;
-            //    var userIdClaim = userClaims.Where(p => p.Type == "sub").First().Value;
-            //    var userIsDeleted = await OnebrbApiClient.ApiUsersIsDeletedAsync(userIdClaim);
-
-            //    if (userIsDeleted.Result == true)
-            //    {
-            //        await SignOutManager.SetSignOutState();
-            //        Navigation.NavigateTo("authentication/logout");
-            //    }
-
-            //    if (!string.IsNullOrEmpty(userIdClaim))
-            //    {
-            //        Navigation.NavigateTo($"/users/{userIdClaim}");
-            //    }
-            //}
-        }
-        catch (ApiException<ProblemDetails> ex)
-        {
-            ToastService.ClearAll();
-
-            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-            {
-                ToastService.ShowError("Unauthorized action.");
-            }
-            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-            {
-                ToastService.ShowError("User not found.");
-            }
-        }
-        catch (Exception ex)
-        {
-            ToastService.ShowError("Sorry, please try again later.");
-        }
-    }
-}

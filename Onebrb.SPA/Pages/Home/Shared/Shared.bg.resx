@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutPage" xml:space="preserve">
-    <value>Onebrb създава твоя собствена онлайн визитка видима за милиарди хора по света. Хора, които те познават могат да споделят мнението си за теб и да те оценят.</value>
+    <value>Onebrb Ви помага да създадете своя лична страница, видима за милиарди хора по света. Хората могат да ви оценят и да споделят какво мислят за вас или за работата ви.</value>
   </data>
   <data name="AboutPageHeading" xml:space="preserve">
     <value>За Onebrb</value>

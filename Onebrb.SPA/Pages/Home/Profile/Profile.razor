@@ -55,19 +55,19 @@ else
     OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
     OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        //var user = authState.User;
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
 
-        //if (user.Identity.IsAuthenticated)
-        //{
-        //    await LoadAuthProfileData();
-        //}
-        //else
-        //{
-        //    await LoadNotAuthProfileData();
-        //}
+        if (user.Identity.IsAuthenticated)
+        {
+            await LoadAuthProfileData();
+        }
+        else
+        {
+            await LoadNotAuthProfileData();
+        }
     }
 
     private async Task LoadAuthProfileData()

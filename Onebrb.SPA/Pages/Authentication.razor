@@ -42,11 +42,6 @@
             var user = authState.User;
 
             _authenticated = user.Identity?.IsAuthenticated ?? false;
-
-            //if (_authenticated)
-            //{
-            //    Navigation.NavigateTo("/home");
-            //}
         });
     }
 }

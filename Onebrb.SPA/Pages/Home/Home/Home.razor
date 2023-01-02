@@ -17,14 +17,6 @@
 @code {
     private UserProfileModel? _currentUser;
 
-    //protected override async Task OnAfterRenderAsync(bool firstRender)
-    //{
-    //    if (firstRender)
-    //    {
-    //        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-    //        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-    //    }
-    //}
     protected override async Task OnInitializedAsync()
     {
         var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();

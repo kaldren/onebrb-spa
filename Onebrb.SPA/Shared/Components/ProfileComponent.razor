@@ -11,6 +11,7 @@
 @inject IMapper Mapper
 @inject IToastService ToastService
 @inject IJSRuntime JSRuntime
+@inject IOnebrbApiClient OnebrbApiClient
 
 @if (ProfileModel is null)
 {
@@ -181,5 +182,24 @@ else
         }
 
         _isProfileUrlShortBtnClicked = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ProfileModel is null && CurrentUser is null)
+        {
+            // try get current user profile
+            try
+            {
+                var userResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+                CurrentUser = this.Mapper.Map<UserProfileModel>(userResponse.Result);
+                ProfileModel = CurrentUser;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

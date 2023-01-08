@@ -5,8 +5,9 @@
 @using Onebrb.SPA.Shared.Components
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
-<PageTitle>Onebrb</PageTitle>
+<PageTitle>@LocalizerShared["IndexPageTitle"]</PageTitle>
 
 <AuthorizeView>
     <Authorized>

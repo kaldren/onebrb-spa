@@ -159,6 +159,9 @@
   <data name="Home" xml:space="preserve">
     <value>Начало</value>
   </data>
+  <data name="IndexPageTitle" xml:space="preserve">
+    <value>Нека милиарди хора по света разберат за теб, оценят те и оставят коментар  - Onebrb</value>
+  </data>
   <data name="Loading" xml:space="preserve">
     <value>Зареждане, моля изчакайте...</value>
   </data>

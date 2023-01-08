@@ -187,7 +187,7 @@
     <value>Search</value>
   </data>
   <data name="SearchNamePlaceholder" xml:space="preserve">
-    <value>Name of the user</value>
+    <value>Search users...</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>

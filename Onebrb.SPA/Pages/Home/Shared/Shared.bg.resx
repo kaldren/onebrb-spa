@@ -187,7 +187,7 @@
     <value>Търсене</value>
   </data>
   <data name="SearchNamePlaceholder" xml:space="preserve">
-    <value>Име на потребителя</value>
+    <value>Търсене на потребители...</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>

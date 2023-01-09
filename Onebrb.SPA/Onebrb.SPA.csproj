@@ -61,8 +61,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
-	<PropertyGroup>
+	<!--<PropertyGroup>
 		<BlazorEnableCompression>false</BlazorEnableCompression>
-	</PropertyGroup>
+	</PropertyGroup>-->
 
 </Project>

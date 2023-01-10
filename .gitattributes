@@ -1,2 +1,6 @@
 ﻿# blazor dlls - treat all .dll files as binary
 *.dll binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

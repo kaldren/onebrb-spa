@@ -13,7 +13,7 @@
                     }
                     else
                     {
-                        <p role="alert">@LocalizerShared["NotAuthorizedToViewResource"]</p>
+                        <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" Message="@LocalizerShared["NotAuthorizedToViewResource"]" />
                     }
                 </NotAuthorized>
             </AuthorizeRouteView>

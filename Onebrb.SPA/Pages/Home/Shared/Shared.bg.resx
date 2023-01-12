@@ -150,6 +150,9 @@
   <data name="CommentForm_RatingFiveStars" xml:space="preserve">
     <value>Рейтинг с 5 звезди</value>
   </data>
+  <data name="ErrorComponent__GoBackBtn" xml:space="preserve">
+    <value>Обратно към началната страница</value>
+  </data>
   <data name="ErrorGenericMessage" xml:space="preserve">
     <value>Възникна грешка, моля опитайте по-късно.</value>
   </data>

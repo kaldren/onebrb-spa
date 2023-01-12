@@ -150,6 +150,9 @@
   <data name="CommentForm_RatingFiveStars" xml:space="preserve">
     <value>Rating with 5 stars</value>
   </data>
+  <data name="ErrorComponent__GoBackBtn" xml:space="preserve">
+    <value>Go back to home page</value>
+  </data>
   <data name="ErrorGenericMessage" xml:space="preserve">
     <value>Error, please try again later.</value>
   </data>

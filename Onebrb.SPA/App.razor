@@ -1,4 +1,5 @@
-﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
+﻿@using Onebrb.SPA.Shared.Components
+@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
 <CascadingAuthenticationState>
     @*<BytexDigital.Blazor.Components.CookieConsent.CookieConsentHandler>*@
@@ -21,7 +22,7 @@
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">@LocalizerShared["NothingAtThisAddress"]</p>
+                <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" Message="@LocalizerShared["NothingAtThisAddress"]" />
             </LayoutView>
         </NotFound>
     </Router>

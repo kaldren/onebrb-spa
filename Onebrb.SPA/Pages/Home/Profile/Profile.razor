@@ -27,7 +27,7 @@
 <PageTitle>@Localizer["Profile"]</PageTitle>
 @if (statusCodeEnum is not null)
 {
-    <ErrorComponent StatusCode="statusCodeEnum.Value" />
+    <ErrorComponent StatusCode="statusCodeEnum.Value" Message="@_message" />
 
 }
 else if (Utils.AtLeastOneNull(_profile))
@@ -49,6 +49,7 @@ else
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
     private ResponseStatusCodeEnum? statusCodeEnum;
+    string _message = string.Empty;
 
     bool _currentUserCommented = true;
 
@@ -94,14 +95,14 @@ else
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                _message = @LocalizerShared["UnauthorizedAction"];
                 ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                _message = @Localizer["UserNotFound"];
                 ToastService.ShowError(@Localizer["UserNotFound"]);
-
-                // Delete profile
             }
         }
         catch (Exception ex)
@@ -125,11 +126,13 @@ else
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                _message = @LocalizerShared["UnauthorizedAction"];
                 ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
                 statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                _message = @Localizer["UserNotFound"];
                 ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }

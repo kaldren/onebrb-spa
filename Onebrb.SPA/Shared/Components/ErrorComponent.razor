@@ -1,12 +1,17 @@
 ﻿@inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
-@if (StatusCode == ResponseStatusCodeEnum.NotFound)
-{
-    // Can add some image for 404    
-}
+<div class="ErrorComponent">
+    @if (StatusCode == ResponseStatusCodeEnum.NotFound)
+    {
+        // Can add some image for 404
+        <img src="/img/404.jpeg" class="ErrorComponent__not-found" alt="@Message" />
+    }
 
-<p>@Message</p>
-
+    @if (!string.IsNullOrWhiteSpace(Message))
+    {
+        <p class="ErrorComponent__message">@Message</p>
+    }
+</div>
 @code {
     [Parameter]
     public ResponseStatusCodeEnum StatusCode { get; set; }

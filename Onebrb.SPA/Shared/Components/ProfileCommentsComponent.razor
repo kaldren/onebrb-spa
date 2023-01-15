@@ -78,7 +78,7 @@
     private int _commentsCount = 0;
     private bool _currentUserCommented = true;
 
-    OnebrbApiResponse<ICollection<CommentResponseModel>> _commentsResponse;
+    OnebrbApiResponse<CommentResponseModelTotalCountApiResponse> _commentsResponse;
 
     private string _updatedComment = string.Empty;
 
@@ -98,12 +98,7 @@
                 _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result);
 
                 // Get comments count
-                var commentsCountResponse = await OnebrbApiClient.ApiUsersCommentsCountAsync(RecipientId);
-
-                if (commentsCountResponse.StatusCode == (int)HttpStatusCode.OK)
-                {
-                    _commentsCount = commentsCountResponse.Result.Count;
-                }
+                var _commentsCount = _commentsResponse.Result.TotalCount;
 
                 // Check if current user already commented
                 if (CurrentUserId is not null)

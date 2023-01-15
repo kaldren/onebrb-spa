@@ -17,7 +17,7 @@
 @code {
     private UserProfileModel? _currentUser;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
         _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);

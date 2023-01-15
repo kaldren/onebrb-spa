@@ -15,13 +15,31 @@
 
 @if (_userResponse is null && showStopper == false)
 {
-    <p>@Localizer["LoadingProfile"]</p>
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
+            <p>@Localizer["LoadingProfile"]</p>
+        </RadzenText>
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </RadzenCard>
 
     return;
 }
 else if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
 {
-    <p>@Localizer["Profile_ErrorLoadingProfile"]</p>
+    if (_userResponse?.StatusCode == (int) HttpStatusCode.NotFound)
+    {
+        <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" />
+    }
+
+    else if (_userResponse?.StatusCode == (int) HttpStatusCode.Unauthorized)
+    {
+        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
+    }
+
+    else
+    {
+        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
+    }
 
     return;
 }

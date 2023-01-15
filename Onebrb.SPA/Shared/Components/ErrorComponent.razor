@@ -8,10 +8,22 @@
             <img src="/img/403.jpeg" class="ErrorComponent__poster" alt="@Message" />
         </a>
     }
-    @if (StatusCode == ResponseStatusCodeEnum.NotFound)
+    else if (StatusCode == ResponseStatusCodeEnum.NotFound)
     {
         <a href="/">
             <img src="/img/404.jpeg" class="ErrorComponent__poster" alt="@Message" />
+        </a>
+    }
+    else if (StatusCode == ResponseStatusCodeEnum.ServerError)
+    {
+        <a href="/">
+            <img src="/img/500.jpeg" class="ErrorComponent__poster" alt="@Message" />
+        </a>
+    }
+    else
+    {
+        <a href="/">
+            <img src="/img/500.jpeg" class="ErrorComponent__poster" alt="@Message" />
         </a>
     }
 

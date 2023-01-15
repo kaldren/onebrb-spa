@@ -1,4 +1,4 @@
-﻿@page "/home"
+﻿@page "/"
 @attribute [Authorize]
 
 @using AutoMapper;
@@ -17,7 +17,7 @@
 @code {
     private UserProfileModel? _currentUser;
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
         _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);

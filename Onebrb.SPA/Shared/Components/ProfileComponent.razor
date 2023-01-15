@@ -13,37 +13,7 @@
 @inject IJSRuntime JSRuntime
 @inject IOnebrbApiClient OnebrbApiClient
 
-@if (_userResponse is null && showStopper == false)
-{
-    <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
-            <p>@Localizer["LoadingProfile"]</p>
-        </RadzenText>
-        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
-    </RadzenCard>
-
-    return;
-}
-else if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
-{
-    if (_userResponse?.StatusCode == (int) HttpStatusCode.NotFound)
-    {
-        <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" />
-    }
-
-    else if (_userResponse?.StatusCode == (int) HttpStatusCode.Unauthorized)
-    {
-        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
-    }
-
-    else
-    {
-        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
-    }
-
-    return;
-}
-else if(ProfileModel is not null)
+@if(ProfileModel is not null)
 {
         <div class="ProfileComponent">
             <div>
@@ -172,6 +142,37 @@ else if(ProfileModel is not null)
             }
         </div>
         </div>
+}
+
+else if (_userResponse is null && showStopper == false)
+{
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
+            <p>@Localizer["LoadingProfile"]</p>
+        </RadzenText>
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </RadzenCard>
+
+    return;
+}
+else if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
+{
+    if (_userResponse?.StatusCode == (int) HttpStatusCode.NotFound)
+    {
+        <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" />
+    }
+
+    else if (_userResponse?.StatusCode == (int) HttpStatusCode.Unauthorized)
+    {
+        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
+    }
+
+    else
+    {
+        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
+    }
+
+    return;
 }
 
 @code {

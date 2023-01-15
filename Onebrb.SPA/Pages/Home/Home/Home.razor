@@ -1,5 +1,5 @@
-﻿@page "/"
-@attribute [Authorize]
+﻿@page "/home"
+@*@attribute [Authorize]*@
 
 @using AutoMapper;
 @using Microsoft.AspNetCore.Authorization;
@@ -19,7 +19,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+        //var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+        _currentUser = new UserProfileModel
+            {
+                FirstName = "JACK",
+            };
     }
 }

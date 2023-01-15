@@ -17,6 +17,7 @@
 @inject IMapper Mapper
 @inject IToastService ToastService
 @inject IStringLocalizer<Settings> Localizer
+@inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> LocalizerProfile
 @inject IStringLocalizer<Shared.Shared> LocalizerShared
 
 <PageTitle>@Localizer["SettingsPageTitle"]</PageTitle>
@@ -27,7 +28,7 @@
 {
     <RadzenCard>
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
-            <p>@Localizer["LoadingProfile"]</p>
+            <p>@LocalizerProfile["LoadingProfile"]</p>
         </RadzenText>
         <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
     </RadzenCard>

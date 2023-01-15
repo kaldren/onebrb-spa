@@ -95,7 +95,7 @@
 
             if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
             {
-                _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result);
+                _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result.Data);
 
                 // Get comments count
                 var _commentsCount = _commentsResponse.Result.TotalCount;

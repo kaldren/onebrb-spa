@@ -13,7 +13,7 @@
 @inject IJSRuntime JSRuntime
 @inject IOnebrbApiClient OnebrbApiClient
 
-@if (ProfileModel is null && _userResponse is not null && _userResponse.StatusCode != (int)HttpStatusCode.OK)
+@if (_userResponse is not null && _userResponse.StatusCode != (int)HttpStatusCode.OK)
 {
     <p>@Localizer["Profile_ErrorLoadingProfile"]</p>
 

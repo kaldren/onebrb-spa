@@ -25,7 +25,14 @@
 
 @if (currentUser is null)
 {
-    <p>No user found.</p>
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
+            <p>@Localizer["LoadingProfile"]</p>
+        </RadzenText>
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </RadzenCard>
+
+    return;
 }
 
 @if (currentUser is not null)

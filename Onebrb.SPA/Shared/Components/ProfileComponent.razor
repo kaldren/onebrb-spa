@@ -13,122 +13,133 @@
 @inject IJSRuntime JSRuntime
 @inject IOnebrbApiClient OnebrbApiClient
 
-@if(ProfileModel is not null)
+@if (ProfileModel is null)
 {
-        <div class="ProfileComponent">
-            <div>
-                <div class="ProfileComponent__profile-rating">
-                    @if (ProfileModel.Rating.HasValue)
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
+            <p>@Localizer["LoadingProfile"]</p>
+        </RadzenText>
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </RadzenCard>
+
+    return;
+}
+else
+{
+    <div class="ProfileComponent">
+        <div>
+            <div class="ProfileComponent__profile-rating">
+                @if (ProfileModel.Rating.HasValue)
+                {
+                    <RadzenBadge BadgeStyle="BadgeStyle.Primary">
+                        <StarComponent Value="@ProfileModel.Rating.Value" />
+                    </RadzenBadge>
+                }
+            </div>
+            <RadzenCard class="ProfileComponent__header-info">
+
+                @*                    <div class="ProfileComponent__short-url">
+            <RadzenTextBox Disabled="true" Class="w-100" Value="@_profileUrlShortText" />
+            <CopyToClipboard Text="@_profileUrlShortText" OnClicked="@OnProfileUrlShortClicked" />
+            </div>*@
+
+                <h3 class="h5">@Localizer["Profile"]</h3>
+                <div class="ProfileComponent__profile-box">
+                    @if (ProfileModel?.Photo is not null)
                     {
-                        <RadzenBadge BadgeStyle="BadgeStyle.Primary">
-                            <StarComponent Value="@ProfileModel.Rating.Value" />
-                        </RadzenBadge>
+                        <RadzenImage Path=@ProfileModel.Photo Class="ProfileComponent__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
                     }
-                </div>
-                <RadzenCard class="ProfileComponent__header-info">
-
-@*                    <div class="ProfileComponent__short-url">
-                        <RadzenTextBox Disabled="true" Class="w-100" Value="@_profileUrlShortText" />
-                        <CopyToClipboard Text="@_profileUrlShortText" OnClicked="@OnProfileUrlShortClicked" />
-                    </div>*@
-
-                    <h3 class="h5">@Localizer["Profile"]</h3>
-                    <div class="ProfileComponent__profile-box">
-                        @if (ProfileModel?.Photo is not null)
-                        {
-                            <RadzenImage Path=@ProfileModel.Photo Class="ProfileComponent__header-info__photo rounded-circle float-left mr-3" Style="width: 140px; height: 140px;" />
-                        }
-                        else
-                        {
+                    else
+                    {
                         <img src="/img/no-photo.svg" alt="Profile photo" width="140" height="140" />
-                        }
-                        <div class="ProfileComponent__header-info__main-info">
-                            <div>@Localizer["ProfileName"]</div>
-                            <b>@(ProfileModel.FirstName + " " + ProfileModel.LastName)</b>
+                    }
+                    <div class="ProfileComponent__header-info__main-info">
+                        <div>@Localizer["ProfileName"]</div>
+                        <b>@(ProfileModel.FirstName + " " + ProfileModel.LastName)</b>
 
-                            @if (Utils.AllNotNull(ProfileModel.OccupationName))
+                        @if (Utils.AllNotNull(ProfileModel.OccupationName))
+                        {
+                            <div class="mt-3">@Localizer["ProfileOccupation"]</div>
+                            <b>@ProfileModel.OccupationName</b>
+                        }
+                    </div>
+                    <div class="ProfileComponent__about-section">
+                        <p>
+                            @ProfileModel.About
+                        </p>
+                    </div>
+                </div>
+            </RadzenCard>
+            <RadzenCard class="ProfileComponent__bottom-info">
+                <h3 class="h5">@Localizer["ProfileAdditionalInfo"]</h3>
+                <div class="row">
+
+                    @if (Utils.AtLeastOneNotNull(ProfileModel?.Country, ProfileModel?.City))
+                    {
+                        <div class="col-md-4">
+                            @if (ProfileModel?.Country is not null)
                             {
-                                <div class="mt-3">@Localizer["ProfileOccupation"]</div>
-                                <b>@ProfileModel.OccupationName</b>
+                                <div>@Localizer["ProfileAdditionalInfoCountry"]</div>
+                                <b>@(ProfileModel.Country)</b>
+                            }
+
+                            @if (ProfileModel?.City is not null)
+                            {
+                                <div class="mt-3">@Localizer["ProfileAdditionalInfoCity"]</div>
+                                <b>@(ProfileModel.City)</b>
                             }
                         </div>
-                        <div class="ProfileComponent__about-section">
-                            <p>
-                                @ProfileModel.About
-                            </p>
-                        </div>
-                    </div>
-                </RadzenCard>
-                <RadzenCard class="ProfileComponent__bottom-info">
-                    <h3 class="h5">@Localizer["ProfileAdditionalInfo"]</h3>
-                    <div class="row">
+                    }
 
-                        @if (Utils.AtLeastOneNotNull(ProfileModel?.Country, ProfileModel?.City))
-                        {
-                            <div class="col-md-4">
-                                @if (ProfileModel?.Country is not null)
-                                {
-                                    <div>@Localizer["ProfileAdditionalInfoCountry"]</div>
-                                    <b>@(ProfileModel.Country)</b>
-                                }
+                    @if (Utils.AtLeastOneNotNull(ProfileModel?.Email))
+                    {
+                        <div class="col-md-4">
+                            @if (ProfileModel.Email is not null)
+                            {
+                                <div>@Localizer["ProfileEmail"]</div>
+                                <b>@(ProfileModel.Email)</b>
+                            }
 
-                                @if (ProfileModel?.City is not null)
-                                {
-                                    <div class="mt-3">@Localizer["ProfileAdditionalInfoCity"]</div>
-                                    <b>@(ProfileModel.City)</b>
-                                }
-                            </div>
-                        }
-
-                        @if (Utils.AtLeastOneNotNull(ProfileModel?.Email))
-                        {
-                            <div class="col-md-4">
-                                @if (ProfileModel.Email is not null)
-                                {
-                                    <div>@Localizer["ProfileEmail"]</div>
-                                    <b>@(ProfileModel.Email)</b>
-                                }
-
-                                // TODO: Phone validation - until then not showing phones
-                                @*                                @if (ProfileModel.Phone is not null)
+                            // TODO: Phone validation - until then not showing phones
+                            @*                                @if (ProfileModel.Phone is not null)
                     {
                     <div class="mt-3">@Loc["ProfilePhone"]</div>
                     <b>@(ProfileModel.Phone)</b>
                     }*@
-                            </div>
-                        }
+                        </div>
+                    }
 
-                        @if (Utils.AtLeastOneNotNull(ProfileModel?.LinkedInProfile, ProfileModel?.FacebookProfile, ProfileModel?.InstagramProfile))
-                        {
-                            <div class="col-md-4 ProfileComponent__bottom-info__social">
-                                @if (ProfileModel.LinkedInProfile is not null)
-                                {
-                                    <div>
-                                        <a href="https://linkedin.com/in/@ProfileModel.LinkedInProfile" target="_blank">
-                                            <i class="bi bi-linkedin"></i>
-                                        </a>
-                                    </div>
-                                }
-                                @if (ProfileModel.FacebookProfile is not null)
-                                {
-                                    <div>
-                                        <a href="https://facebook.com/@ProfileModel.FacebookProfile" target="_blank">
-                                            <i class="bi bi-facebook"></i>
-                                        </a>
-                                    </div>
-                                }
-                                @if (ProfileModel.InstagramProfile is not null)
-                                {
-                                    <div>
-                                        <a href="https://instagram.com/@ProfileModel.InstagramProfile" target="_blank">
-                                            <i class="bi bi-instagram"></i>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    </div>
-                </RadzenCard>
+                    @if (Utils.AtLeastOneNotNull(ProfileModel?.LinkedInProfile, ProfileModel?.FacebookProfile, ProfileModel?.InstagramProfile))
+                    {
+                        <div class="col-md-4 ProfileComponent__bottom-info__social">
+                            @if (ProfileModel.LinkedInProfile is not null)
+                            {
+                                <div>
+                                    <a href="https://linkedin.com/in/@ProfileModel.LinkedInProfile" target="_blank">
+                                        <i class="bi bi-linkedin"></i>
+                                    </a>
+                                </div>
+                            }
+                            @if (ProfileModel.FacebookProfile is not null)
+                            {
+                                <div>
+                                    <a href="https://facebook.com/@ProfileModel.FacebookProfile" target="_blank">
+                                        <i class="bi bi-facebook"></i>
+                                    </a>
+                                </div>
+                            }
+                            @if (ProfileModel.InstagramProfile is not null)
+                            {
+                                <div>
+                                    <a href="https://instagram.com/@ProfileModel.InstagramProfile" target="_blank">
+                                        <i class="bi bi-instagram"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </RadzenCard>
 
             @if (CurrentUser is not null)
             {
@@ -141,38 +152,7 @@
                 <LoginFormComponent />
             }
         </div>
-        </div>
-}
-
-else if (_userResponse is null && showStopper == false)
-{
-    <RadzenCard>
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
-            <p>@Localizer["LoadingProfile"]</p>
-        </RadzenText>
-        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
-    </RadzenCard>
-
-    return;
-}
-else if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
-{
-    if (_userResponse?.StatusCode == (int) HttpStatusCode.NotFound)
-    {
-        <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" />
-    }
-
-    else if (_userResponse?.StatusCode == (int) HttpStatusCode.Unauthorized)
-    {
-        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
-    }
-
-    else
-    {
-        <ErrorComponent StatusCode="ResponseStatusCodeEnum.Unauthorized" />
-    }
-
-    return;
+    </div>
 }
 
 @code {
@@ -188,8 +168,6 @@ else if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
     private ProfileCommentsComponent _profileCommentsComponent;
 
     private OnebrbApiResponse<UserProfileResponseModel>? _userResponse;
-
-    private bool showStopper;
 
     private string _profileUrlShortText = "1brb.com/cvHz";
     private bool _isProfileUrlShortBtnClicked = false;
@@ -237,7 +215,6 @@ else if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
             }
             catch (Exception)
             {
-                showStopper = true;
                 ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
             }
         }

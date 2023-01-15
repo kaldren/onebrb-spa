@@ -13,7 +13,7 @@
 @inject IJSRuntime JSRuntime
 @inject IOnebrbApiClient OnebrbApiClient
 
-@if (_userResponse is not null && _userResponse.StatusCode != (int)HttpStatusCode.OK)
+@if (_userResponse?.StatusCode != (int)HttpStatusCode.OK || showStopper)
 {
     <p>@Localizer["Profile_ErrorLoadingProfile"]</p>
 
@@ -150,8 +150,6 @@ else
         </div>
 }
 
-
-
 @code {
     [Parameter]
     public UserProfileModel? ProfileModel { get; set; }
@@ -164,7 +162,9 @@ else
 
     private ProfileCommentsComponent _profileCommentsComponent;
 
-    private OnebrbApiResponse<UserProfileResponseModel> _userResponse;
+    private OnebrbApiResponse<UserProfileResponseModel>? _userResponse;
+
+    private bool showStopper;
 
     private string _profileUrlShortText = "1brb.com/cvHz";
     private bool _isProfileUrlShortBtnClicked = false;
@@ -212,6 +212,7 @@ else
             }
             catch (Exception)
             {
+                showStopper = true;
                 ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
             }
         }

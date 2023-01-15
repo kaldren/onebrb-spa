@@ -13,7 +13,7 @@
 @inject IJSRuntime JSRuntime
 @inject IOnebrbApiClient OnebrbApiClient
 
-@if (ProfileModel is null)
+@if (ProfileModel is null && _userResponse is not null && _userResponse.StatusCode != (int)HttpStatusCode.OK)
 {
     <p>@Localizer["Profile_ErrorLoadingProfile"]</p>
 
@@ -164,6 +164,8 @@ else
 
     private ProfileCommentsComponent _profileCommentsComponent;
 
+    private OnebrbApiResponse<UserProfileResponseModel> _userResponse;
+
     private string _profileUrlShortText = "1brb.com/cvHz";
     private bool _isProfileUrlShortBtnClicked = false;
 
@@ -191,8 +193,8 @@ else
             // try get current user profile
             try
             {
-                var userResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-                CurrentUser = this.Mapper.Map<UserProfileModel>(userResponse.Result);
+                _userResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+                CurrentUser = this.Mapper.Map<UserProfileModel>(_userResponse.Result);
                 ProfileModel = CurrentUser;
             }
             catch (ApiException<ProblemDetails> ex)

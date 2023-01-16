@@ -10,11 +10,11 @@
   },
   "codeGenerators": {
     "openApiToCSharpClient": {
-      "clientBaseClass": null,
+      "clientBaseClass": "IOnebrbApiClientPublic",
       "configurationClass": null,
       "generateClientClasses": true,
       "generateClientInterfaces": true,
-      "clientBaseInterface": "IOnebrbApiClientPublic",
+      "clientBaseInterface": "",
       "injectHttpClient": true,
       "disposeHttpClient": true,
       "protectedMethods": [],

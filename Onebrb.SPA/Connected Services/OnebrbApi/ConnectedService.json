@@ -14,11 +14,11 @@
     "GenerateTypeScriptClient": false,
     "GenerateCSharpController": false,
     "OpenApiToCSharpClientCommand": {
-      "ClientBaseClass": null,
+      "ClientBaseClass": "IOnebrbApiClientPublic",
       "ConfigurationClass": null,
       "GenerateClientClasses": true,
       "GenerateClientInterfaces": true,
-      "ClientBaseInterface": "IOnebrbApiClientPublic",
+      "ClientBaseInterface": "",
       "InjectHttpClient": true,
       "DisposeHttpClient": true,
       "ProtectedMethods": [],

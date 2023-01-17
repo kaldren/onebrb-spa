@@ -34,7 +34,6 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script>
@@ -59,10 +58,16 @@
             }
         };
     </script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script type="module">
-        import { BrotliDecode } from './decode.min.js';
+        import { BrotliDecode } from './decode.js';
         Blazor.start({
             loadBootResource: function (type, name, defaultUri, integrity) {
+                console.log("type: " + type)
+                console.log("name: " + name)
+                console.log("defaultUri: " + type)
+                console.log("integrity: " + integrity)
+
                 if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
                     return (async function () {
                         const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });

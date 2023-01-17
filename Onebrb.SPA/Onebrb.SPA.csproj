@@ -54,10 +54,10 @@
     <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
   <Content Update="wwwroot\decode.js">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
   <Content Update="wwwroot\decode.min.js">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
 </ItemGroup>
 

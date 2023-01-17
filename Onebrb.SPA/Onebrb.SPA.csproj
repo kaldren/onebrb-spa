@@ -53,6 +53,12 @@
   <Content Update="wwwroot\appsettings.Production.json">
     <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
+  <Content Update="wwwroot\decode.js">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Update="wwwroot\decode.min.js">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
 </ItemGroup>
 
   <ItemGroup>

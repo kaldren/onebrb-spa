@@ -81,8 +81,4 @@
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
 		<PublishTrimmed>true</PublishTrimmed>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<BlazorEnableCompression>false</BlazorEnableCompression>
-	</PropertyGroup>
 </Project>

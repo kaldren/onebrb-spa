@@ -58,8 +58,8 @@
             }
         };
     </script>
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-    <script type="module">
+    <script src="_framework/blazor.webassembly.js"></script>
+    <!--<script type="module">
         import { BrotliDecode } from './decode.min.js';
         Blazor.start({
             loadBootResource: function (type, name, defaultUri, integrity) {
@@ -80,7 +80,7 @@
                 }
             }
         });
-    </script>
+    </script>-->
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 

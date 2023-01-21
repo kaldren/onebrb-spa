@@ -45,7 +45,7 @@ var BrowserDetect = {
         string: navigator.userAgent,
         subString: "Edge",
         identity: "Edge"
-        }
+    }
     ],
     dataOS: [{
         string: navigator.platform,
@@ -93,3 +93,26 @@ var isMobile = {
 window.isValidBrowser = {
     get: () => (BrowserDetect.browser === 'Safari' || BrowserDetect.browser === 'Chrome' || BrowserDetect.browser === 'Mozilla' || BrowserDetect.browser === 'Edge' || BrowserDetect.browser === 'Opera')
 }
+
+window.privacyPolicy = {
+    set: () => {
+        (function (d, s, id) {
+            var js, tjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://app.termly.io/embed-policy.min.js";
+            tjs.parentNode.insertBefore(js, tjs);
+            js.setAttribute('backgroundColor', 'white');
+
+        }(document, 'script', 'termly-jssdk'));
+    }
+}
+
+//    < div name = "termly-embed" data - id="2129a2f4-acf8-436f-a8e5-363fdab7283c" data - type="iframe" ></div >
+//        <script type="text/javascript">(function(d, s, id) {
+//  var js, tjs = d.getElementsByTagName(s)[0];
+//            if (d.getElementById(id)) return;
+//            js = d.createElement(s); js.id = id;
+//            js.src = "https://app.termly.io/embed-policy.min.js";
+//            tjs.parentNode.insertBefore(js, tjs);
+//}(document, 'script', 'termly-jssdk'));</script>

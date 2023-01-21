@@ -1,3 +1,11 @@
 ﻿@page "/privacy"
+@inject IJSRuntime JsRuntime
 
-<h3>Privacy</h3>
+<div name="termly-embed" data-id="2129a2f4-acf8-436f-a8e5-363fdab7283c" data-type="iframe" class="privacy-section"></div>
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        JsRuntime.InvokeVoidAsync("privacyPolicy.set");
+    }
+}

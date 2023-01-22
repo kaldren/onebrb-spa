@@ -10,7 +10,7 @@
 @inject IToastService ToastService
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
-<RemoteAuthenticatorView Action="@Action">
+<RemoteAuthenticatorView Action="@Action" OnLogOutSucceeded="SetLogOutState" OnLogInSucceeded="SetLogInState">
     <LogOutSucceeded>
         @InvokeAsync(() => Navigation.NavigateTo("/login"))
     </LogOutSucceeded>
@@ -43,5 +43,20 @@
 
             _authenticated = user.Identity?.IsAuthenticated ?? false;
         });
+    }
+
+    private async Task SetLogOutState()
+    {
+        await LocalStorage.RemoveItemsAsync(new List<string> { "userProfile", "occupations", "isLoggedIn" });
+    }
+
+    private async Task SetLogInState()
+    {
+        bool isLoggedIn = await LocalStorage.GetItemAsync<bool>("isLoggedIn");
+        if (!isLoggedIn)
+        {
+            await LocalStorage.RemoveItemsAsync(new List<string> { "userProfile", "occupations", "isLoggedIn" });
+            await LocalStorage.SetItemAsync<bool>("isLoggedIn", true);
+        }
     }
 }

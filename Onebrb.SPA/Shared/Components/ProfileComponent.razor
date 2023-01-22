@@ -12,6 +12,7 @@
 @inject IToastService ToastService
 @inject IJSRuntime JSRuntime
 @inject IOnebrbApiClient OnebrbApiClient
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 @if (ProfileModel is null)
 {
@@ -193,29 +194,40 @@ else
     {
         if (ProfileModel is null && CurrentUser is null)
         {
-            // try get current user profile
-            try
-            {
-                _userResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-                CurrentUser = this.Mapper.Map<UserProfileModel>(_userResponse.Result);
-                ProfileModel = CurrentUser;
-            }
-            catch (ApiException<ProblemDetails> ex)
-            {
-                ToastService.ClearAll();
+            var user = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
 
-                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-                {
-                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
-                }
-                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    ToastService.ShowError(@Localizer["UserNotFound"]);
-                }
-            }
-            catch (Exception)
+            if (user is not null)
             {
-                ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+                CurrentUser = user;
+                ProfileModel = user;
+            }
+            else
+            {
+                // try get current user profile
+                try
+                {
+                    _userResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+                    CurrentUser = this.Mapper.Map<UserProfileModel>(_userResponse.Result);
+                    ProfileModel = CurrentUser;
+                    await LocalStorage.SetItemAsync<UserProfileModel>("userProfile", CurrentUser);
+                }
+                catch (ApiException<ProblemDetails> ex)
+                {
+                    ToastService.ClearAll();
+
+                    if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                    {
+                        ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+                    }
+                    if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+                    {
+                        ToastService.ShowError(@Localizer["UserNotFound"]);
+                    }
+                }
+                catch (Exception)
+                {
+                    ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+                }
             }
         }
     }

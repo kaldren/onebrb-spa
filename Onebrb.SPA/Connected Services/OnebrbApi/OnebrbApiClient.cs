@@ -2059,6 +2059,9 @@ namespace OnebrbApi
         [Newtonsoft.Json.JsonProperty("rating", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? Rating { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("occupationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OccupationId { get; set; }
+
         [Newtonsoft.Json.JsonProperty("occupationName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OccupationName { get; set; }
 

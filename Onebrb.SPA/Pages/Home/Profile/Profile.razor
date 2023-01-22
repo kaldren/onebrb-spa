@@ -73,7 +73,16 @@ else
 
     private async Task LoadAuthProfileData()
     {
-        try
+        var user = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
+
+        if (user is not null)
+        {
+            _currentUser = user;
+            _profile = user;
+        }
+        else
+        {
+            try
         {
             currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
             _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
@@ -109,6 +118,7 @@ else
         {
             statusCodeEnum = ResponseStatusCodeEnum.ServerError;
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+        }
         }
     }
 

@@ -3,6 +3,7 @@
 @inject DialogService DialogService
 @implements IDisposable
 @inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <div class="LoginFormComponent">
     <RadzenCard>
@@ -17,15 +18,17 @@
 
 @code {
     private bool _isValidBrowser;
-    private string _signInUrl = "javascript:void(0)";
+    private string _signInUrl = "authentication/login";
 
     // Check browser compatibility
     protected override async Task OnInitializedAsync()
     {
         _isValidBrowser = await JS.InvokeAsync<bool>("isValidBrowser.get");
 
-        if (_isValidBrowser)
-            _signInUrl = "authentication/login";
+        //if (_isValidBrowser)
+        //    _signInUrl = "authentication/login";
+        //else
+        //    _signInUrl = "javascript:void(0)";
     }
 
     async Task onSignInClick()

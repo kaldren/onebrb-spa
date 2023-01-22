@@ -5002,6 +5002,10 @@
             "format": "double",
             "nullable": true
           },
+          "occupationId": {
+            "type": "string",
+            "nullable": true
+          },
           "occupationName": {
             "type": "string",
             "nullable": true

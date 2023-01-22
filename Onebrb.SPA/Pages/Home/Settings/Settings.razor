@@ -19,6 +19,7 @@
 @inject IStringLocalizer<Settings> Localizer
 @inject IStringLocalizer<Onebrb.SPA.Pages.Home.Profile.Profile> LocalizerProfile
 @inject IStringLocalizer<Shared.Shared> LocalizerShared
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>@Localizer["SettingsPageTitle"]</PageTitle>
 
@@ -64,6 +65,7 @@
             if (currentUserResponse.StatusCode == (int)HttpStatusCode.OK)
             {
                 currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+                await LocalStorage.SetItemAsync<UserProfileModel>("userProfile", currentUser);
             }
         }
         catch (ApiException<ProblemDetails> ex)
@@ -87,6 +89,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetCurrentUser();
+        // Check local storage for user data
+        currentUser = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
+
+        if (currentUser is null)
+        {
+            await GetCurrentUser();
+        }
     }
 }

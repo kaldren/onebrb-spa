@@ -8,6 +8,7 @@
 @using OnebrbApi;
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 @if (_currentUser is not null)
 {
@@ -19,7 +20,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
-        _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+        _currentUser = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
+
+        if (_currentUser is null)
+        {
+            var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
+            _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+            await LocalStorage.SetItemAsync("userProfile", _currentUser);
+        }
     }
 }

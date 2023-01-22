@@ -126,5 +126,5 @@ builder.Services.AddScoped<DialogService>();
 //        }
 //    });
 //});
-
+var storage = builder.Build().Services.GetRequiredService<ILocalStorageService>();
 await builder.Build().RunAsync();

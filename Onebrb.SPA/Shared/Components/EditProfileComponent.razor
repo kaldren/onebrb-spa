@@ -98,7 +98,7 @@
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerProfile["EditProfile_Occupation"]</RadzenText>
-                                <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@_userOccupation.Id
+                                <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@CurrentUser.OccupationId
                                             TextProperty="Name" ValueProperty="Id" Change=@(args => OnOccupationChange(args)) Class="w-100" />
                             </RadzenCard>
                         </div>
@@ -163,35 +163,49 @@
     private int _phoneMaxLength = 20;
     private int _aboutMaxLength = 500;
 
-    string fileName;
     long? fileSize;
 
     protected override async Task OnInitializedAsync()
     {
-        var occupationsResponse = await OnebrbApiClient.ApiOccupationsAsync();
+        _occupations = await LocalStorage.GetItemAsync<ICollection<OccupationModel>>("occupations");
 
-        if (occupationsResponse.StatusCode == (int)HttpStatusCode.OK)
+        if (_occupations is null)
         {
-            _occupations = Mapper.Map<ICollection<OccupationModel>>(occupationsResponse.Result);
+            var occupationsResponse = await OnebrbApiClient.ApiOccupationsAsync();
 
-            // Get current user's occupation
-            try
+            if (occupationsResponse.StatusCode == (int)HttpStatusCode.OK)
             {
-                var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
-                _userOccupation = Mapper.Map<OccupationModel>(currentUserOccupationResponse.Result);
-            }
-            catch (ApiException<ProblemDetails> ex)
-            {
-                ToastService.ClearAll();
+                _occupations = Mapper.Map<ICollection<OccupationModel>>(occupationsResponse.Result);
 
-                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                if (_occupations?.Count > 0)
                 {
-                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+                    await LocalStorage.SetItemAsync<ICollection<OccupationModel>>("occupations", _occupations);
                 }
-            }
-            catch (Exception)
-            {
-                _userOccupation = new OccupationModel { Name = "" };
+
+
+
+                //// Get current user's occupation
+                //if (CurrentUser?.OccupationName is null)
+                //{
+                //    try
+                //    {
+                //        var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
+                //        _userOccupation = Mapper.Map<OccupationModel>(currentUserOccupationResponse.Result);
+                //    }
+                //    catch (ApiException<ProblemDetails> ex)
+                //    {
+                //        ToastService.ClearAll();
+
+                //        if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                //        {
+                //            ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+                //        }
+                //    }
+                //    catch (Exception)
+                //    {
+                //        _userOccupation = new OccupationModel { Name = "" };
+                //    }
+                //}
             }
         }
     }
@@ -282,7 +296,10 @@
             }
 
             if (CurrentUser is not null)
+            {
                 _updatedUserProfile = true;
+                await LocalStorage.SetItemAsync<UserProfileModel>("userProfile", CurrentUser);
+            }
             else
                 _updateUserProfileError = true;
         }

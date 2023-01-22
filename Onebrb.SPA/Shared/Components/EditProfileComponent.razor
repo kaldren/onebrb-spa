@@ -14,7 +14,6 @@
 @inject IToastService ToastService
 
 @inject IStringLocalizer<Pages.Home.Profile.Profile> LocalizerProfile
-@inject IStringLocalizer<Pages.Home.Settings.Settings> LocalizerSettings
 @inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 
 @inject DialogService DialogService
@@ -37,10 +36,10 @@
     ToastService.ShowError(@LocalizerShared["EditProfile_NotUpdatedSuccessfully"]);
 }
 <div class="EditProfileComponent">
-    @if (@CurrentUser is null && _occupations is null)
+    @if (@CurrentUser is null)
     {
         <RadzenCard>
-            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
+            <p>@LocalizerShared["Loading"]</p>
             <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
         </RadzenCard>
     }
@@ -59,10 +58,10 @@
                         </div>
 
                         <div class="EditProfileComponent__form__input-div">
-                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_FirstName"] Placeholder=@LocalizerProfile["EditProfile_FirstName"] @bind-Value="@CurrentUser.FirstName" MaxLength="@_firstNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_FirstName"] Placeholder=@LocalizerProfile["EditProfile_FirstName"] @bind-Value="@CurrentUser.FirstName" MaxLength="@ValidationConstants.FirstNameMaxLength" />
                         </div>
                         <div class="EditProfileComponent__form__input-div">
-                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_LastName"] Placeholder=@LocalizerProfile["EditProfile_LastName"] @bind-Value="@CurrentUser.LastName" MaxLength="@_lastNameMaxLength" />
+                            <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_LastName"] Placeholder=@LocalizerProfile["EditProfile_LastName"] @bind-Value="@CurrentUser.LastName" MaxLength="@ValidationConstants.LastNameMaxLength" />
                         </div>
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenTextBox style="width: 100%;" Name=@LocalizerProfile["EditProfile_Email"] Placeholder=@LocalizerProfile["EditProfile_Email"] @bind-Value="@CurrentUser.Email" Disabled />
@@ -97,7 +96,7 @@
 
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
-                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerProfile["EditProfile_Occupation"]</RadzenText>
+                                <p>@LocalizerProfile["EditProfile_Occupation"]</p>
                                 <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_occupations @bind-Value=@CurrentUser.OccupationId
                                             TextProperty="Name" ValueProperty="Id" Change=@(args => OnOccupationChange(args)) Class="w-100" />
                             </RadzenCard>
@@ -106,8 +105,8 @@
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
                                 <h4 class="mb-4">@LocalizerProfile["EditProfile_About"]</h4>
-                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder=@LocalizerProfile["EditProfile_AboutWriteSomething"] MaxLength="@_aboutMaxLength" />
-                                <span>(@string.Format(@LocalizerProfile["EditProfile_AboutMaxLength"], _aboutMaxLength))</span>
+                                <RadzenTextArea Class="w-100" @bind-Value="@CurrentUser.About" Name="aboutTextarea" Placeholder=@LocalizerProfile["EditProfile_AboutWriteSomething"] MaxLength="@ValidationConstants.AboutMaxLength" />
+                                <span>(@string.Format(@LocalizerProfile["EditProfile_AboutMaxLength"], ValidationConstants.AboutMaxLength))</span>
                             </RadzenCard>
                         </div>
 
@@ -156,14 +155,8 @@
     private bool _isDeleteBtnClicked = false;
     private bool _updateUserProfileError = false;
 
-    private IEnumerable<int> values = new int[] { 1, 2 };
-
-    private int _firstNameMaxLength = 30;
-    private int _lastNameMaxLength = 30;
-    private int _phoneMaxLength = 20;
-    private int _aboutMaxLength = 500;
-
-    long? fileSize;
+    // Cache this so it's created once (per David Fowler)
+    private Regex urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
 
     protected override async Task OnInitializedAsync()
     {
@@ -181,31 +174,6 @@
                 {
                     await LocalStorage.SetItemAsync<ICollection<OccupationModel>>("occupations", _occupations);
                 }
-
-
-
-                //// Get current user's occupation
-                //if (CurrentUser?.OccupationName is null)
-                //{
-                //    try
-                //    {
-                //        var currentUserOccupationResponse = await OnebrbApiClient.ApiUsersOccupationAsync(CurrentUser.Id);
-                //        _userOccupation = Mapper.Map<OccupationModel>(currentUserOccupationResponse.Result);
-                //    }
-                //    catch (ApiException<ProblemDetails> ex)
-                //    {
-                //        ToastService.ClearAll();
-
-                //        if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-                //        {
-                //            ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
-                //        }
-                //    }
-                //    catch (Exception)
-                //    {
-                //        _userOccupation = new OccupationModel { Name = "" };
-                //    }
-                //}
             }
         }
     }
@@ -235,54 +203,32 @@
         var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
     }
 
-    async Task OnUpdateProfileClick()
+    private async Task CheckSocialAccount(string? socialAccount)
     {
-        _isUpdateBtnClicked = true;
-
-        // Validate social accounts
-        if (Utils.AtLeastOneNull(CurrentUser.LinkedInProfile, CurrentUser.FacebookProfile, CurrentUser.InstagramProfile))
+        if (!string.IsNullOrWhiteSpace(socialAccount))
         {
-            var urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
-
-            if (CurrentUser.LinkedInProfile is not null)
+            if (urlRegex.IsMatch(socialAccount))
             {
-                if (urlRegex.IsMatch(CurrentUser.LinkedInProfile))
-                {
-                    await DialogService.OpenAsync("LinkedIn Account Error", ds =>
+                    await DialogService.OpenAsync("Account Error", ds =>
                     @<div>
-                        The LinkedIn account cannot contain any urls / website links.
-                    </div>
-                    , new DialogOptions() { CloseDialogOnOverlayClick = true }); 
-                    return;
-                }
-            }
-
-            if (CurrentUser.FacebookProfile is not null)
-            {
-                if (urlRegex.IsMatch(CurrentUser.FacebookProfile))
-                {
-                    await DialogService.OpenAsync("Facebook Account Error", ds =>
-                    @<div>
-                        The Facebook account cannot contain any urls / website links.
-                    </div>
-            , new DialogOptions() { CloseDialogOnOverlayClick = true });
-                    return;
-                }
-            }
-
-            if (CurrentUser.InstagramProfile is not null)
-            {
-                if (urlRegex.IsMatch(CurrentUser.InstagramProfile))
-                {
-                    await DialogService.OpenAsync("Facebook Account Error", ds =>
-                    @<div>
-                        The Instagram account cannot contain any urls / website links.
-        </div>
-    , new DialogOptions() { CloseDialogOnOverlayClick = true });
-                    return;
-                }
+                        The account name cannot contain url. Please put your account name only.
+    </div>
+    , new DialogOptions() { CloseDialogOnOverlayClick = true }); 
+                return;
             }
         }
+    }
+
+    async Task OnUpdateProfileClick()
+    {
+        if (CurrentUser is null)
+            return;
+
+        _isUpdateBtnClicked = true;
+
+        await CheckSocialAccount(CurrentUser.LinkedInProfile);
+        await CheckSocialAccount(CurrentUser.FacebookProfile);
+        await CheckSocialAccount(CurrentUser.InstagramProfile);
 
         try
         {

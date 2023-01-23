@@ -49,6 +49,7 @@ builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
     options.ProviderOptions.DefaultAccessTokenScopes.Add("https://onebrb.onmicrosoft.com/56efe119-737a-44a9-b98e-9cc0a5f8547f/Onebrb.Read");
+    options.ProviderOptions.LoginMode = "Redirect";
 });
 
 builder.Services.AddLocalization();

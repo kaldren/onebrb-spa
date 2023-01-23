@@ -6,15 +6,11 @@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    Authorizing...
+                </Authorizing>
                 <NotAuthorized>
-                    @if (context.User.Identity?.IsAuthenticated != true)
-                    {
-                        <RedirectToLogin />
-                    }
-                    else
-                    {
-                        <ErrorComponent StatusCode="ResponseStatusCodeEnum.NotFound" Message="@LocalizerShared["NotAuthorizedToViewResource"]" />
-                    }
+                   <RedirectToLogin />
                 </NotAuthorized>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />

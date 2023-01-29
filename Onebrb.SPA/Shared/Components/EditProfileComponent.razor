@@ -8,6 +8,7 @@
 @using Onebrb.SPA.Shared.Components
 @using OnebrbApi
 @using System.Text.RegularExpressions;
+@using System.Diagnostics.CodeAnalysis;
 
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
@@ -21,7 +22,7 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
-
+@inject IAccessTokenProvider _tokenProvider
 @implements IDisposable
 
 @if (_updatedUserProfile)
@@ -53,7 +54,15 @@
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
                                 <p>@LocalizerProfile["EditProfile_ProfilePhoto"]</p>
-                                <RadzenFileInput Value="@CurrentUser.Photo" TValue=string Change=@(args => OnProfilePhotoChange(args)) />
+                                <RadzenUpload @ref="upload"
+                                              Accept="image/*" 
+                                              Auto="false" 
+                                              Url=@userPhotoEndpoint 
+                                              Change=OnChange
+                                              Progress=OnProgress class="w-100">
+                                    <RadzenUploadHeader Name="Authorization" Value=@_token />
+                                </RadzenUpload>
+                                <RadzenButton Text="Upload" Click=@(args => upload?.Upload()) Disabled=_isUploadPhotoBtnDisabled class="d-block mt-4" />
                             </RadzenCard>
                         </div>
 
@@ -149,17 +158,31 @@
     public ICollection<OccupationModel>? _occupations;
 
     public OccupationModel _userOccupation = new();
+    RadzenUpload? upload;
 
+    private string? _token;
+    private string userPhotoEndpoint = string.Empty;
+    private const int MaxFileSizeInBytes = 2_000_000; // 2MB
     private bool _updatedUserProfile = false;
     private bool _isUpdateBtnClicked = false;
     private bool _isDeleteBtnClicked = false;
     private bool _updateUserProfileError = false;
+    private bool _isUploadPhotoBtnDisabled = true;
+    private string[] allowedImageFormats = new []{ ".jpg", ".jpeg", ".png" };
 
     // Cache this so it's created once (per David Fowler)
     private Regex urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
 
     protected override async Task OnInitializedAsync()
     {
+        var accessTokenResult = await _tokenProvider.RequestAccessToken();
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            _token = "Bearer " + token.Value;
+        }
+
+        userPhotoEndpoint = $"https://localhost:7088/api/users/{CurrentUser.Id}/photo";
+
         _occupations = await LocalStorage.GetItemAsync<ICollection<OccupationModel>>("occupations");
 
         if (_occupations is null)
@@ -176,6 +199,42 @@
                 }
             }
         }
+    }
+
+    void OnProgress(UploadProgressArgs args)
+    {
+        if (args.Progress == 100)
+        {
+            foreach (var file in args.Files)
+            {
+                if (!IsValidImageFile(args.Files.SingleOrDefault()))
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    void OnChange(UploadChangeEventArgs args)
+    {
+        _isUploadPhotoBtnDisabled = !IsValidImageFile(args.Files.SingleOrDefault());
+    }
+
+    private bool IsValidImageFile(FileInfo? fileInfo)
+    {
+        if (fileInfo == null || fileInfo.Size > MaxFileSizeInBytes)
+        {
+            return false;
+        }
+
+        var format = Path.GetExtension(fileInfo.Name);
+
+        if (!allowedImageFormats.Contains(format)) 
+        {
+            return false;
+        };
+
+        return true;
     }
 
     void OnProfilePhotoChange(string value)

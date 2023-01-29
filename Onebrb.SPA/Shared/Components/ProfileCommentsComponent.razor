@@ -107,22 +107,10 @@
             }
         }
 
-        _comments = new List<CommentModel>()
-        {
-            new CommentModel
-            {
-                AuthorFirstName = "John",
-                AuthorLastName = "John",
-            },
-            new CommentModel
-            {
-                AuthorFirstName = "Bob",
-                AuthorLastName = "Doe",
-            },
-        };
+        await GetCommentsAsync();
     }
 
-    protected override async Task OnParametersSetAsync()
+    private async Task GetCommentsAsync()
     {
         try
         {
@@ -164,6 +152,11 @@
         {
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetCommentsAsync();
     }
 
     async Task LoadData(LoadDataArgs args)

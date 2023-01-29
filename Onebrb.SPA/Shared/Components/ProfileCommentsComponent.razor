@@ -24,7 +24,7 @@
         <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
             <Tabs>
                 <RadzenTabsItem Text=@Localizer["ProfileComments"]>
-                    <RadzenButton Click=@(args => OnRefreshCommentsClick()) Icon="refresh" ButtonStyle="ButtonStyle.Primary" Style="float:right" />
+                    <RadzenButton Click=@(args => OnRefreshCommentsClick()) Icon="refresh" ButtonStyle="ButtonStyle.Primary" Style="margin:0.2rem;" />
                     @if (_comments.Count() == 0)
                     {
                         <p>@Localizer["ProfileComments_UserHasNoComments"]</p>

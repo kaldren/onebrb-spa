@@ -9,6 +9,7 @@
 @inject IStringLocalizer<Pages.Home.Profile.Profile> Localizer
 @inject IStringLocalizer<Pages.Home.Shared.Shared> LocalizerShared
 @inject IToastService ToastService
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <div class="ProfileCommentsComponent">
     @if (_comments is null)
@@ -23,6 +24,7 @@
         <RadzenTabs TabPosition="TabPosition.Top" RenderMode="TabRenderMode.Client" class="profile-comments">
             <Tabs>
                 <RadzenTabsItem Text=@Localizer["ProfileComments"]>
+                    <RadzenButton Click=@(args => OnRefreshCommentsClick()) Icon="refresh" ButtonStyle="ButtonStyle.Primary" Style="float:right" />
                     @if (_comments.Count() == 0)
                     {
                         <p>@Localizer["ProfileComments_UserHasNoComments"]</p>
@@ -77,6 +79,8 @@
     private List<CommentModel> _comments = new();
     private int _commentsCount = 0;
     private bool _currentUserCommented = true;
+    private static DateTime? _lastRefreshClick;
+    private const int MinSecondsBetweenCommentRefreshClick = 30;
 
     OnebrbApiResponse<CommentResponseModelICollectionTotalCountApiResponse> _commentsResponse;
 
@@ -85,6 +89,37 @@
     private void NavigateToProfile(string id)
     {
         Navigation.NavigateTo($"/users/{id}");
+    }
+
+    private async Task OnRefreshCommentsClick()
+    {
+        if (_lastRefreshClick is null)
+        {
+            _lastRefreshClick = DateTime.Now;
+        }
+        else
+        {
+            TimeSpan elapsed = DateTime.Now - _lastRefreshClick.Value;
+
+            if (elapsed.Seconds < MinSecondsBetweenCommentRefreshClick)
+            {
+                return;
+            }
+        }
+
+        _comments = new List<CommentModel>()
+        {
+            new CommentModel
+            {
+                AuthorFirstName = "John",
+                AuthorLastName = "John",
+            },
+            new CommentModel
+            {
+                AuthorFirstName = "Bob",
+                AuthorLastName = "Doe",
+            },
+        };
     }
 
     protected override async Task OnParametersSetAsync()

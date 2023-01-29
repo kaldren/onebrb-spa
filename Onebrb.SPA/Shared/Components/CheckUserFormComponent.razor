@@ -4,7 +4,7 @@
 <div class="CheckUserFormComponent">
     <RadzenCard>
         <RadzenTextBox Placeholder="@LocalizerShared["CheckUserFormPlaceholder"]" @bind-Value=@_id />
-        <RadzenButton Text=@LocalizerShared["CheckUserFormButton"] ButtonStyle="ButtonStyle.Primary" Click="OnClick" Disabled=@(string.IsNullOrWhiteSpace(_id)) />
+        <RadzenButton Text=@LocalizerShared["CheckUserFormButton"] ButtonStyle="ButtonStyle.Primary" Click="OnClick" />
     </RadzenCard>
 </div>
 

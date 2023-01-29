@@ -161,7 +161,7 @@
     RadzenUpload? upload;
 
     private string? _token;
-    private string userPhotoEndpoint = string.Empty;
+    private string? userPhotoEndpoint;
     private const int MaxFileSizeInBytes = 2_000_000; // 2MB
     private bool _updatedUserProfile = false;
     private bool _isUpdateBtnClicked = false;
@@ -239,7 +239,8 @@
 
     void OnProfilePhotoChange(string value)
     {
-        CurrentUser.Photo = value;
+        if (CurrentUser is not null)
+            CurrentUser.Photo = value;
     }
 
     void OnProfilePhotoChangeError(UploadErrorEventArgs args)
@@ -248,7 +249,9 @@
 
     void OnOccupationChange(object value)
     {
-        CurrentUser.OccupationId = value.ToString();
+        if (CurrentUser is not null)
+            CurrentUser.OccupationId = value.ToString();
+
         var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
     }
 

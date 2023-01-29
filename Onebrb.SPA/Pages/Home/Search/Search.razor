@@ -25,7 +25,7 @@
     </div>
 
     <div>
-        <RadzenButton Click=@OnClick Text="Search" class="SearchComponent__search-btn" Disabled=@(string.IsNullOrWhiteSpace(fullName) || (!string.IsNullOrWhiteSpace(fullName) && searchBtnClicked)) />
+        <RadzenButton Click=@OnClick Text="Search" class="SearchComponent__search-btn" />
     </div>
 
 
@@ -79,6 +79,7 @@
 
 @code {
     //TODO: Search model
+    private string? prevFullName;
     private string? fullName;
     private bool searchBtnClicked = false;
     private string? _defaultPhotoUrl = "img/no-photo.svg";
@@ -108,11 +109,28 @@
 
     async Task OnClick()
     {
-        searchBtnClicked = true;
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            return;
+        }
+
+        if (prevFullName == null)
+        {
+            prevFullName = fullName;
+        }
+        else
+        {
+            if (prevFullName == fullName)
+            {
+                return;
+            }
+            else
+            {
+                prevFullName = fullName;
+            }
+        }
 
         await GetProfilesAsync();
-
-        searchBtnClicked = false;
     }
 
     async Task GetProfilesAsync(int top = 5, int skip = 0)

@@ -57,7 +57,7 @@
                                 <RadzenUpload @ref="upload"
                                               Accept="image/*" 
                                               Auto="false" 
-                                              Url=@userPhotoEndpoint 
+                                              Url=@_userPhotoEndpoint 
                                               Change=OnChange
                                               Progress=OnProgress class="w-100">
                                     <RadzenUploadHeader Name="Authorization" Value=@_token />
@@ -152,26 +152,31 @@
 </div>
 
 @code {
-    [Parameter]
-    public UserProfileModel? CurrentUser { get; set; }
+    private const int MaxFileSizeInBytes = 2_000_000; // 2MB
 
-    public ICollection<OccupationModel>? _occupations;
-
-    public OccupationModel _userOccupation = new();
-    RadzenUpload? upload;
+    private ICollection<OccupationModel>? _occupations;
+    private OccupationModel _userOccupation = new();
+    private Regex urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
+    private RadzenUpload? upload;
 
     private string? _token;
-    private string? userPhotoEndpoint;
-    private const int MaxFileSizeInBytes = 2_000_000; // 2MB
+    private string? _userPhotoEndpoint;
+    private string[] _allowedImageFormats = new []{ ".jpg", ".jpeg", ".png" };
+
     private bool _updatedUserProfile = false;
     private bool _isUpdateBtnClicked = false;
     private bool _isDeleteBtnClicked = false;
     private bool _updateUserProfileError = false;
     private bool _isUploadPhotoBtnDisabled = true;
-    private string[] allowedImageFormats = new []{ ".jpg", ".jpeg", ".png" };
 
-    // Cache this so it's created once (per David Fowler)
-    private Regex urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
+    [Parameter]
+    public UserProfileModel? CurrentUser { get; set; }
+
+    public void Dispose()
+    {
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -181,7 +186,7 @@
             _token = "Bearer " + token.Value;
         }
 
-        userPhotoEndpoint = $"https://localhost:7088/api/users/{CurrentUser.Id}/photo";
+        _userPhotoEndpoint = $"https://localhost:7088/api/users/{CurrentUser.Id}/photo";
 
         _occupations = await LocalStorage.GetItemAsync<ICollection<OccupationModel>>("occupations");
 
@@ -201,7 +206,7 @@
         }
     }
 
-    void OnProgress(UploadProgressArgs args)
+    private void OnProgress(UploadProgressArgs args)
     {
         if (args.Progress == 100)
         {
@@ -215,7 +220,7 @@
         }
     }
 
-    void OnChange(UploadChangeEventArgs args)
+    private void OnChange(UploadChangeEventArgs args)
     {
         _isUploadPhotoBtnDisabled = !IsValidImageFile(args.Files.SingleOrDefault());
     }
@@ -229,7 +234,7 @@
 
         var format = Path.GetExtension(fileInfo.Name);
 
-        if (!allowedImageFormats.Contains(format)) 
+        if (!_allowedImageFormats.Contains(format)) 
         {
             return false;
         };
@@ -237,17 +242,17 @@
         return true;
     }
 
-    void OnProfilePhotoChange(string value)
+    private void OnProfilePhotoChange(string value)
     {
         if (CurrentUser is not null)
             CurrentUser.Photo = value;
     }
 
-    void OnProfilePhotoChangeError(UploadErrorEventArgs args)
+    private void OnProfilePhotoChangeError(UploadErrorEventArgs args)
     {
     }
 
-    void OnOccupationChange(object value)
+    private void OnOccupationChange(object value)
     {
         if (CurrentUser is not null)
             CurrentUser.OccupationId = value.ToString();
@@ -255,12 +260,12 @@
         var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
     }
 
-    void OnEmailPrivacyChange(object value)
+    private void OnEmailPrivacyChange(object value)
     {
         var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
     }
 
-    void OnPhonePrivacyChange(object value)
+    private void OnPhonePrivacyChange(object value)
     {
         var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
     }
@@ -281,7 +286,7 @@
         }
     }
 
-    async Task OnUpdateProfileClick()
+    private async Task OnUpdateProfileClick()
     {
         if (CurrentUser is null)
             return;
@@ -326,7 +331,7 @@
         }
     }
 
-    async Task OnDeleteProfileClick()
+    private async Task OnDeleteProfileClick()
     {
         bool? continueDelete = await DialogService.Confirm(@LocalizerProfile["EditProfile_DeleteProfileConfirm"], @LocalizerProfile["EditProfile_DeleteProfileConfirmTitle"], new ConfirmOptions() { OkButtonText = @LocalizerShared["Yes"], CancelButtonText = @LocalizerShared["No"] });
 
@@ -353,22 +358,16 @@
         Navigation.NavigateTo("authentication/logout");
     }
 
-    void Cancel()
+    private void Cancel()
     {
         //
     }
 
-    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    private void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
     {
     }
 
-    void Close(dynamic result)
+    private void Close(dynamic result)
     {
-    }
-
-    public void Dispose()
-    {
-        DialogService.OnOpen -= Open;
-        DialogService.OnClose -= Close;
     }
 }

@@ -24,7 +24,7 @@
     <TextAreaComponent OnChange="ChangeHandler" />
     <RadzenButton Disabled=@(_rating < 1 || string.IsNullOrWhiteSpace(_comment)) Text="Post" Click="OnCommentSubmit" />
 
-    @if (showConfirmDialog)
+    @if (_showConfirmDialog)
     {
         <RadzenCard>
             <RadzenButton Text=@LocalizerShared["CommentForm_PostConfirmationDialogTitle"] Style="width: 100%;" ButtonStyle="ButtonStyle.Secondary" Click=@(args => DialogService.Confirm(@LocalizerShared["CommentForm_PostConfirmation"], @LocalizerShared["CommentForm_PostConfirmationTitle"], new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" })) />
@@ -34,26 +34,33 @@
 </div>
 
 @code {
-    [Parameter]
-    public string RecipientId { get; set; }
-
-    [Parameter]
-    public string AuthorId { get; set; }
-
-    [Parameter] public EventCallback OnPostedComment { get; set; }
-
     private int _rating;
-    private string _comment = string.Empty;
-    private bool showConfirmDialog = false;
+    private string? _comment;
+    private bool _showConfirmDialog = false;
 
-    void OnRatingChange(int value)
+    [Parameter]
+    public string? RecipientId { get; set; }
+
+    [Parameter]
+    public string? AuthorId { get; set; }
+
+    [Parameter] 
+    public EventCallback OnPostedComment { get; set; }
+
+    public void Dispose()
+    {
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
+    }
+
+    private void OnRatingChange(int value)
         => _rating = value;
 
-    async Task OnCommentSubmit()
+    private async Task OnCommentSubmit()
     {
         var urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
 
-        if (urlRegex.IsMatch(_comment))
+        if (_comment is not null && urlRegex.IsMatch(_comment))
         {
             await DialogService.OpenAsync("Comment error", ds =>
             @<div>
@@ -106,22 +113,16 @@
         }
     }
 
-    void ChangeHandler(string message)
+    private void ChangeHandler(string message)
     {
         _comment = message;
     }
 
-    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    private void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
     {
     }
 
-    void Close(dynamic result)
+    private void Close(dynamic result)
     {
-    }
-
-    public void Dispose()
-    {
-        DialogService.OnOpen -= Open;
-        DialogService.OnClose -= Close;
     }
 }

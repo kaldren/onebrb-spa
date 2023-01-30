@@ -25,9 +25,9 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>@Localizer["Profile"]</PageTitle>
-@if (statusCodeEnum is not null)
+@if (_statusCodeEnum is not null)
 {
-    <ErrorComponent StatusCode="statusCodeEnum.Value" Message="@_message" />
+    <ErrorComponent StatusCode="_statusCodeEnum.Value" Message="@_message" />
 
 }
 else if (Utils.AtLeastOneNull(_profile))
@@ -43,18 +43,18 @@ else
 }
 
 @code {
-    [Parameter]
-    public string? Id { get; set; }
-
     private UserProfileModel? _currentUser;
     private UserProfileModel? _profile;
-    private ResponseStatusCodeEnum? statusCodeEnum;
-    string _message = string.Empty;
+    private ResponseStatusCodeEnum? _statusCodeEnum;
+    private OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
+    private OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
 
-    bool _currentUserCommented = true;
+    private string _message = string.Empty;
 
-    OnebrbApiResponse<UserProfileResponseModel>? currentUserResponse;
-    OnebrbApiResponse<UserProfileResponseModel>? userByIdResponse;
+    private bool _currentUserCommented = true;
+
+    [Parameter]
+    public string? Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -103,20 +103,20 @@ else
 
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                _statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
                 _message = @LocalizerShared["UnauthorizedAction"];
                 ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
-                statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                _statusCodeEnum = ResponseStatusCodeEnum.NotFound;
                 _message = @Localizer["UserNotFound"];
                 ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }
         catch (Exception ex)
         {
-            statusCodeEnum = ResponseStatusCodeEnum.ServerError;
+            _statusCodeEnum = ResponseStatusCodeEnum.ServerError;
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
         }
@@ -135,20 +135,20 @@ else
 
             if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                _statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
                 _message = @LocalizerShared["UnauthorizedAction"];
                 ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
             if (ex.StatusCode == (int)HttpStatusCode.NotFound)
             {
-                statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                _statusCodeEnum = ResponseStatusCodeEnum.NotFound;
                 _message = @Localizer["UserNotFound"];
                 ToastService.ShowError(@Localizer["UserNotFound"]);
             }
         }
         catch (Exception)
         {
-            statusCodeEnum = ResponseStatusCodeEnum.ServerError;
+            _statusCodeEnum = ResponseStatusCodeEnum.ServerError;
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }

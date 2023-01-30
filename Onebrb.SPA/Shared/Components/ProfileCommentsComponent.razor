@@ -68,6 +68,15 @@
     }
 </div>
 @code {
+    private const int MinSecondsBetweenCommentRefreshClick = 30;
+    private static DateTime? _lastRefreshClick;
+
+    private List<CommentModel> _comments = new();
+    private OnebrbApiResponse<CommentResponseModelICollectionTotalCountApiResponse>? _commentsResponse;
+
+    private int _commentsCount = 0;
+    private bool _currentUserCommented;
+    private string _updatedComment = string.Empty;
 
     [Parameter]
     public string? RecipientId { get; set; }
@@ -75,16 +84,10 @@
     [Parameter]
     public string? CurrentUserId { get; set; }
 
-
-    private List<CommentModel> _comments = new();
-    private int _commentsCount = 0;
-    private bool _currentUserCommented = true;
-    private static DateTime? _lastRefreshClick;
-    private const int MinSecondsBetweenCommentRefreshClick = 30;
-
-    OnebrbApiResponse<CommentResponseModelICollectionTotalCountApiResponse> _commentsResponse;
-
-    private string _updatedComment = string.Empty;
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetCommentsAsync();
+    }
 
     private void NavigateToProfile(string id)
     {
@@ -154,18 +157,13 @@
         }
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        await GetCommentsAsync();
-    }
-
-    async Task LoadData(LoadDataArgs args)
+    private async Task LoadData(LoadDataArgs args)
     {
         var result = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, args.Top.Value, args.Skip.Value);
         _comments = Mapper.Map<List<CommentModel>>(result.Result);
     }
 
-    void OnPostedComment(object comment)
+    private void OnPostedComment(object comment)
     {
         _comments.Add((CommentModel) comment);
         _currentUserCommented = true;

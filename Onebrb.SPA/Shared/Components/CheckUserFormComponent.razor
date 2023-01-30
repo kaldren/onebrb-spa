@@ -11,7 +11,7 @@
 @code {
     private string? _id;
 
-    void OnClick()
+    private void OnClick()
     {
         if (!string.IsNullOrWhiteSpace(_id))
             Navigation.NavigateTo($"/users/{_id}");

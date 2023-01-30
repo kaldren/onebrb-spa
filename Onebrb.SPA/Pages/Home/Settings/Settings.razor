@@ -25,7 +25,7 @@
 
 @*CHECK IF USER HAS ACTIVATED HIS PROFILE*@
 
-@if (currentUser is null)
+@if (_currentUser is null)
 {
     <RadzenCard>
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">
@@ -37,13 +37,13 @@
     return;
 }
 
-@if (currentUser is not null)
+@if (_currentUser is not null)
 {
-    <EditProfileComponent CurrentUser="currentUser" />
+    <EditProfileComponent CurrentUser="_currentUser" />
 }
 
 @code {
-    private UserProfileModel? currentUser;
+    private UserProfileModel? _currentUser;
 
     public class Profession
     {
@@ -51,12 +51,23 @@
         public string? Name { get; set; }
     }
 
-    void Cancel()
+    protected override async Task OnInitializedAsync()
+    {
+        // Check local storage for user data
+        _currentUser = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
+
+        if (_currentUser is null)
+        {
+            await GetCurrentUser();
+        }
+    }
+
+    private void Cancel()
     {
     //
     }
 
-    async Task GetCurrentUser()
+    private async Task GetCurrentUser()
     {
         try
         {
@@ -64,8 +75,8 @@
 
             if (currentUserResponse.StatusCode == (int)HttpStatusCode.OK)
             {
-                currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-                await LocalStorage.SetItemAsync<UserProfileModel>("userProfile", currentUser);
+                _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
+                await LocalStorage.SetItemAsync<UserProfileModel>("userProfile", _currentUser);
             }
         }
         catch (ApiException<ProblemDetails> ex)
@@ -84,17 +95,6 @@
         catch (Exception)
         {
             ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Check local storage for user data
-        currentUser = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
-
-        if (currentUser is null)
-        {
-            await GetCurrentUser();
         }
     }
 }

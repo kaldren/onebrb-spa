@@ -3,8 +3,11 @@
 <RadzenIcon Icon="content_copy" @onclick="CopyTextToClipboard" />
 
 @code {
-    [Parameter] public string Text { get; set; }
-    [Parameter] public EventCallback OnClicked { get; set; }
+    [Parameter] 
+    public string? Text { get; set; }
+
+    [Parameter] 
+    public EventCallback OnClicked { get; set; }
 
     private async Task CopyTextToClipboard()
     {

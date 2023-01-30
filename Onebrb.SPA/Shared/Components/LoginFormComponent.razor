@@ -20,18 +20,21 @@
     private bool _isValidBrowser;
     private string _signInUrl = "authentication/login";
 
-    // Check browser compatibility
+    public void Dispose()
+    {
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         _isValidBrowser = await JS.InvokeAsync<bool>("isValidBrowser.get");
 
-        //if (_isValidBrowser)
-        //    _signInUrl = "authentication/login";
-        //else
-        //    _signInUrl = "javascript:void(0)";
+        if (!_isValidBrowser)
+            _signInUrl = "javascript:void(0)";
     }
 
-    async Task onSignInClick()
+    private async Task onSignInClick()
     {
         if (!_isValidBrowser)
         {
@@ -44,17 +47,11 @@
         }
     }
 
-    void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    private void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
     {
     }
 
-    void Close(dynamic result)
+    private void Close(dynamic result)
     {
-    }
-
-    public void Dispose()
-    {
-        DialogService.OnOpen -= Open;
-        DialogService.OnClose -= Close;
     }
 }

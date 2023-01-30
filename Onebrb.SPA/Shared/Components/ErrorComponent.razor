@@ -47,13 +47,12 @@
         return base.OnParametersSetAsync();
     }
 
-    private string DefaultMessage()
+    string DefaultMessage()
     {
-        // TODO: Check status code for custom message
         return @LocalizerShared["ErrorGenericMessage"];
     }
 
-    private void OnBtnClick()
+    void OnBtnClick()
     {
         Navigation.NavigateTo("/", true);
     }

@@ -157,6 +157,12 @@ else
 }
 
 @code {
+    private ProfileCommentsComponent? _profileCommentsComponent;
+    private OnebrbApiResponse<UserProfileResponseModel>? _userResponse;
+
+    private string _profileUrlShortText = "1brb.com/cvHz";
+    private bool _isProfileUrlShortBtnClicked = false;
+
     [Parameter]
     public UserProfileModel? ProfileModel { get; set; }
 
@@ -165,30 +171,6 @@ else
 
     [Parameter]
     public bool CurrentUserCommented { get; set; }
-
-    private ProfileCommentsComponent _profileCommentsComponent;
-
-    private OnebrbApiResponse<UserProfileResponseModel>? _userResponse;
-
-    private string _profileUrlShortText = "1brb.com/cvHz";
-    private bool _isProfileUrlShortBtnClicked = false;
-
-    void OnPostedComment(object comment)
-    {
-        CommentModel newComment = (CommentModel)comment;
-
-        CurrentUserCommented = true;
-    }
-
-    void OnProfileUrlShortClicked()
-    {
-        if (_isProfileUrlShortBtnClicked == false)
-        {
-            ToastService.ShowSuccess("Profile url copied to clipboard.");
-        }
-
-        _isProfileUrlShortBtnClicked = true;
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -230,5 +212,22 @@ else
                 }
             }
         }
+    }
+
+    private void OnPostedComment(object comment)
+    {
+        CommentModel newComment = (CommentModel)comment;
+
+        CurrentUserCommented = true;
+    }
+
+    private void OnProfileUrlShortClicked()
+    {
+        if (_isProfileUrlShortBtnClicked == false)
+        {
+            ToastService.ShowSuccess("Profile url copied to clipboard.");
+        }
+
+        _isProfileUrlShortBtnClicked = true;
     }
 }

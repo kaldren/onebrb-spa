@@ -20,10 +20,22 @@
                 ErrorIcon="fa fa-bug" />
 
 @code {
-    private HubConnection? hubConnection;
-    private List<string> messages = new List<string>();
-    private string? userInput;
-    private string? messageInput;
+    private HubConnection? _hubConnection;
+    private List<string> _messages = new List<string>();
+
+    private string? _userInput;
+    private string? _messageInput;
+
+    public bool IsConnected =>
+        _hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.DisposeAsync();
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,21 +45,21 @@
 
             if (tokenResult.TryGetToken(out var token))
             {
-                hubConnection = new HubConnectionBuilder()
+                _hubConnection = new HubConnectionBuilder()
                     .WithUrl(Navigation.ToAbsoluteUri($"{_configuration["Api:FullUrl"]}/notifications-hub"), options =>
                     {
                         options.AccessTokenProvider = () => Task.FromResult(token.Value ?? null);
                     })
                     .Build();
 
-                hubConnection.On<string>("ToastNotification", (message) =>
+                _hubConnection.On<string>("ToastNotification", (message) =>
             {
                 toastService.ShowSuccess(message, @LocalizerShared["SignalrTitleNotification"]);
                 StateHasChanged();
             });
 
 
-                await hubConnection.StartAsync();
+                await _hubConnection.StartAsync();
             }
         }
         catch (Exception)
@@ -55,16 +67,5 @@
             // No SignalR notifications
         }
 
-    }
-
-    public bool IsConnected =>
-        hubConnection?.State == HubConnectionState.Connected;
-
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
     }
 }

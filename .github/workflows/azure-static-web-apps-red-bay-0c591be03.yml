@@ -32,12 +32,15 @@ jobs:
           ###### End of Repository/Build Configurations ######
 
   compress_job:
-    name: ghaction-CompressFiles
-    uses: StefH/ghaction-CompressFiles@v1
-      with:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    steps:
+    -  uses: stefh/ghaction-CompressFiles@v2
+       with:
         path: ${{ env.PUBLISH_DIR }}
         extensions: '.js,.css,.html,.dll'
         tools: 'brotli,gzip'
+        
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest

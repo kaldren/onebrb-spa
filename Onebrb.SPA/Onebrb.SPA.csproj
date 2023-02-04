@@ -17,8 +17,6 @@
     <!--<PackageReference Include="BytexDigital.Blazor.Components.CookieConsent" Version="1.0.16" />-->
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.5" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="6.0.10" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -89,4 +87,112 @@
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
 		<PublishTrimmed>true</PublishTrimmed>
 	</PropertyGroup>
+
+	<ItemGroup>
+        <BlazorWebAssemblyLazyLoad Condition=" '$(BlazorMode)' == 'BlazorWebAssembly' " Include="Newtonsoft.Json.dll" />
+        <BlazorWebAssemblyLazyLoad Condition=" '$(BlazorMode)' == 'BlazorWebAssembly' " Include="System.Private.Xml.dll" />
+        <BlazorWebAssemblyLazyLoad Condition=" '$(BlazorMode)' == 'BlazorWebAssembly' " Include="System.Data.Common.dll" />
+        <BlazorWebAssemblyLazyLoad Condition=" '$(BlazorMode)' == 'BlazorWebAssembly' " Include="System.Drawing.dll" />
+        <BlazorWebAssemblyLazyLoad Condition=" '$(BlazorMode)' == 'BlazorWebAssembly' " Include="System.Drawing.Primitives.dll" />
+        <BlazorWebAssemblyLazyLoad Condition=" '$(BlazorMode)' == 'BlazorWebAssembly' " Include="System.IO.Pipelines.dll" />
+    </ItemGroup>
+		
+	<ItemGroup>
+		<!--<BlazorWebAssemblyLazyLoad Include="AutoMapper.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="AutoMapper.Extensions.Microsoft.DependencyInjection.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Blazored.LocalStorage.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Blazored.Toast.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Authorization.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Components.Authorization.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Components.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Components.Forms.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Components.Web.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Components.WebAssembly.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Connections.Abstractions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Http.Connections.Client.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Http.Connections.Common.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.Metadata.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.SignalR.Client.Core.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.SignalR.Client.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.SignalR.Common.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.AspNetCore.SignalR.Protocols.Json.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Authentication.WebAssembly.Msal.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.CSharp.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Configuration.Abstractions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Configuration.Binder.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Configuration.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Configuration.Json.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.DependencyInjection.Abstractions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.DependencyInjection.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Features.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Http.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Localization.Abstractions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Localization.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Logging.Abstractions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Logging.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Options.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Extensions.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.JSInterop.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.JSInterop.WebAssembly.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Microsoft.Win32.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="netstandard.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Newtonsoft.Json.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Onebrb.SPA.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="Radzen.Blazor.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Collections.Concurrent.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Collections.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Collections.NonGeneric.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Collections.Specialized.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.ComponentModel.Annotations.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.ComponentModel.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.ComponentModel.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.ComponentModel.TypeConverter.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Core.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Data.Common.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Diagnostics.TraceSource.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.dll" />-->
+
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Linq.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Linq.Dynamic.Core.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Linq.Expressions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Linq.Queryable.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Memory.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.Http.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.Requests.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.Security.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.Sockets.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.WebSockets.Client.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Net.WebSockets.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.ObjectModel.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Private.CoreLib.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Private.Runtime.InteropServices.JavaScript.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Private.Uri.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Private.Xml.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Private.Xml.Linq.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Reflection.Emit.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Reflection.Emit.ILGeneration.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Reflection.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Runtime.CompilerServices.Unsafe.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Runtime.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Runtime.InteropServices.RuntimeInformation.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Runtime.Numerics.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Runtime.Serialization.Formatters.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Runtime.Serialization.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Security.Claims.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Security.Cryptography.Algorithms.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Security.Cryptography.Primitives.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Security.Cryptography.X509Certificates.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Text.Encoding.Extensions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Text.Encodings.Web.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Text.Json.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Text.RegularExpressions.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Threading.Channels.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Threading.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Threading.ThreadPool.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Web.HttpUtility.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Xml.Linq.dll" />-->
+		<!--<BlazorWebAssemblyLazyLoad Include="System.Xml.XDocument.dll" />-->
+	</ItemGroup>
 </Project>

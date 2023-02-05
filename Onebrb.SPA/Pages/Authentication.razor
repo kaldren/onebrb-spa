@@ -47,7 +47,7 @@
 
     private async Task SetLogOutState()
     {
-        await LocalStorage.RemoveItemsAsync(new List<string> { LocalStorageConstants.UserProfile, LocalStorageConstants.Occupations, LocalStorageConstants.IsLoggedIn });
+        await LocalStorage.ClearAsync();
     }
 
     private async Task SetLogInState()

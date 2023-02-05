@@ -226,6 +226,6 @@
     <value>JPG, JPEG or PNG formats no bigger than 2MB and 400x400</value>
   </data>
   <data name="EditProfile_InvalidImage" xml:space="preserve">
-    <value>Please use JPG, JPEG or PNG file format that's no bigger than 2MB and 400x400.</value>
+    <value>Please use JPG, JPEG or PNG file format that's no bigger than 2MB.</value>
   </data>
 </root>

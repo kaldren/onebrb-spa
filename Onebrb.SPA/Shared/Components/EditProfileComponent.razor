@@ -9,7 +9,7 @@
 @using OnebrbApi
 @using System.Text.RegularExpressions;
 @using System.Diagnostics.CodeAnalysis;
-@using static System.Net.Mime.MediaTypeNames;
+@using System.Drawing;
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IToastService ToastService
@@ -163,8 +163,6 @@
     private string? _token;
     private string? _userPhotoEndpoint;
     private string[] _allowedImageFormats = new []{ ".jpg", ".jpeg", ".png" };
-    private const int PhotoXDimension = 300;
-    private const int PhotoYDimension = 300;
 
     private bool _updatedUserProfile = false;
     private bool _isUpdateBtnClicked = false;
@@ -246,10 +244,6 @@
     {
         _isUploadPhotoBtnDisabled = !IsValidImageFile(args.Files.SingleOrDefault());
         _isInvalidImage = _isUploadPhotoBtnDisabled;
-
-        if(_isInvalidImage) {
-            await upload?.ClearFiles();
-        }
     }
 
     private bool IsValidImageFile(FileInfo? fileInfo)

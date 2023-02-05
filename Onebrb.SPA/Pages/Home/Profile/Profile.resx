@@ -141,9 +141,6 @@
   <data name="ProfileName" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="ProfilePhone" xml:space="preserve">
-    <value>Phone</value>
-  </data>
   <data name="ProfileOccupation" xml:space="preserve">
     <value>Occupation</value>
   </data>
@@ -221,5 +218,8 @@
   </data>
   <data name="EditProfile_DeleteProfileButton" xml:space="preserve">
     <value>Delete your profile</value>
+  </data>
+  <data name="EditProfile_Country" xml:space="preserve">
+    <value>Country</value>
   </data>
 </root>

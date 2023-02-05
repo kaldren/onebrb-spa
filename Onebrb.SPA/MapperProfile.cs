@@ -23,6 +23,10 @@ namespace Onebrb.SPA
             #region Occupation
             CreateMap<OccupationResponseModel, OccupationModel>();
             #endregion Occupation
+
+            #region Country
+            CreateMap<CountryResponseModel, CountryModel>();
+            #endregion Country
         }
     }
 }

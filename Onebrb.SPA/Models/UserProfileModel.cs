@@ -12,16 +12,13 @@ public class UserProfileModel
 
     public bool IsEmailVisible { get; set; }
 
-    // TODO: Phone validation - until then not showing phones
-    //public string? Phone { get; set; }
-
-    //public bool? IsPhoneVisible { get; set; }
-
     public string? About { get; set; }
 
     public string? Photo { get; set; }
 
     public string? Country { get; set; }
+
+    public string? CountryId { get; set; }
 
     public string? City { get; set; }
 

@@ -87,21 +87,13 @@
                             </RadzenCard>
                         </div>
 
-                        @*TODO: Phone validation - until then not showing phones*@
-                        @*                        <div class="EditProfileComponent__form__input-div">
-                    <RadzenTextBox style="width: 100%;" Name="Phone" Placeholder="Phone number" @bind-Value="@CurrentUser.Phone" MaxLength="@_phoneMaxLength" />
-                    <RadzenCard class="EditProfileComponent__form__privacy-toggle" Visible=(!string.IsNullOrWhiteSpace(CurrentUser.Phone))>
-                    <div class="privacy-toggle__lock">
-                    <i class="bi bi-file-lock2-fill"></i>
-                    </div>
-                    <RadzenSelectBar Size="ButtonSize.Small" @bind-Value=@CurrentUser.IsPhoneVisible TValue="bool?" Change=@(args => OnPhonePrivacyChange(args))>
-                    <Items>
-                    <RadzenSelectBarItem Text="Everyone" Value="true" />
-                    <RadzenSelectBarItem Text="Only me" Value="false" />
-                    </Items>
-                    </RadzenSelectBar>
-                    </RadzenCard>
-                    </div>*@
+                        <div class="EditProfileComponent__form__input-div">
+                            <RadzenCard>
+                                <p>@LocalizerProfile["EditProfile_Country"]</p>
+                                <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@_countries @bind-Value=@CurrentUser.CountryId
+                                            TextProperty="Name" ValueProperty="Id" Change=@(args => OnCountryChange(args)) Class="w-100" />
+                            </RadzenCard>
+                        </div>
 
                         <div class="EditProfileComponent__form__input-div">
                             <RadzenCard>
@@ -155,7 +147,9 @@
     private const int MaxFileSizeInBytes = 2_000_000; // 2MB
 
     private ICollection<OccupationModel>? _occupations;
+    private ICollection<CountryModel>? _countries;
     private OccupationModel _userOccupation = new();
+    private CountryModel _userCountry = new();
     private Regex urlRegex = new Regex(@"((?:(?:http|ftp|ws)s?|sftp):\/\/?)?([^:/\s.#?]+\.[^:/\s#?]+|localhost)(:\d+)?((?:\/\w+)*\/)?([\w\-.]+[^#?\s]+)?([^#]+)?(#[\w-]*)?");
     private RadzenUpload? upload;
 
@@ -201,6 +195,23 @@
                 if (_occupations?.Count > 0)
                 {
                     await LocalStorage.SetItemAsync<ICollection<OccupationModel>>("occupations", _occupations);
+                }
+            }
+        }
+
+        _countries = await LocalStorage.GetItemAsync<ICollection<CountryModel>>("countries");
+
+        if (_countries is null)
+        {
+            var countriesResponse = await OnebrbApiClient.ApiCountriesAsync();
+
+            if (countriesResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                _countries = Mapper.Map<ICollection<CountryModel>>(countriesResponse.Result);
+
+                if (_countries?.Count > 0)
+                {
+                    await LocalStorage.SetItemAsync<ICollection<CountryModel>>("countries", _countries);
                 }
             }
         }
@@ -252,6 +263,14 @@
     {
     }
 
+    private void OnCountryChange(object value)
+    {
+        if (CurrentUser is not null)
+            CurrentUser.CountryId = value.ToString();
+
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+    }
+
     private void OnOccupationChange(object value)
     {
         if (CurrentUser is not null)
@@ -265,10 +284,6 @@
         var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
     }
 
-    private void OnPhonePrivacyChange(object value)
-    {
-        var str = value is IEnumerable<int> ? string.Join(", ", (IEnumerable<int>)value) : value;
-    }
 
     private async Task CheckSocialAccount(string? socialAccount)
     {

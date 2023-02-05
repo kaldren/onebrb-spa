@@ -141,9 +141,6 @@
   <data name="ProfileName" xml:space="preserve">
     <value>Име</value>
   </data>
-  <data name="ProfilePhone" xml:space="preserve">
-    <value>Телефон</value>
-  </data>
   <data name="ProfileOccupation" xml:space="preserve">
     <value>Професия</value>
   </data>
@@ -218,5 +215,8 @@
   </data>
   <data name="EditProfile_DeleteProfileButton" xml:space="preserve">
     <value>Изтрий профила си</value>
+  </data>
+  <data name="EditProfile_Country" xml:space="preserve">
+    <value>Държава</value>
   </data>
 </root>

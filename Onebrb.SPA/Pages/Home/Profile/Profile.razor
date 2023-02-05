@@ -73,7 +73,7 @@ else
 
     private async Task LoadAuthProfileData()
     {
-        var user = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
+        var user = await LocalStorage.GetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile);
 
         if (user is not null)
         {

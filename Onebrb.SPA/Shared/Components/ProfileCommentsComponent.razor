@@ -115,45 +115,50 @@
 
     private async Task GetCommentsAsync()
     {
-        try
+        _comments = await LocalStorage.GetItemAsync<List<CommentModel>>(LocalStorageConstants.Comments);
+
+        if (_comments is null)
         {
-            _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, 5, 0);
-
-            if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
+            try
             {
-                _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result.Data);
+                _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, 5, 0);
 
-                // Get comments count
-                var _commentsCount = _commentsResponse.Result.TotalCount;
-
-                // Check if current user already commented
-                if (CurrentUserId is not null)
+                if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
                 {
-                    var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
+                    _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result.Data);
 
-                    if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
+                    // Get comments count
+                    var _commentsCount = _commentsResponse.Result.TotalCount;
+
+                    // Check if current user already commented
+                    if (CurrentUserId is not null)
                     {
-                        _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                        var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
+
+                        if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
+                        {
+                            _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                        }
                     }
                 }
             }
-        }
-        catch (ApiException<ProblemDetails> ex)
-        {
-            ToastService.ClearAll();
+            catch (ApiException<ProblemDetails> ex)
+            {
+                ToastService.ClearAll();
 
-            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-            {
-                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+                }
+                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    ToastService.ShowError(@Localizer["UserNotFound"]);
+                }
             }
-            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            catch (Exception)
             {
-                ToastService.ShowError(@Localizer["UserNotFound"]);
+                ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
             }
-        }
-        catch (Exception)
-        {
-            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }
 

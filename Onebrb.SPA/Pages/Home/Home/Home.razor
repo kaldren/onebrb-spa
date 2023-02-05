@@ -20,13 +20,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _currentUser = await LocalStorage.GetItemAsync<UserProfileModel>("userProfile");
+        _currentUser = await LocalStorage.GetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile);
 
         if (_currentUser is null)
         {
             var currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
             _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-            await LocalStorage.SetItemAsync("userProfile", _currentUser);
+            await LocalStorage.SetItemAsync(LocalStorageConstants.UserProfile, _currentUser);
         }
     }
 }

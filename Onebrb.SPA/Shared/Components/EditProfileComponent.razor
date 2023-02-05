@@ -182,7 +182,7 @@
 
         _userPhotoEndpoint = $"https://localhost:7088/api/users/{CurrentUser.Id}/photo";
 
-        _occupations = await LocalStorage.GetItemAsync<ICollection<OccupationModel>>("occupations");
+        _occupations = await LocalStorage.GetItemAsync<ICollection<OccupationModel>>(LocalStorageConstants.Occupations);
 
         if (_occupations is null)
         {
@@ -194,12 +194,12 @@
 
                 if (_occupations?.Count > 0)
                 {
-                    await LocalStorage.SetItemAsync<ICollection<OccupationModel>>("occupations", _occupations);
+                    await LocalStorage.SetItemAsync<ICollection<OccupationModel>>(LocalStorageConstants.Occupations, _occupations);
                 }
             }
         }
 
-        _countries = await LocalStorage.GetItemAsync<ICollection<CountryModel>>("countries");
+        _countries = await LocalStorage.GetItemAsync<ICollection<CountryModel>>(LocalStorageConstants.Countries);
 
         if (_countries is null)
         {
@@ -211,7 +211,7 @@
 
                 if (_countries?.Count > 0)
                 {
-                    await LocalStorage.SetItemAsync<ICollection<CountryModel>>("countries", _countries);
+                    await LocalStorage.SetItemAsync<ICollection<CountryModel>>(LocalStorageConstants.Countries, _countries);
                 }
             }
         }
@@ -326,7 +326,7 @@
             if (CurrentUser is not null)
             {
                 _updatedUserProfile = true;
-                await LocalStorage.SetItemAsync<UserProfileModel>("userProfile", CurrentUser);
+                await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile, CurrentUser);
             }
             else
                 _updateUserProfileError = true;

@@ -47,16 +47,16 @@
 
     private async Task SetLogOutState()
     {
-        await LocalStorage.RemoveItemsAsync(new List<string> { "userProfile", "occupations", "isLoggedIn" });
+        await LocalStorage.RemoveItemsAsync(new List<string> { LocalStorageConstants.UserProfile, LocalStorageConstants.Occupations, LocalStorageConstants.IsLoggedIn });
     }
 
     private async Task SetLogInState()
     {
-        bool isLoggedIn = await LocalStorage.GetItemAsync<bool>("isLoggedIn");
+        bool isLoggedIn = await LocalStorage.GetItemAsync<bool>(LocalStorageConstants.IsLoggedIn);
         if (!isLoggedIn)
         {
-            await LocalStorage.RemoveItemsAsync(new List<string> { "userProfile", "occupations", "isLoggedIn" });
-            await LocalStorage.SetItemAsync<bool>("isLoggedIn", true);
+            await LocalStorage.RemoveItemsAsync(new List<string> { LocalStorageConstants.UserProfile, LocalStorageConstants.Occupations, LocalStorageConstants.IsLoggedIn });
+            await LocalStorage.SetItemAsync<bool>(LocalStorageConstants.IsLoggedIn, true);
         }
     }
 }

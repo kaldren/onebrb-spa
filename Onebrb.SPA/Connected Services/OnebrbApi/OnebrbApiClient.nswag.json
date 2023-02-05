@@ -8,7 +8,7 @@
     "/api/comments/{commentId}": {
       "get": {
         "tags": [
-          "Comments"
+          LocalStorageConstants.Comments
         ],
         "operationId": "commentsGET",
         "parameters": [
@@ -366,7 +366,7 @@
       },
       "delete": {
         "tags": [
-          "Comments"
+          LocalStorageConstants.Comments
         ],
         "operationId": "commentsDELETE",
         "parameters": [
@@ -644,7 +644,7 @@
     "/api/comments": {
       "get": {
         "tags": [
-          "Comments"
+          LocalStorageConstants.Comments
         ],
         "operationId": "commentsAll",
         "parameters": [
@@ -888,7 +888,7 @@
       },
       "post": {
         "tags": [
-          "Comments"
+          LocalStorageConstants.Comments
         ],
         "operationId": "commentsPOST",
         "requestBody": {
@@ -1321,7 +1321,7 @@
       },
       "patch": {
         "tags": [
-          "Comments"
+          LocalStorageConstants.Comments
         ],
         "operationId": "commentsPATCH",
         "requestBody": {
@@ -1756,9 +1756,9 @@
     "/api/countries": {
       "get": {
         "tags": [
-          "Countries"
+          LocalStorageConstants.Countries
         ],
-        "operationId": "countries",
+        "operationId": LocalStorageConstants.Countries,
         "responses": {
           "200": {
             "description": "Success",
@@ -2105,9 +2105,9 @@
     "/api/occupations": {
       "get": {
         "tags": [
-          "Occupations"
+          LocalStorageConstants.Occupations
         ],
-        "operationId": "occupations",
+        "operationId": LocalStorageConstants.Occupations,
         "responses": {
           "200": {
             "description": "Success",

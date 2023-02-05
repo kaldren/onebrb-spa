@@ -26,13 +26,13 @@
         DialogService.OnClose -= Close;
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        _isValidBrowser = await JS.InvokeAsync<bool>("isValidBrowser.get");
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    _isValidBrowser = await JS.InvokeAsync<bool>("isValidBrowser.get");
 
-        if (!_isValidBrowser)
-            _signInUrl = "javascript:void(0)";
-    }
+    //    if (!_isValidBrowser)
+    //        _signInUrl = "javascript:void(0)";
+    //}
 
     private async Task onSignInClick()
     {

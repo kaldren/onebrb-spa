@@ -243,7 +243,7 @@
     private async Task OnChange(UploadChangeEventArgs args)
     {
         _isUploadPhotoBtnDisabled = !IsValidImageFile(args.Files.SingleOrDefault());
-        _isInvalidImage = _isUploadPhotoBtnDisabled;
+        _isInvalidImage = args.Files.Count() > 0 && _isUploadPhotoBtnDisabled;
     }
 
     private bool IsValidImageFile(FileInfo? fileInfo)

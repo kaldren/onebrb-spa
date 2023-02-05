@@ -9,6 +9,14 @@
     align-items: center;
 }
 
+h1.WelcomeComponent__intro-text-h1 {
+    text-align: center;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 2rem;
+    margin: 1.5rem auto;
+}
 .WelcomeComponent__intro-text {
     text-align: center;
     color: #fff;

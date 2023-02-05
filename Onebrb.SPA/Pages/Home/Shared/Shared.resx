@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutPage" xml:space="preserve">
-    <value>Onebrb helps you create your own personal page visible to billions of people around the world. People can rate you and share what they think about you or your work.</value>
+    <value>Onebrb helps you create your own personal page visible to billions of people around the world. People can rate you and share what they think about you or about your work.</value>
   </data>
   <data name="AboutPageHeading" xml:space="preserve">
     <value>About Onebrb</value>
@@ -214,7 +214,10 @@
     <value>The user doesn't have any comments yet.</value>
   </data>
   <data name="WelcomeComponentIntro" xml:space="preserve">
-    <value>Create your profile in seconds and let billions of people see what your friends, colleagues and business partners think about you and your work in one place - Onebrb</value>
+    <value>Let billions of people see what your friends, colleagues and business partners think about you and your work in one place - for free</value>
+  </data>
+  <data name="WelcomeComponentIntroH1" xml:space="preserve">
+    <value>ONE PLACE. BILLIONS OF PEOPLE.</value>
   </data>
   <data name="WelcomeToOnebrb" xml:space="preserve">
     <value>Welcome to Onebrb</value>

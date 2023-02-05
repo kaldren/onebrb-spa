@@ -214,7 +214,10 @@
     <value>Потребителят все още няма коментари.</value>
   </data>
   <data name="WelcomeComponentIntro" xml:space="preserve">
-    <value>Създай свой профил за секунди и позволи на милиарди хора по света да видят какво мислят твоите приятели, колеги и бизнес партньори за теб и твоята работа на едно място - Onebrb</value>
+    <value>Позволи на милиарди хора по света да видят какво мислят твоите приятели, колеги и бизнес партньори за теб и твоята работа на едно място - напълно безплатно</value>
+  </data>
+  <data name="WelcomeComponentIntroH1" xml:space="preserve">
+    <value>Едно място. Милиарди хора.</value>
   </data>
   <data name="WelcomeToOnebrb" xml:space="preserve">
     <value>Добре дошли в Onebrb</value>

@@ -222,4 +222,10 @@
   <data name="EditProfile_Country" xml:space="preserve">
     <value>Country</value>
   </data>
+  <data name="EditProfile_ProfilePhoto_Limitations" xml:space="preserve">
+    <value>JPG, JPEG or PNG formats no bigger than 2MB and 400x400</value>
+  </data>
+  <data name="EditProfile_InvalidImage" xml:space="preserve">
+    <value>Please use JPG, JPEG or PNG file format that's no bigger than 2MB and 400x400.</value>
+  </data>
 </root>

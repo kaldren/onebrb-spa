@@ -25,11 +25,11 @@ h1.WelcomeComponent__intro-text-h1 {
 }
 
 @media (max-width: 450px) {
-    .WelcomeComponent ::deep .CheckUserFormComponent .card {
+    .WelcomeComponent ::deep .CheckUserFormComponent .rz-card {
         flex-direction: column;
     }
 
-    .WelcomeComponent ::deep .CheckUserFormComponent .card button {
+    .WelcomeComponent ::deep .CheckUserFormComponent .rz-card button {
         margin: 0.5rem 0;
     }
 }

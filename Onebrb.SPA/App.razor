@@ -6,13 +6,11 @@
 @inject LazyAssemblyLoader lazyLoader
 
 <CascadingAuthenticationState>
-    @*<BytexDigital.Blazor.Components.CookieConsent.CookieConsentHandler>*@
-    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@lazyLoadedAssemblies"
-            OnNavigateAsync="@OnNavigateAsync">
+    <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <Authorizing>
-                    Authorizing...
+                    <p>@LocalizerShared["AuthenticatingPleaseWait"]</p>
                 </Authorizing>
                 <NotAuthorized>
                    <RedirectToLogin />
@@ -27,25 +25,4 @@
             </LayoutView>
         </NotFound>
     </Router>
-    @*</BytexDigital.Blazor.Components.CookieConsent.CookieConsentHandler>*@
 </CascadingAuthenticationState>
-
-@code {
-    private List<Assembly> lazyLoadedAssemblies = new();
-
-    private async Task OnNavigateAsync(NavigationContext args)
-    {
-        //try
-        //{
-        //    if (args.Path == "")
-        //    {
-        //        var assemblies = await lazyLoader.LoadAssembliesAsync(new List<string>() { "AutoMapper.dll" });
-        //        lazyLoadedAssemblies.AddRange(assemblies);
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Console.WriteLine($"Error: {ex.Message}");
-        //}
-    }
-}

@@ -6,7 +6,7 @@
     color: #fff;
 }
 
-::deep .card {
+::deep .rz-card {
     background: none !important;
     border: none !important;
     box-shadow: none !important;

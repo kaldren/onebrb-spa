@@ -9,7 +9,7 @@
 @using OnebrbApi
 @using System.Text.RegularExpressions;
 @using System.Diagnostics.CodeAnalysis;
-
+@using static System.Net.Mime.MediaTypeNames;
 @inject IOnebrbApiClient OnebrbApiClient
 @inject IMapper Mapper
 @inject IToastService ToastService
@@ -52,6 +52,12 @@
                     <div class="row">
 
                         <div class="EditProfileComponent__form__input-div">
+                            @if (_isInvalidImage)
+                            {
+                                <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Warning" Variant="Variant.Flat" Shade="Shade.Lighter">
+                                    @LocalizerProfile["EditProfile_InvalidImage"]
+                                </RadzenAlert>
+                            }
                             <RadzenCard>
                                 <p>@LocalizerProfile["EditProfile_ProfilePhoto"]</p>
                                 <RadzenUpload @ref="upload"
@@ -62,6 +68,7 @@
                                               Progress=OnProgress class="w-100">
                                     <RadzenUploadHeader Name="Authorization" Value=@_token />
                                 </RadzenUpload>
+                                <p>@LocalizerProfile["EditProfile_ProfilePhoto_Limitations"]</p>
                                 <RadzenButton Text="Upload" Click=@(args => upload?.Upload()) Disabled=_isUploadPhotoBtnDisabled class="d-block mt-4" />
                             </RadzenCard>
                         </div>
@@ -156,12 +163,15 @@
     private string? _token;
     private string? _userPhotoEndpoint;
     private string[] _allowedImageFormats = new []{ ".jpg", ".jpeg", ".png" };
+    private const int PhotoXDimension = 300;
+    private const int PhotoYDimension = 300;
 
     private bool _updatedUserProfile = false;
     private bool _isUpdateBtnClicked = false;
     private bool _isDeleteBtnClicked = false;
     private bool _updateUserProfileError = false;
     private bool _isUploadPhotoBtnDisabled = true;
+    private bool _isInvalidImage = false;
 
     [Parameter]
     public UserProfileModel? CurrentUser { get; set; }
@@ -217,7 +227,7 @@
         }
     }
 
-    private void OnProgress(UploadProgressArgs args)
+    private async Task OnProgress(UploadProgressArgs args)
     {
         if (args.Progress == 100)
         {
@@ -225,15 +235,21 @@
             {
                 if (!IsValidImageFile(args.Files.SingleOrDefault()))
                 {
+                    await upload?.ClearFiles();
                     return;
                 }
             }
         }
     }
 
-    private void OnChange(UploadChangeEventArgs args)
+    private async Task OnChange(UploadChangeEventArgs args)
     {
         _isUploadPhotoBtnDisabled = !IsValidImageFile(args.Files.SingleOrDefault());
+        _isInvalidImage = _isUploadPhotoBtnDisabled;
+
+        if(_isInvalidImage) {
+            await upload?.ClearFiles();
+        }
     }
 
     private bool IsValidImageFile(FileInfo? fileInfo)

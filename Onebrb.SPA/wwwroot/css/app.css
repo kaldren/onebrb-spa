@@ -5,7 +5,8 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    font-size: 1rem;
 }
 
 .btn-danger {
@@ -82,6 +83,11 @@ a, .btn-link {
 
 .top-row > .container-fluid {
     justify-content: center;
+}
+
+.rz-button {
+    text-transform: uppercase;
+    letter-spacing: 0.075rem;
 }
 
 /*#Global */

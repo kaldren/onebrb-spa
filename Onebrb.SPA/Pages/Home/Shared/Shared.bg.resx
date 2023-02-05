@@ -126,6 +126,9 @@
   <data name="AllRightsReserved" xml:space="preserve">
     <value>Onebrb - Всички права запазени</value>
   </data>
+  <data name="AuthenticatingPleaseWait" xml:space="preserve">
+    <value>Извършва се удостоверяване, моля изчакайте...</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Отказ</value>
   </data>

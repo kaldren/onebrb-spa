@@ -126,6 +126,9 @@
   <data name="AllRightsReserved" xml:space="preserve">
     <value>Onebrb - All rights reserved</value>
   </data>
+  <data name="AuthenticatingPleaseWait" xml:space="preserve">
+    <value>Authentication in progress, please wait...</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>

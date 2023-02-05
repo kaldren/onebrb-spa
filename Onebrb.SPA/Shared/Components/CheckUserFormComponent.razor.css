@@ -6,16 +6,16 @@
     justify-content: center;
 }
 
-.CheckUserFormComponent ::deep .card {
+.CheckUserFormComponent ::deep .rz-card {
     width: 100%;
     display: flex;
     flex-direction: row;
 }
 
-.CheckUserFormComponent ::deep .card input {
+.CheckUserFormComponent ::deep .rz-card input {
     flex: 2;
 }
 
-.CheckUserFormComponent ::deep .card button {
+.CheckUserFormComponent ::deep .rz-card button {
     margin: 0 0 0 0.5rem;
 }

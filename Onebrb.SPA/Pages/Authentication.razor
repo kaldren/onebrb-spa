@@ -52,11 +52,11 @@
 
     private async Task SetLogInState()
     {
-        bool isLoggedIn = await LocalStorage.GetItemAsync<bool>(LocalStorageConstants.IsLoggedIn);
+        bool isLoggedIn = await LocalStorage.GetItemAsync<bool>(LocalStorageConstants.OnebrbCurrentUserLoggedIn);
         if (!isLoggedIn)
         {
-            await LocalStorage.RemoveItemsAsync(new List<string> { LocalStorageConstants.UserProfile, LocalStorageConstants.Occupations, LocalStorageConstants.IsLoggedIn });
-            await LocalStorage.SetItemAsync<bool>(LocalStorageConstants.IsLoggedIn, true);
+            await LocalStorage.RemoveItemsAsync(new List<string> { LocalStorageConstants.OnebrbCurrentUserProfile, LocalStorageConstants.Occupations, LocalStorageConstants.OnebrbCurrentUserLoggedIn });
+            await LocalStorage.SetItemAsync<bool>(LocalStorageConstants.OnebrbCurrentUserLoggedIn, true);
         }
     }
 }

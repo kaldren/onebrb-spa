@@ -169,7 +169,7 @@ else
     {
         if (ProfileModel is null && CurrentUser is null)
         {
-            var user = await LocalStorage.GetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile);
+            var user = await LocalStorage.GetItemAsync<UserProfileModel>(LocalStorageConstants.OnebrbCurrentUserProfile);
 
             if (user is not null)
             {
@@ -184,7 +184,7 @@ else
                     _userResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
                     CurrentUser = this.Mapper.Map<UserProfileModel>(_userResponse.Result);
                     ProfileModel = CurrentUser;
-                    await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile, CurrentUser);
+                    await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.OnebrbCurrentUserProfile, CurrentUser);
                 }
                 catch (ApiException<ProblemDetails> ex)
                 {

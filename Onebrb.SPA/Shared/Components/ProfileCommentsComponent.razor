@@ -12,7 +12,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <div class="ProfileCommentsComponent">
-    @if (_comments is null)
+    @if (_comments is null || _showCommentLoading)
     {
         <RadzenCard>
             <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">@LocalizerShared["Loading"]</RadzenText>
@@ -68,15 +68,16 @@
     }
 </div>
 @code {
-    private const int MinSecondsBetweenCommentRefreshClick = 30;
+    private const int MinSecondsBetweenCommentRefreshClick = 60;
     private static DateTime? _lastRefreshClick;
 
     private List<CommentModel> _comments = new();
     private OnebrbApiResponse<CommentResponseModelICollectionTotalCountApiResponse>? _commentsResponse;
 
     private int _commentsCount = 0;
-    private bool _currentUserCommented;
+    private bool _currentUserCommented = true;
     private string _updatedComment = string.Empty;
+    private bool _showCommentLoading = false;
 
     [Parameter]
     public string? RecipientId { get; set; }
@@ -108,57 +109,98 @@
             {
                 return;
             }
+            else
+            {
+                _lastRefreshClick = DateTime.Now;
+            }
         }
 
-        await GetCommentsAsync();
+        await GetCommentsAsync(true);
     }
 
-    private async Task GetCommentsAsync()
+    private async Task GetCommentsAsync(bool refresh = false)
     {
-        _comments = await LocalStorage.GetItemAsync<List<CommentModel>>(LocalStorageConstants.Comments);
+        _showCommentLoading = true;
 
-        if (_comments is null)
+        if (refresh)
         {
-            try
+            await TryGetCommentsAsync();
+        }
+        else
+        {
+            // Load currently logged in user's profile comments
+            if (CurrentUserId == RecipientId)
             {
-                _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, 5, 0);
+                _comments = await LocalStorage.GetItemAsync<List<CommentModel>>(LocalStorageConstants.OnebrbCurrentUserComments);
+            }
+            else if (CurrentUserId != RecipientId)
+            {
+                _comments = await LocalStorage.GetItemAsync<List<CommentModel>>($"{LocalStorageConstants.OnebrbUserComments}_{RecipientId}");
+                _currentUserCommented = await LocalStorage.GetItemAsync<bool>($"{LocalStorageConstants.OnebrbCurrentUserCommented}_{RecipientId}");
+            }
 
-                if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
+            if (_comments is null)
+            {
+                await TryGetCommentsAsync();
+            }
+        }
+
+        _showCommentLoading = false;
+    }
+
+    private async Task TryGetCommentsAsync()
+    {
+        try
+        {
+            _commentsResponse = await OnebrbApiClient.ApiUsersCommentsAsync(RecipientId, 5, 0);
+
+            if (_commentsResponse.StatusCode == (int)HttpStatusCode.OK)
+            {
+                _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result.Data);
+
+
+                // Get comments count
+                var _commentsCount = _commentsResponse.Result.TotalCount;
+
+                // Check if current user already commented
+                if (CurrentUserId is not null && CurrentUserId != RecipientId)
                 {
-                    _comments = Mapper.Map<List<CommentModel>>(_commentsResponse.Result.Data);
+                    var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
 
-                    // Get comments count
-                    var _commentsCount = _commentsResponse.Result.TotalCount;
-
-                    // Check if current user already commented
-                    if (CurrentUserId is not null)
+                    if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
                     {
-                        var currentUserCommentedResponse = await OnebrbApiClient.ApiCommentsGetAsync(RecipientId, CurrentUserId);
-
-                        if (currentUserCommentedResponse.StatusCode == (int)HttpStatusCode.OK)
-                        {
-                            _currentUserCommented = currentUserCommentedResponse.Result.Any();
-                        }
+                        _currentUserCommented = currentUserCommentedResponse.Result.Any();
+                        await LocalStorage.SetItemAsync<bool>($"{LocalStorageConstants.OnebrbCurrentUserCommented}_{RecipientId}", _currentUserCommented);
                     }
                 }
-            }
-            catch (ApiException<ProblemDetails> ex)
-            {
-                ToastService.ClearAll();
 
-                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+                if (CurrentUserId == RecipientId)
                 {
-                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+                    await LocalStorage.SetItemAsync<List<CommentModel>>(LocalStorageConstants.OnebrbCurrentUserComments, _comments);
                 }
-                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+                else
                 {
-                    ToastService.ShowError(@Localizer["UserNotFound"]);
+                    await LocalStorage.SetItemAsync<List<CommentModel>>($"{LocalStorageConstants.OnebrbUserComments}_{RecipientId}", _comments);
                 }
+
             }
-            catch (Exception)
+        }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
             {
-                ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
             }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                ToastService.ShowError(@Localizer["UserNotFound"]);
+            }
+        }
+        catch (Exception)
+        {
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
         }
     }
 

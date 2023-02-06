@@ -336,7 +336,7 @@
             if (CurrentUser is not null)
             {
                 _updatedUserProfile = true;
-                await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile, CurrentUser);
+                await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.OnebrbCurrentUserProfile, CurrentUser);
             }
             else
                 _updateUserProfileError = true;

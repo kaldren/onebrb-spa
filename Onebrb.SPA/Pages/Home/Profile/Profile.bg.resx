@@ -220,7 +220,7 @@
     <value>Държава</value>
   </data>
   <data name="EditProfile_ProfilePhoto_Limitations" xml:space="preserve">
-    <value>JPG, JPEG или PNG формат не по-големи от 2MB и 400x400</value>
+    <value>JPG, JPEG или PNG формат не по-големи от 2MB</value>
   </data>
   <data name="EditProfile_InvalidImage" xml:space="preserve">
     <value>Моля използвайте JPG, JPEG или PNG формат не по-голям от 2MB.</value>

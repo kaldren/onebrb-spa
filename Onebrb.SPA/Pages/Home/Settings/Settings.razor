@@ -54,7 +54,7 @@
     protected override async Task OnInitializedAsync()
     {
         // Check local storage for user data
-        _currentUser = await LocalStorage.GetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile);
+        _currentUser = await LocalStorage.GetItemAsync<UserProfileModel>(LocalStorageConstants.OnebrbCurrentUserProfile);
 
         if (_currentUser is null)
         {
@@ -76,7 +76,7 @@
             if (currentUserResponse.StatusCode == (int)HttpStatusCode.OK)
             {
                 _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
-                await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.UserProfile, _currentUser);
+                await LocalStorage.SetItemAsync<UserProfileModel>(LocalStorageConstants.OnebrbCurrentUserProfile, _currentUser);
             }
         }
         catch (ApiException<ProblemDetails> ex)

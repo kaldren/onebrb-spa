@@ -139,7 +139,7 @@
                 _currentUserCommented = await LocalStorage.GetItemAsync<bool>($"{LocalStorageConstants.OnebrbCurrentUserCommented}_{RecipientId}");
             }
 
-            if (_comments is null)
+            if (_comments is null || _comments.Count == 0)
             {
                 await TryGetCommentsAsync();
             }

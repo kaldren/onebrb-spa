@@ -51,7 +51,7 @@ else
 
     private string _message = string.Empty;
 
-    private bool _currentUserCommented = true;
+    private bool _currentUserCommented = false;
 
     [Parameter]
     public string? Id { get; set; }
@@ -78,11 +78,16 @@ else
         if (user is not null)
         {
             _currentUser = user;
-            _profile = user;
         }
-        else
+
+        try
         {
-            try
+            if (_currentUser is not null && _currentUser.Id == Id)
+            {
+                _profile = _currentUser;
+            }
+
+            if (_currentUser is null)
             {
                 currentUserResponse = await OnebrbApiClient.ApiUsersCurrentAsync();
                 _currentUser = Mapper.Map<UserProfileModel>(currentUserResponse.Result);
@@ -97,29 +102,36 @@ else
                     _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
                 }
             }
-            catch (ApiException<ProblemDetails> ex)
-            {
-                ToastService.ClearAll();
 
-                if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
-                {
-                    _statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
-                    _message = @LocalizerShared["UnauthorizedAction"];
-                    ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
-                }
-                if (ex.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    _statusCodeEnum = ResponseStatusCodeEnum.NotFound;
-                    _message = @Localizer["UserNotFound"];
-                    ToastService.ShowError(@Localizer["UserNotFound"]);
-                }
-            }
-            catch (Exception ex)
+            if (_profile is null)
             {
-                _statusCodeEnum = ResponseStatusCodeEnum.ServerError;
-                ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+                userByIdResponse = await OnebrbApiClient.ApiUsersGetAsync(Id ?? _currentUser.Id);
+                _profile = Mapper.Map<UserProfileModel>(userByIdResponse.Result);
             }
         }
+        catch (ApiException<ProblemDetails> ex)
+        {
+            ToastService.ClearAll();
+
+            if (ex.StatusCode == (int)HttpStatusCode.Unauthorized)
+            {
+                _statusCodeEnum = ResponseStatusCodeEnum.Unauthorized;
+                _message = @LocalizerShared["UnauthorizedAction"];
+                ToastService.ShowError(@LocalizerShared["UnauthorizedAction"]);
+            }
+            if (ex.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                _statusCodeEnum = ResponseStatusCodeEnum.NotFound;
+                _message = @Localizer["UserNotFound"];
+                ToastService.ShowError(@Localizer["UserNotFound"]);
+            }
+        }
+        catch (Exception ex)
+        {
+            _statusCodeEnum = ResponseStatusCodeEnum.ServerError;
+            ToastService.ShowError(@LocalizerShared["ErrorGenericMessage"]);
+        }
+        
     }
 
     private async Task LoadNotAuthProfileData()
